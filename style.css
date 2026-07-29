@@ -284,8 +284,8 @@ h1 {
 
 /* Carte de mot */
 .word-card {
-  background: var(--segmented-bg);
-  border: 1px solid var(--card-border);
+  background: transparent
+  border: none
   border-left: 4px solid var(--accent);
   padding: 18px;
   border-radius: 12px;
