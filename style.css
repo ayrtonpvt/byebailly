@@ -50,7 +50,7 @@
 body[data-theme="dark"] {
   --bg-color: #232323;
   --card-bg: #383838;
-  --card-border: #383838;
+  --card-border: #232323;
   --text-main: #f3f4f6;
   --text-muted: #9ca3af;
   
