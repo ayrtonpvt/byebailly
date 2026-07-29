@@ -469,11 +469,7 @@
     "type": "adjectif",
     "traduction": "peu clair, difficile à savoir"
   },
-  {
-    "entree": "ὁ αὐτός",
-    "type": "adjectif",
-    "traduction": "(+ datif) le même que"
-  },
+  
   {
     "entree": "εὐδαίμων",
     "type": "adjectif",
@@ -926,7 +922,7 @@
     "traduction": "laid, honteux"
   },
   {
-    "entree": "ὁ αὐτός",
+    "entree": " αὐτός",
     "type": "adjectif",
     "traduction": "le même, identique"
   },
