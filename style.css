@@ -469,6 +469,28 @@ table.translit-table th {
 input[type="text"] {
   font-family: 'Brill', -apple-system, BlinkMacSystemFont, sans-serif;
 }
+/* --- Masquer le crochet ✓ sur ordinateur par défaut --- */
+.icone-mobile {
+  display: none;
+}
+
+/* --- Remplacer "Valider" par "✓" sur écran mobile (< 600px) --- */
+@media (max-width: 600px) {
+  .texte-desktop {
+    display: none;
+  }
+  
+  .icone-mobile {
+    display: inline;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  /* Ajuste le bouton pour qu'il prenne moins de place sur mobile */
+  button.btn-primary {
+    padding: 12px 14px;
+  }
+}
 
 .ifaogrec {
   font-family: 'IFAOGrec', -apple-system, BlinkMacSystemFont, sans-serif;
