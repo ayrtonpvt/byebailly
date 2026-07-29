@@ -48,8 +48,8 @@
 
 /* Thème Sombre */
 body[data-theme="dark"] {
-  --bg-color: #262626;
-  --card-bg: #262626;
+  --bg-color: #383838;
+  --card-bg: #383838;
   --card-border: #383838;
   --text-main: #f3f4f6;
   --text-muted: #9ca3af;
@@ -69,7 +69,7 @@ body[data-theme="dark"] {
 @media (prefers-color-scheme: dark) {
   body[data-theme="system"] {
     --bg-color: #0b0f17;
-    --card-bg: #262626;
+    --card-bg: #383838;
     --card-border: #1f293d;
     --text-main: #f3f4f6;
     --text-muted: #9ca3af;
