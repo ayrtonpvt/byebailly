@@ -178,7 +178,7 @@ body[data-theme="dark"]::before {
 h1 {
   margin: 0;
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: normal;
   letter-spacing: -0.02em;
 }
 
@@ -223,7 +223,7 @@ h1 {
 
 .setting-label {
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: normal;
   color: var(--text-muted);
   margin-bottom: 8px;
   display: block;
@@ -248,7 +248,7 @@ h1 {
   color: var(--text-muted);
   font-family: inherit;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: normal;
   border-radius: 7px;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -267,13 +267,13 @@ h1 {
   color: var(--accent);
   text-decoration: none;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: normal;
 }
 
 .link-table:hover { text-decoration: underline; }
 
 .score-board {
-  font-weight: 600;
+  font-weight: normal;
   font-size: 0.85rem;
   color: var(--text-muted);
   margin-bottom: 20px;
@@ -304,7 +304,7 @@ h1 {
 .consigne {
   font-size: 1rem;
   margin-bottom: 18px;
-  font-weight: 600;
+  font-weight: normal;
   text-align: center;
 }
 
@@ -336,7 +336,7 @@ button.btn-primary {
   padding: 12px 20px;
   font-family: inherit;
   font-size: 0.9rem;
-  font-weight: 700;
+  font-weight: normal;
   color: var(--accent-text);
   background-color: var(--accent);
   border: none;
@@ -352,7 +352,7 @@ button.btn-primary:active { transform: scale(0.98); }
   min-height: 44px;
   margin-top: 10px;
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: normal;
   text-align: center;
 }
 
@@ -369,7 +369,7 @@ button.btn-primary:active { transform: scale(0.98); }
   padding: 12px;
   font-family: inherit;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: normal;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -413,7 +413,7 @@ button.btn-primary:active { transform: scale(0.98); }
 .modal-header h2 {
   margin: 0;
   font-size: 1.15rem;
-  font-weight: 700;
+  font-weight: normal;
 }
 
 .about-body p {
@@ -430,7 +430,7 @@ button.btn-primary:active { transform: scale(0.98); }
   color: var(--accent-text);
   padding: 12px 16px;
   border-radius: 10px;
-  font-weight: 600;
+  font-weight: normal;
   font-size: 0.95rem;
   text-align: center;
   margin-bottom: 16px;
@@ -450,7 +450,7 @@ table.translit-table th, table.translit-table td {
 
 table.translit-table th {
   color: var(--text-muted);
-  font-weight: 600;
+  font-weight: normal;
 }
 /* --- Polices spécifiques --- */
 
