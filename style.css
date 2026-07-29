@@ -203,8 +203,6 @@ h1 {
 .btn-icon svg { display: block; }
 
 .btn-icon:hover {
-  background-color: var(--segmented-bg);
-  border-color: var(--accent);
   color: var(--accent);
 }
 
