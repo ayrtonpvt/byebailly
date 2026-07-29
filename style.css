@@ -1,0 +1,476 @@
+@font-face {
+  font-family: 'Brill';
+  src: url('https://bailly.app/fonts/Brill-Roman.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IFAOGrec';
+  src: url('https://bailly.app/fonts/IFAOGrec.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('https://bailly.app/fonts/InterVariable.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   Variables & Thèmes
+   ========================================================================== */
+:root {
+  /* Thème Clair */
+  --bg-color: #f8fafc;
+  --card-bg: rgba(255, 255, 255, 0.92);
+  --card-border: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  
+  /* Orange #D96A18 */
+  --accent: #d96a18;
+  --accent-hover: #c2590e;
+  --accent-text: #ffffff;
+  
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+  --success: #16a34a;
+  --error: #dc2626;
+  --segmented-bg: #f1f5f9;
+  --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+}
+
+/* Thème Sombre */
+body[data-theme="dark"] {
+  --bg-color: #0b0f17;
+  --card-bg: rgba(17, 24, 39, 0.85);
+  --card-border: #1f293d;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  
+  --accent: #d96a18;
+  --accent-hover: #f07823;
+  --accent-text: #ffffff;
+  
+  --input-bg: #0b0f17;
+  --input-border: #2d3748;
+  --success: #22c55e;
+  --error: #ef4444;
+  --segmented-bg: #0b0f17;
+  --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  body[data-theme="system"] {
+    --bg-color: #0b0f17;
+    --card-bg: rgba(17, 24, 39, 0.85);
+    --card-border: #1f293d;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --accent: #d96a18;
+    --accent-hover: #f07823;
+    --accent-text: #ffffff;
+    --input-bg: #0b0f17;
+    --input-border: #2d3748;
+    --success: #22c55e;
+    --error: #ef4444;
+    --segmented-bg: #0b0f17;
+    --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  position: relative;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ==========================================================================
+   Gestion de ton image topographique exacte en arrière-plan
+   ========================================================================== */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  
+  /* Lien vers ton image exacte */
+  background-image: url('topo.png'); 
+  background-repeat: repeat;
+  background-position: center;
+  
+  /* Niveau de zoom  */
+  background-size: 600px 600px; 
+  
+  z-index: 0;
+  pointer-events: none;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+/* Mode Clair */
+body[data-theme="light"]::before {
+  filter: none;
+  opacity: 1;
+}
+
+/* Mode Sombre : Image sombre originale */
+body[data-theme="dark"]::before {
+  filter: none;
+  opacity: 0.65;
+}
+
+/* Gestion du Mode Système */
+@media (prefers-color-scheme: light) {
+  body[data-theme="system"]::before {
+    filter: invert(1) contrast(1.1);
+    opacity: 0.8;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body[data-theme="system"]::before {
+    filter: none;
+    opacity: 0.65;
+  }
+}
+
+/* La carte principale reste bien au-dessus du fond */
+.container {
+  background-color: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  padding: 32px;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 520px;
+  position: relative;
+  z-index: 2;
+}
+
+/* En-tête */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-icon {
+  background: transparent;
+  border: 1px solid var(--card-border);
+  color: var(--text-main);
+  border-radius: 10px;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-icon svg { display: block; }
+
+.btn-icon:hover {
+  background-color: var(--segmented-bg);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Panneau Paramètres */
+.settings-panel {
+  background-color: var(--segmented-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 24px;
+  display: none;
+}
+
+.settings-panel.active { display: block; }
+
+.setting-group { margin-bottom: 16px; }
+.setting-group:last-child { margin-bottom: 0; }
+
+.setting-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.segmented-control {
+  display: flex;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.segmented-control button {
+  flex: 1;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.segmented-control button.active {
+  background-color: var(--accent);
+  color: var(--accent-text);
+  box-shadow: 0 2px 6px rgba(217, 106, 24, 0.3);
+}
+
+.link-table {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.link-table:hover { text-decoration: underline; }
+
+.score-board {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Carte de mot */
+.word-card {
+  background: var(--segmented-bg);
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--accent);
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.word-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.word-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.consigne {
+  font-size: 1rem;
+  margin-bottom: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  background-color: var(--input-bg);
+  color: var(--text-main);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(217, 106, 24, 0.2);
+}
+
+button.btn-primary {
+  padding: 12px 20px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--accent-text);
+  background-color: var(--accent);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+button.btn-primary:hover { background-color: var(--accent-hover); }
+button.btn-primary:active { transform: scale(0.98); }
+
+.feedback {
+  min-height: 44px;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.feedback.correct { color: var(--success); }
+.feedback.incorrect { color: var(--error); }
+.feedback.warning { color: #eab308; }
+
+
+.btn-next {
+  background-color: var(--text-main);
+  color: var(--card-bg);
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: none;
+}
+
+/* Style des Modales */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal-content {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 460px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.about-body p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.about-body strong { color: var(--text-main); }
+
+.about-highlight {
+  background-color: var(--accent);
+  color: var(--accent-text);
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+table.translit-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+table.translit-table th, table.translit-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+table.translit-table th {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+/* --- Polices spécifiques --- */
+
+/* Texte grec en IFAOGrec */
+#wordLemme,
+.word-title {
+  font-family: 'IFAOGrec', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Traduction et champ de saisie en Brill */
+#wordMeta,
+.word-meta,
+input[type="text"] {
+  font-family: 'Brill', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.ifaogrec {
+  font-family: 'IFAOGrec', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+

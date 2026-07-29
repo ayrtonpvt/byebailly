@@ -1,0 +1,1446 @@
+[
+  {
+    "entree": "ἀδελϕή, ῆς -ἡ",
+    "type": "nom",
+    "traduction": "soeur"
+  },
+  {
+    "entree": "ἀδελϕῖδῆ, ῆς -ἡ",
+    "type": "nom",
+    "traduction": "nièce"
+  },
+  {
+    "entree": "ἀρχή, ῆς -ἡ",
+    "type": "nom",
+    "traduction": "zone d'influence, empire"
+  },
+  {
+    "entree": "δύναμις, εως -ἡ",
+    "type": "nom",
+    "traduction": "puissance, puissance militaire"
+  },
+  {
+    "entree": "κίνδυνος, ου -ὁ",
+    "type": "nom",
+    "traduction": "danger, risque"
+  },
+  {
+    "entree": "κράτος, ους -τό",
+    "type": "nom",
+    "traduction": "force, vigueur / domination, pouvoir"
+  },
+  {
+    "entree": "ὁπλίτης, ου -ὁ",
+    "type": "nom",
+    "traduction": "fantassin lourd, hoplite"
+  },
+  {
+    "entree": "πόλις, εως -ἡ",
+    "type": "nom",
+    "traduction": "cité, état, patrie"
+  },
+  {
+    "entree": "πρᾶξις, εως -ἡ",
+    "type": "nom",
+    "traduction": "manière d'agir, comportement, conduite"
+  },
+  {
+    "entree": "πρόϕασις, εως -ἡ",
+    "type": "nom",
+    "traduction": "raison alléguée, prétexte"
+  },
+  {
+    "entree": "στάσις, εως -ἡ",
+    "type": "nom",
+    "traduction": "division interne, sédition, guerre civile"
+  },
+  {
+    "entree": "τέλος, ους -τό",
+    "type": "nom",
+    "traduction": "échéance d'un prêt, paiement / terme, fin"
+  },
+  {
+    "entree": "ὑβρις, εως -ἡ",
+    "type": "nom",
+    "traduction": "comportement excessif, orgueil, violence"
+  },
+  {
+    "entree": "βλάβερος",
+    "type": "adjectif",
+    "traduction": "nuisible, dommageable"
+  },
+  {
+    "entree": "μέγιστος",
+    "type": "adjectif",
+    "traduction": "superlatif de μέγας : très grand, le plus grand"
+  },
+  {
+    "entree": "τάχιστος",
+    "type": "adjectif",
+    "traduction": "superlatif de *ταχύς : très rapide, le plus rapide"
+  },
+  {
+    "entree": "ἄγγελος, ου -ὁ",
+    "type": "nom",
+    "traduction": "envoyé, messager"
+  },
+  {
+    "entree": "ἀσϕάλεια, ας -ἡ",
+    "type": "nom",
+    "traduction": "sécurité"
+  },
+  {
+    "entree": "γένος, ους -το",
+    "type": "nom",
+    "traduction": "race, famille"
+  },
+  {
+    "entree": "δωρεά, ᾶς -ἡ",
+    "type": "nom",
+    "traduction": "gratification, récompense"
+  },
+  {
+    "entree": "ἔτος, ους -τό",
+    "type": "nom",
+    "traduction": "année"
+  },
+  {
+    "entree": "ζημία, ας -ἡ",
+    "type": "nom",
+    "traduction": "sanction, punition"
+  },
+  {
+    "entree": "ἡδονή, ῆς -ἡ",
+    "type": "nom",
+    "traduction": "plaisir"
+  },
+  {
+    "entree": "κέρδος, ους -τό",
+    "type": "nom",
+    "traduction": "gain, bénéfice"
+  },
+  {
+    "entree": "μάρτυς, υρος -ὁ",
+    "type": "nom",
+    "traduction": "témoin"
+  },
+  {
+    "entree": "μέγεθος, ους -τό",
+    "type": "nom",
+    "traduction": "grandeur, importance"
+  },
+  {
+    "entree": "μέρος, ους -τό",
+    "type": "nom",
+    "traduction": "tour (pour faire quelque chose) part, partie"
+  },
+  {
+    "entree": "πλῆθος, ους -τό",
+    "type": "nom",
+    "traduction": "grand nombre, foule"
+  },
+  {
+    "entree": "τεῖχος, ους -τό",
+    "type": "nom",
+    "traduction": "mur, rempart"
+  },
+  {
+    "entree": "τριήρης, ους -ἡ",
+    "type": "nom",
+    "traduction": "bateau de guerre"
+  },
+  {
+    "entree": "ἀληθής",
+    "type": "adjectif",
+    "traduction": "vrai, véritable / sincère"
+  },
+  {
+    "entree": "ἄριστος",
+    "type": "adjectif",
+    "traduction": "superlatif de ἀγαθός : très bon, le meilleur"
+  },
+  {
+    "entree": "ἀσεβής",
+    "type": "adjectif",
+    "traduction": "impie"
+  },
+  {
+    "entree": "ἀσϕαλής",
+    "type": "adjectif",
+    "traduction": "qui ne glisse pas, sûr, qui offre la sécurité"
+  },
+  {
+    "entree": "βροτός",
+    "type": "adjectif",
+    "traduction": "mortel"
+  },
+  {
+    "entree": "δειλός",
+    "type": "adjectif",
+    "traduction": "lâche"
+  },
+  {
+    "entree": "δυστυχής",
+    "type": "adjectif",
+    "traduction": "malheureux, malchanceux"
+  },
+  {
+    "entree": "ἐπιστήμων, ονος",
+    "type": "adjectif",
+    "traduction": "expert en, qui s'y connait en (+ génitif)"
+  },
+  {
+    "entree": "εὐγενής",
+    "type": "adjectif",
+    "traduction": "de bonne naissance, noble"
+  },
+  {
+    "entree": "εὐσεβής",
+    "type": "adjectif",
+    "traduction": "pieux"
+  },
+  {
+    "entree": "εὐτυχής",
+    "type": "adjectif",
+    "traduction": "heureux, chanceux"
+  },
+  {
+    "entree": "θνητός",
+    "type": "adjectif",
+    "traduction": "mortel"
+  },
+  {
+    "entree": "κράτιστος",
+    "type": "adjectif",
+    "traduction": "sert de superlatif à ἀγαθός : très fort, le plus fort"
+  },
+  {
+    "entree": "πένης, ητος",
+    "type": "adjectif",
+    "traduction": "(seulement masc & fém.) pauvre"
+  },
+  {
+    "entree": "πλεῖστος",
+    "type": "adjectif",
+    "traduction": "superlatif de πολύς : le plus nombreux, très nombreux, en très grand nombre"
+  },
+  {
+    "entree": "ψευδής",
+    "type": "adjectif",
+    "traduction": "faux, menteur"
+  },
+  {
+    "entree": "ὠϕέλιμος",
+    "type": "adjectif",
+    "traduction": "utile, profitable"
+  },
+  {
+    "entree": "ἀγών, ἀγῶνος -ὁ",
+    "type": "nom",
+    "traduction": "lutte, concours/ débat, procès"
+  },
+  {
+    "entree": "ἀνήρ, ἀνδρός -ὁ",
+    "type": "nom",
+    "traduction": "homme, mari, guerrier"
+  },
+  {
+    "entree": "δεσμωτήριον, ου -τό",
+    "type": "nom",
+    "traduction": "prison"
+  },
+  {
+    "entree": "δημοκρατία, ας -ἡ",
+    "type": "nom",
+    "traduction": "démocratie"
+  },
+  {
+    "entree": "θυγατήρ, τρός -ἡ",
+    "type": "nom",
+    "traduction": "fille"
+  },
+  {
+    "entree": "ἱερόν, οῦ -τό",
+    "type": "nom",
+    "traduction": "lieu sacré, sanctuaire"
+  },
+  {
+    "entree": "μήτηρ, μήτρος -ἡ",
+    "type": "nom",
+    "traduction": "mère"
+  },
+  {
+    "entree": "νύξ, νυκτός -ἡ",
+    "type": "nom",
+    "traduction": "nuit"
+  },
+  {
+    "entree": "οἰκέτης, ου -ὁ",
+    "type": "nom",
+    "traduction": "domestique"
+  },
+  {
+    "entree": "ὄνομα, ὀνόματος -τό",
+    "type": "nom",
+    "traduction": "nom / mot"
+  },
+  {
+    "entree": "πατήρ, πατρός -ὁ",
+    "type": "nom",
+    "traduction": "père"
+  },
+  {
+    "entree": "τυραννίς, ίδος -ἡ",
+    "type": "nom",
+    "traduction": "tyrannie, régime tyrannique"
+  },
+  {
+    "entree": "ἀνάξιος",
+    "type": "adjectif",
+    "traduction": "qui ne mérite pas (+génitif)"
+  },
+  {
+    "entree": "βέλτιστος",
+    "type": "adjectif",
+    "traduction": "le meilleur, excellent (sert de superlatif à ἀγαθός)"
+  },
+  {
+    "entree": "δυνατός",
+    "type": "adjectif",
+    "traduction": "possible, faisable (sens passif)"
+  },
+  {
+    "entree": "ἱερός",
+    "type": "adjectif",
+    "traduction": "consacré, sacré"
+  },
+  {
+    "entree": "κάκιστος",
+    "type": "adjectif",
+    "traduction": "superlatif de κακός"
+  },
+  {
+    "entree": "ἅρμα, ατος -τό",
+    "type": "nom",
+    "traduction": "char"
+  },
+  {
+    "entree": "γείτων, ονος -ὁ",
+    "type": "nom",
+    "traduction": "voisin"
+  },
+  {
+    "entree": "γυνή, γύναι (voc), γυναικός (gén) -ἡ",
+    "type": "nom",
+    "traduction": "femme"
+  },
+  {
+    "entree": "δαίμων, ονος -ὁ ou -ἡ",
+    "type": "nom",
+    "traduction": "être divin, divinité"
+  },
+  {
+    "entree": "δίκη, ης -ἡ",
+    "type": "nom",
+    "traduction": "procès"
+  },
+  {
+    "entree": "ἐλπίς, ίδος -ἡ",
+    "type": "nom",
+    "traduction": "espoir, attente"
+  },
+  {
+    "entree": "Ζεύς, Ζεῦ, Δία, Διός, Διί",
+    "type": "nom",
+    "traduction": "Zeus"
+  },
+  {
+    "entree": "ἡγεμών, όνος -ὁ",
+    "type": "nom",
+    "traduction": "chef, guide"
+  },
+  {
+    "entree": "κόσμος, ου -ὁ",
+    "type": "nom",
+    "traduction": "ordre, ordre universel, univers / parure, ornement, beauté"
+  },
+  {
+    "entree": "λίθος, ου -ὁ",
+    "type": "nom",
+    "traduction": "pierre"
+  },
+  {
+    "entree": "μάθημα, ατος -τό",
+    "type": "nom",
+    "traduction": "connaissance, savoir"
+  },
+  {
+    "entree": "μέτρον, ου -τό",
+    "type": "nom",
+    "traduction": "mesure"
+  },
+  {
+    "entree": "μισθός, οῦ -ὁ",
+    "type": "nom",
+    "traduction": "solde, salaire, rétribution"
+  },
+  {
+    "entree": "ὀϕθαλμός, οῦ -ὁ",
+    "type": "nom",
+    "traduction": "oeil"
+  },
+  {
+    "entree": "παιδεία, ας -ἡ",
+    "type": "nom",
+    "traduction": "formation, éducation"
+  },
+  {
+    "entree": "παῖς, παιδός -ὁ ou -ἡ",
+    "type": "nom",
+    "traduction": "enfant, fils, fille / esclave, serviteur (surtout au vocatif)"
+  },
+  {
+    "entree": "πατρίς, ίδος -ἡ",
+    "type": "nom",
+    "traduction": "terre des ancêtres / la patrie"
+  },
+  {
+    "entree": "πρᾶγμα, ατος -τό",
+    "type": "nom",
+    "traduction": "chose, affaire / Au pl. : situation, situation politique"
+  },
+  {
+    "entree": "πρεσβύτης, ου -ὁ",
+    "type": "nom",
+    "traduction": "vieillard"
+  },
+  {
+    "entree": "προδότης, ου -ὁ",
+    "type": "nom",
+    "traduction": "traître"
+  },
+  {
+    "entree": "ῥήτωρ, ορος -ὁ",
+    "type": "nom",
+    "traduction": "celui qui parle, orateur / homme politique/ maître de rhétorique, rhéteur"
+  },
+  {
+    "entree": "σιγή, ῆς -ἡ",
+    "type": "nom",
+    "traduction": "silence"
+  },
+  {
+    "entree": "σκορπίος, ου -ὁ",
+    "type": "nom",
+    "traduction": "scorpion"
+  },
+  {
+    "entree": "σπονδή, ῆς -ἡ",
+    "type": "nom",
+    "traduction": "libation / Au pluriel : accord, trêve, armistice, traité"
+  },
+  {
+    "entree": "στρατιά, ας -ἡ",
+    "type": "nom",
+    "traduction": "armée, armée en marche"
+  },
+  {
+    "entree": "στρατιώτης, ου -ὁ",
+    "type": "nom",
+    "traduction": "soldat, homme du rang"
+  },
+  {
+    "entree": "σῶμα, ατος -τό",
+    "type": "nom",
+    "traduction": "corps / personne"
+  },
+  {
+    "entree": "τιμή, ῆς -ἡ",
+    "type": "nom",
+    "traduction": "honneur, distinction"
+  },
+  {
+    "entree": "χρῆμα, ατος -τό",
+    "type": "nom",
+    "traduction": "chose / au pluriel : ressources, biens, argent"
+  },
+  {
+    "entree": "ἄδηλος",
+    "type": "adjectif",
+    "traduction": "peu clair, difficile à savoir"
+  },
+  {
+    "entree": "ὁ αὐτός",
+    "type": "adjectif",
+    "traduction": "(+ datif) le même que"
+  },
+  {
+    "entree": "εὐδαίμων",
+    "type": "adjectif",
+    "traduction": "heureux"
+  },
+  {
+    "entree": "εὐδόκιμος",
+    "type": "adjectif",
+    "traduction": "réputé, célèbre"
+  },
+  {
+    "entree": "οὐδείς, οὐδενός / οὐδεμία, ᾶς / οὐδέν, ενός",
+    "type": "adjectif",
+    "traduction": "aucun, nul"
+  },
+  {
+    "entree": "πᾶς, παντός / πᾶσα, ης / πᾶν, παντός",
+    "type": "adjectif",
+    "traduction": "tout, chaque"
+  },
+  {
+    "entree": "πατρίς, ίδος",
+    "type": "adjectif",
+    "traduction": "(seulement fém.) des pères, de la patrie"
+  },
+  {
+    "entree": "πρεσβύτης, ου",
+    "type": "adjectif",
+    "traduction": "(adj. seulement masculin) vieux"
+  },
+  {
+    "entree": "πτηνός",
+    "type": "adjectif",
+    "traduction": "qui a des ailes, volant"
+  },
+  {
+    "entree": "σώϕρων",
+    "type": "adjectif",
+    "traduction": "maître de soi, sage, tempérant"
+  },
+  {
+    "entree": "ἀπολογία, ας -ἡ",
+    "type": "nom",
+    "traduction": "discours de défense, défense"
+  },
+ 
+  {
+    "entree": "δέσποινα, ης -ἡ",
+    "type": "nom",
+    "traduction": "maîtresse de maison"
+  },
+  {
+    "entree": "δεσπότης, ου -ὁ",
+    "type": "nom",
+    "traduction": "maître de maison, propriétaire"
+  },
+  {
+    "entree": "δικαστής, ου -ὁ",
+    "type": "nom",
+    "traduction": "juge, membre d'un jury"
+  },
+  {
+    "entree": "δόξα, ης -ἡ",
+    "type": "nom",
+    "traduction": "opinion / réputation, gloire"
+  },
+  {
+    "entree": "θάλαττα, ης -ἡ",
+    "type": "nom",
+    "traduction": "la mer"
+  },
+  {
+    "entree": "θεράπαινα, ης -ἡ",
+    "type": "nom",
+    "traduction": "servante"
+  },
+  {
+    "entree": "ἰδιώτης, ου -ὁ",
+    "type": "nom",
+    "traduction": "simple particulier"
+  },
+  {
+    "entree": "μαθητής, ου -ὁ",
+    "type": "nom",
+    "traduction": "élève, disciple"
+  },
+  {
+    "entree": "νεανίας, ου -ὁ",
+    "type": "nom",
+    "traduction": "jeune homme"
+  },
+  {
+    "entree": "ποιητής, οῦ -ὁ",
+    "type": "nom",
+    "traduction": "poète"
+  },
+  {
+    "entree": "πολίτης, ου -ὁ",
+    "type": "nom",
+    "traduction": "concitoyen, citoyen"
+  },
+  {
+    "entree": "σοϕιστής, οῦ -ὁ",
+    "type": "nom",
+    "traduction": "sophiste, intellectuel"
+  },
+  {
+    "entree": "στρατιώτης, ου -ὁ",
+    "type": "nom",
+    "traduction": "soldat, homme de troupes"
+  },
+  {
+    "entree": "συκοϕάντης, ου -ὁ",
+    "type": "nom",
+    "traduction": "délateur, sycophante"
+  },
+  {
+    "entree": "συμμαχία, ας -ἡ",
+    "type": "nom",
+    "traduction": "alliance"
+  },
+  {
+    "entree": "χώρα, ας -ἡ",
+    "type": "nom",
+    "traduction": "territoire"
+  },
+  {
+    "entree": "ἄλλος",
+    "type": "adjectif",
+    "traduction": "(+ nom singulier) le reste de"
+  },
+  {
+    "entree": "ῥᾴδιος",
+    "type": "adjectif",
+    "traduction": "facile, aisé / qui agit sans difficulté"
+  },
+  {
+    "entree": "τοιοῦτος, τοιαύτη, τοιοῦτο",
+    "type": "adjectif",
+    "traduction": "tel, de ce genre"
+  },
+  {
+    "entree": "ἀγνοία, ας -ἡ",
+    "type": "nom",
+    "traduction": "ignorance"
+  },
+  {
+    "entree": "ἀγορά, ᾶς -ἡ",
+    "type": "nom",
+    "traduction": "place publique, marché"
+  },
+  {
+    "entree": "ἀλήθεια, ας -ἡ",
+    "type": "nom",
+    "traduction": "vérité"
+  },
+  {
+    "entree": "ἀρετή, ῆς -ἡ",
+    "type": "nom",
+    "traduction": "qualité, excellence, vertu"
+  },
+  {
+    "entree": "ἀρχή, ῆς -ἡ",
+    "type": "nom",
+    "traduction": "exercice de l'autorité, charge publique, responsabilité"
+  },
+  {
+    "entree": "γῆ, γῆς -ἡ",
+    "type": "nom",
+    "traduction": "terre, terre cultivée"
+  },
+  {
+    "entree": "γνώμη, ης -ἡ",
+    "type": "nom",
+    "traduction": "opinion formulée, avis, décision"
+  },
+  {
+    "entree": "δημιουργός, ου -ὁ",
+    "type": "nom",
+    "traduction": "homme de l'art qui travaille pour un public, artisan"
+  },
+  {
+    "entree": "δικαιοσύνη, ης -ἡ",
+    "type": "nom",
+    "traduction": "justice, sens de la justice"
+  },
+  {
+    "entree": "δουλεία, ας -ἡ",
+    "type": "nom",
+    "traduction": "servitude, esclavage"
+  },
+  {
+    "entree": "εἰρήνη, ης -ἡ",
+    "type": "nom",
+    "traduction": "paix"
+  },
+  {
+    "entree": "ἐκκλησία, ας -ἡ",
+    "type": "nom",
+    "traduction": "assemblée du peuple, séance de l'assemblée du peuple"
+  },
+  {
+    "entree": "ἐλευθερία, ας -ἡ",
+    "type": "nom",
+    "traduction": "liberté"
+  },
+  {
+    "entree": "ἐπιθυμία, ας -ἡ",
+    "type": "nom",
+    "traduction": "désir, élan naturel vers, passion"
+  },
+  {
+    "entree": "ἐπιστήμη, ης -ἡ",
+    "type": "nom",
+    "traduction": "savoir positif, connaissance rationnelle"
+  },
+  {
+    "entree": "εὐσέβεια, ας -ἡ",
+    "type": "nom",
+    "traduction": "piété"
+  },
+  {
+    "entree": "ἡμέρα, ας -ἡ",
+    "type": "nom",
+    "traduction": "jour"
+  },
+  {
+    "entree": "ἡσυχία, ας -ἡ",
+    "type": "nom",
+    "traduction": "tranquillité, sérénité / passivité, absence de réaction"
+  },
+  {
+    "entree": "θεά, ᾶς -ἡ",
+    "type": "nom",
+    "traduction": "déesse"
+  },
+  {
+    "entree": "θεραπεία, ας -ἡ",
+    "type": "nom",
+    "traduction": "soin matériel apporté à, service, culte / servilité"
+  },
+  {
+    "entree": "κατασκευή, ῆς -ἡ",
+    "type": "nom",
+    "traduction": "préparatifs, équipement"
+  },
+  {
+    "entree": "μαντεία, ας -ἡ",
+    "type": "nom",
+    "traduction": "prédiction, oracle"
+  },
+  {
+    "entree": "μάχη, ης -ἡ",
+    "type": "nom",
+    "traduction": "combat, bataille"
+  },
+  {
+    "entree": "νίκη, ης -ἡ",
+    "type": "nom",
+    "traduction": "victoire"
+  },
+  {
+    "entree": "ξένος, ου -ὁ",
+    "type": "nom",
+    "traduction": "étranger / hôte"
+  },
+  {
+    "entree": "ὁδός, οῦ -ἡ",
+    "type": "nom",
+    "traduction": "route"
+  },
+  {
+    "entree": "οἰκία, ας -ἡ",
+    "type": "nom",
+    "traduction": "maison d'habitation"
+  },
+  {
+    "entree": "οἶκος, ου -ὁ",
+    "type": "nom",
+    "traduction": "ensemble des biens de la famille, patrimoine"
+  },
+  {
+    "entree": "οἶνος, ου -ὁ",
+    "type": "nom",
+    "traduction": "vin"
+  },
+  {
+    "entree": "παιδεία, ας -ἡ",
+    "type": "nom",
+    "traduction": "éducation, formation, culture"
+  },
+  {
+    "entree": "παρθένος, ου -ἡ",
+    "type": "nom",
+    "traduction": "jeune fille"
+  },
+  {
+    "entree": "πενία, ας -ἡ",
+    "type": "nom",
+    "traduction": "pauvreté"
+  },
+  {
+    "entree": "πολιτεία, ας -ἡ",
+    "type": "nom",
+    "traduction": "organisation de la cité, règles de vie sociale, régime politique"
+  },
+  {
+    "entree": "πολυπραγμοσύνη, ης -ἡ",
+    "type": "nom",
+    "traduction": "esprit d'intrigue, affairisme"
+  },
+  {
+    "entree": "σοϕία, ας -ἡ",
+    "type": "nom",
+    "traduction": "savoir / sagesse"
+  },
+  {
+    "entree": "συμϕορά, ᾶς -ἡ",
+    "type": "nom",
+    "traduction": "malheur, revers"
+  },
+  {
+    "entree": "σωτηρία, ας -ἡ",
+    "type": "nom",
+    "traduction": "salut"
+  },
+  {
+    "entree": "σωϕροσύνη, ης -ἡ",
+    "type": "nom",
+    "traduction": "maîtrise de soi, tempérance, modération"
+  },
+  {
+    "entree": "τέχνη, ης -ἡ",
+    "type": "nom",
+    "traduction": "connaissance pratique, savoir-faire, art, métier"
+  },
+  {
+    "entree": "ϕιλία, ας -ἡ",
+    "type": "nom",
+    "traduction": "amitié, relation d'amitié"
+  },
+  {
+    "entree": "ψῆϕος, ου -ἡ",
+    "type": "nom",
+    "traduction": "caillou qui sert à voter, jeton de vote / vote, suffrage"
+  },
+  {
+    "entree": "ψυχή, ῆς -ἡ",
+    "type": "nom",
+    "traduction": "principe de vie, souffle vital qui anime le corps / intériorité, personnalité / âme"
+  },
+  {
+    "entree": "ὥρα, ας -ἡ",
+    "type": "nom",
+    "traduction": "division du temps, heure, moment"
+  },
+  {
+    "entree": "ἀδύνατος",
+    "type": "adjectif",
+    "traduction": "incapable / impossible"
+  },
+  {
+    "entree": "ἀθάνατος",
+    "type": "adjectif",
+    "traduction": "immortel"
+  },
+  {
+    "entree": "ἄξιος",
+    "type": "adjectif",
+    "traduction": "(emploi absolu, sans génitif) qui a de la valeur, précieux, important"
+  },
+  {
+    "entree": "δῆλος",
+    "type": "adjectif",
+    "traduction": "visible, clair, évident"
+  },
+  {
+    "entree": "ἕκαστος",
+    "type": "adjectif",
+    "traduction": "chaque / chacun (pronom ou adjectif)"
+  },
+  {
+    "entree": "ἐναντίος",
+    "type": "adjectif",
+    "traduction": "qui se tient en face, opposé à (+ datif)"
+  },
+  {
+    "entree": "ἰσχυρός",
+    "type": "adjectif",
+    "traduction": "fort, intense"
+  },
+  {
+    "entree": "μέγας, μεγάλη, μέγα",
+    "type": "adjectif",
+    "traduction": "grand, important, considérable"
+  },
+  {
+    "entree": "ξένος",
+    "type": "adjectif",
+    "traduction": "étranger / hôte"
+  },
+  {
+    "entree": "βουλευτήριον, ου -τό",
+    "type": "nom",
+    "traduction": "salle du Conseil"
+  },
+  {
+    "entree": "δικαστήριον, ου -τό",
+    "type": "nom",
+    "traduction": "tribunal"
+  },
+  {
+    "entree": "εἴδωλον, ου -τό",
+    "type": "nom",
+    "traduction": "représentation, image"
+  },
+  {
+    "entree": "ἑταῖρος, ου -ὁ",
+    "type": "nom",
+    "traduction": "compagnon"
+  },
+  {
+    "entree": "κατήγορος, ου -ὁ",
+    "type": "nom",
+    "traduction": "accusateur"
+  },
+  {
+    "entree": "μέτοικος, ου -ὁ",
+    "type": "nom",
+    "traduction": "métèque"
+  },
+  {
+    "entree": "πρόγονος, ου -ὁ",
+    "type": "nom",
+    "traduction": "ancêtre"
+  },
+  {
+    "entree": "στρατηγός, ου -ὁ",
+    "type": "nom",
+    "traduction": "officier, stratège"
+  },
+  {
+    "entree": "οἱ τριάκοντα",
+    "type": "nom",
+    "traduction": "les Trente (tyrans)"
+  },
+  {
+    "entree": "αἰσχρός",
+    "type": "adjectif",
+    "traduction": "laid, honteux"
+  },
+  {
+    "entree": "ὁ αὐτός",
+    "type": "adjectif",
+    "traduction": "le même, identique"
+  },
+  {
+    "entree": "ἕτερος",
+    "type": "adjectif",
+    "traduction": "autre (dans une paire, un couple)"
+  },
+  {
+    "entree": "θνητός",
+    "type": "adjectif",
+    "traduction": "mortel"
+  },
+  {
+    "entree": "κακός",
+    "type": "adjectif",
+    "traduction": "mauvais, malhonnête, sans vertu"
+  },
+  {
+    "entree": "οἷός",
+    "type": "adjectif",
+    "traduction": "seul, unique"
+  },
+  {
+    "entree": "ὅλος",
+    "type": "adjectif",
+    "traduction": "tout entier, dans son intégralité (ne s'enclave pas quand il est épithète)"
+  },
+  {
+    "entree": "δῆμος, ου -ὁ",
+    "type": "nom",
+    "traduction": "régime démocratique, démocratie"
+  },
+  {
+    "entree": "καιρός, ου -ὁ",
+    "type": "nom",
+    "traduction": "occasion favorable, moment opportun pour (+ infinitif) / au pluriel : circonstances, conjoncture"
+  },
+  {
+    "entree": "ὅρκος, ου -ὁ",
+    "type": "nom",
+    "traduction": "serment"
+  },
+  {
+    "entree": "πλοῦτος, ου -ὁ",
+    "type": "nom",
+    "traduction": "fait d'être riche, richesse"
+  },
+  {
+    "entree": "αἴτιος",
+    "type": "adjectif",
+    "traduction": "responsable de, cause de (+ génitif)"
+  },
+  {
+    "entree": "ἀλλότριος",
+    "type": "adjectif",
+    "traduction": "qui appartient à d'autres"
+  },
+  {
+    "entree": "ἀναγκαῖος",
+    "type": "adjectif",
+    "traduction": "nécessaire"
+  },
+  {
+    "entree": "ἄτοπος",
+    "type": "adjectif",
+    "traduction": "étrange, inouï, inconcevable"
+  },
+  {
+    "entree": "ἐμός",
+    "type": "adjectif",
+    "traduction": "mon, mien, qui m'appartient"
+  },
+  {
+    "entree": "ἡμέτερος",
+    "type": "adjectif",
+    "traduction": "notre, qui nous appartient"
+  },
+  {
+    "entree": "πότερος",
+    "type": "adjectif",
+    "traduction": "lequel des deux ?"
+  },
+  {
+    "entree": "πρᾷος",
+    "type": "adjectif",
+    "traduction": "doux, clément"
+  },
+  {
+    "entree": "σός",
+    "type": "adjectif",
+    "traduction": "tien, qui t'appartient"
+  },
+  {
+    "entree": "ὑμέτερος",
+    "type": "adjectif",
+    "traduction": "votre, qui vous appartient"
+  },
+  {
+    "entree": "ἀνδροϕόνος, ου -ὁ",
+    "type": "nom",
+    "traduction": "meurtrier"
+  },
+  {
+    "entree": "ἀργύριον, ου -τό",
+    "type": "nom",
+    "traduction": "objet en argent, argent"
+  },
+  {
+    "entree": "βωμός, οῦ -ὁ",
+    "type": "nom",
+    "traduction": "autel"
+  },
+  {
+    "entree": "δημαγωγός, οῦ -ὁ",
+    "type": "nom",
+    "traduction": "chef du peuple, chef du parti démocrate"
+  },
+  {
+    "entree": "δοῦλος, οῦ -ὁ",
+    "type": "nom",
+    "traduction": "esclave"
+  },
+  {
+    "entree": "δῶρον, ου -τό",
+    "type": "nom",
+    "traduction": "cadeau, offrande"
+  },
+  {
+    "entree": "ἔργον, ου -τό",
+    "type": "nom",
+    "traduction": "acte, fait / réalité"
+  },
+  {
+    "entree": "ζῷον, ου -τό",
+    "type": "nom",
+    "traduction": "être vivant, être animé / animal"
+  },
+  {
+    "entree": "θάνατος, ου -ὁ",
+    "type": "nom",
+    "traduction": "mort"
+  },
+  {
+    "entree": "παιδίον, ου -τό",
+    "type": "nom",
+    "traduction": "petit enfant (garçon ou fille)"
+  },
+  {
+    "entree": "σύλλογος, ου -ὁ",
+    "type": "nom",
+    "traduction": "entretien, réunion"
+  },
+  {
+    "entree": "τέκνον, ου -τό",
+    "type": "nom",
+    "traduction": "enfant (par le lignage)"
+  },
+  {
+    "entree": "τύραννος, ου -ὁ",
+    "type": "nom",
+    "traduction": "tyran, roi, monarque (celui qui exerce le pouvoir sans partage)"
+  },
+  {
+    "entree": "ὰγαθός",
+    "type": "adjectif",
+    "traduction": "bon, de qualité, qui a des qualités"
+  },
+  {
+    "entree": "ἀθάνατος",
+    "type": "adjectif",
+    "traduction": "immortel"
+  },
+  {
+    "entree": "ἀνδροϕόνος",
+    "type": "adjectif",
+    "traduction": "meurtrier, homicide"
+  },
+  {
+    "entree": "βάρβαρος",
+    "type": "adjectif",
+    "traduction": "qui ne parle pas grec, barbare"
+  },
+  {
+    "entree": "δοῦλος",
+    "type": "adjectif",
+    "traduction": "de condition servile, esclave"
+  },
+  {
+    "entree": "ἐλεύθερος",
+    "type": "adjectif",
+    "traduction": "de condition libre"
+  },
+  {
+    "entree": "ἴδιος",
+    "type": "adjectif",
+    "traduction": "qui appartient en propre, particulier, personnel"
+  },
+  {
+    "entree": "κακός",
+    "type": "adjectif",
+    "traduction": "mauvais, dépourvu de qualité"
+  },
+  {
+    "entree": "κύριος",
+    "type": "adjectif",
+    "traduction": "qui a autorité, maître de (+ génitif) ; souverain"
+  },
+  {
+    "entree": "μόνος",
+    "type": "adjectif",
+    "traduction": "seul"
+  },
+  {
+    "entree": "ὀλίγος",
+    "type": "adjectif",
+    "traduction": "peu nombreux, en petit nombre"
+  },
+ 
+  {
+    "entree": "πολιτικός",
+    "type": "adjectif",
+    "traduction": "adapté à la cité, propre à la cité"
+  },
+  {
+    "entree": "πολλος",
+    "type": "adjectif",
+    "traduction": "nombreux, en grand nombre"
+  },
+  
+  {
+    "entree": "ὑπεύθυνος",
+    "type": "adjectif",
+    "traduction": "soumis à reddition de comptes"
+  },
+  {
+    "entree": "ϕανερός",
+    "type": "adjectif",
+    "traduction": "évident"
+  },
+  {
+    "entree": "χαλεπός",
+    "type": "adjectif",
+    "traduction": "difficile"
+  },
+  {
+    "entree": "ἀγρός, οῦ -ὁ",
+    "type": "nom",
+    "traduction": "champ"
+  },
+  {
+    "entree": "ἀδελϕός, οῦ -ὁ",
+    "type": "nom",
+    "traduction": "frère"
+  },
+  {
+    "entree": "ἄνθρωπος, ου -ὁ",
+    "type": "nom",
+    "traduction": "homme, être humain"
+  },
+  {
+    "entree": "δῆμος, ου -ὁ",
+    "type": "nom",
+    "traduction": "peuple"
+  },
+  {
+    "entree": "ἔπαινος, ου -ὁ",
+    "type": "nom",
+    "traduction": "louange, approbation"
+  },
+  {
+    "entree": "θεός, οῦ -ὁ",
+    "type": "nom",
+    "traduction": "dieu, divinité"
+  },
+  {
+    "entree": "ἵππος, ου -ὁ",
+    "type": "nom",
+    "traduction": "cheval"
+  },
+  {
+    "entree": "λόγος, ου -ὁ",
+    "type": "nom",
+    "traduction": "parole, langage"
+  },
+  {
+    "entree": "νόμος, ου -ὁ",
+    "type": "nom",
+    "traduction": "loi, usage"
+  },
+  {
+    "entree": "οὐρανός, οῦ -ὁ",
+    "type": "nom",
+    "traduction": "ciel"
+  },
+  {
+    "entree": "πόλεμος, ου -ὁ",
+    "type": "nom",
+    "traduction": "guerre"
+  },
+  {
+    "entree": "πολέμιος, ου -ὁ",
+    "type": "nom",
+    "traduction": "ennemi (national)"
+  },
+  {
+    "entree": "ϕίλος, ου -ὁ",
+    "type": "nom",
+    "traduction": "ami"
+  },
+  {
+    "entree": "χρόνος, ου -ὁ",
+    "type": "nom",
+    "traduction": "temps, moment du temps, époque"
+  },
+  {
+    "entree": "ἄδικος",
+    "type": "adjectif",
+    "traduction": "injuste, malhonnête, criminel"
+  },
+  {
+    "entree": "ἄλλος",
+    "type": "adjectif",
+    "traduction": "autre"
+  },
+  {
+    "entree": "ἄξιος",
+    "type": "adjectif",
+    "traduction": "qui a de la valeur, important / qui mérite, digne de (+ génitif)"
+  },
+  {
+    "entree": "δεινός",
+    "type": "adjectif",
+    "traduction": "fort, habile / redoutable"
+  },
+  {
+    "entree": "δίκαιος",
+    "type": "adjectif",
+    "traduction": "juste"
+  },
+  {
+    "entree": "δυνατός",
+    "type": "adjectif",
+    "traduction": "capable de (+ infinitif)"
+  },
+  {
+    "entree": "ἐπιτήδειος",
+    "type": "adjectif",
+    "traduction": "utile, favorable à (+ datif)"
+  },
+  {
+    "entree": "ἐχθρός",
+    "type": "adjectif",
+    "traduction": "hostile, mal intentionné, ennemi (personnel)"
+  },
+  {
+    "entree": "καλός",
+    "type": "adjectif",
+    "traduction": "beau, bon, qui a toutes les qualités"
+  },
+  {
+    "entree": "νέος",
+    "type": "adjectif",
+    "traduction": "jeune, récent"
+  },
+  {
+    "entree": "ὀρθός",
+    "type": "adjectif",
+    "traduction": "droit, conforme, correct"
+  },
+  {
+    "entree": "παλαιός",
+    "type": "adjectif",
+    "traduction": "ancien, qui existe depuis longtemps"
+  },
+  {
+    "entree": "πολέμιος",
+    "type": "adjectif",
+    "traduction": "ennemi (national)"
+  },
+  {
+    "entree": "σοϕός",
+    "type": "adjectif",
+    "traduction": "savant, expert / sage"
+  },
+  {
+    "entree": "σύμμαχος",
+    "type": "adjectif",
+    "traduction": "qui combat avec, allié"
+  },
+  {
+    "entree": "ϕίλος",
+    "type": "adjectif",
+    "traduction": "ami"
+  }
+
+{
+    "entree": "θύρα, ας -ἡ",
+    "type": "nom",
+    "traduction": "porte"
+  },
+  {
+    "entree": "μειράκιον, ου -τό",
+    "type": "nom",
+    "traduction": "jeune homme"
+  },
+  {
+    "entree": "οὐσία, ας -ἡ",
+    "type": "nom",
+    "traduction": "richesse"
+  },
+  {
+    "entree": "σκύλευμα, ατος -τό",
+    "type": "nom",
+    "traduction": "dépouilles, butin prélevé sur les ennemis tués (surtout au pluriel)"
+  },
+  {
+    "entree": "συνθήκη, ης -ἡ",
+    "type": "nom",
+    "traduction": "accord, convention, traité"
+  },
+  {
+    "entree": "ὠφέλεια, ας -ἡ",
+    "type": "nom",
+    "traduction": "utilité, profit"
+  },
+  {
+    "entree": "ἄθυμος",
+    "type": "adjectif",
+    "traduction": "sans entrain, sans courage"
+  },
+  {
+    "entree": "ἄνδρειος",
+    "type": "adjectif",
+    "traduction": "viril, courageux"
+  },
+  {
+    "entree": "ὀλιγαρχικός",
+    "type": "adjectif",
+    "traduction": "propre à l'oligarchie, favorable à l'oligarchie"
+  },
+  {
+    "entree": "ἐπίτροπος, ου -ὁ",
+    "type": "nom",
+    "traduction": "tuteur"
+  },
+  {
+    "entree": "εὐδαιμονία, ας -ἡ",
+    "type": "nom",
+    "traduction": "bonheur, prospérité"
+  },
+  {
+    "entree": "ἤπειρος, ου -ἡ",
+    "type": "nom",
+    "traduction": "terre ferme, continent"
+  },
+  {
+    "entree": "ἰατρός, οῦ -ὁ",
+    "type": "nom",
+    "traduction": "médecin"
+  },
+  {
+    "entree": "λῃστής, ου -ὁ",
+    "type": "nom",
+    "traduction": "brigand, pirate"
+  },
+  {
+    "entree": "νῆσος, ου -ἡ",
+    "type": "nom",
+    "traduction": "île"
+  },
+  {
+    "entree": "παραλία, ας -ἡ",
+    "type": "nom",
+    "traduction": "rivage, côte, littoral"
+  },
+  {
+    "entree": "προστάτης, ου -ὁ",
+    "type": "nom",
+    "traduction": "qui se tient devant, défenseur"
+  },
+  {
+    "entree": "στρατόπεδον, ου -τό",
+    "type": "nom",
+    "traduction": "camp ; armée dans un camp"
+  },
+  {
+    "entree": "φύσις, εως -ἡ",
+    "type": "nom",
+    "traduction": "la nature"
+  },
+  {
+    "entree": "ἀνάστατος",
+    "type": "adjectif",
+    "traduction": "dépeuplé, ravagé"
+  },
+  {
+    "entree": "ἕτερος",
+    "type": "adjectif",
+    "traduction": "autre (dans une relation binaire)"
+  },
+  {
+    "entree": "μοχθηρός",
+    "type": "adjectif",
+    "traduction": "mauvais, incompétent"
+  },
+  {
+    "entree": "ὄρφανος",
+    "type": "adjectif",
+    "traduction": "seul, privé de, orphelin"
+  },
+  {
+    "entree": "παράλιος",
+    "type": "adjectif",
+    "traduction": "côtier, près de la mer"
+  }
+]

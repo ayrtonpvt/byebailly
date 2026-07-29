@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jeu de Déclinaisons Grecques</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="system">
+
+<div class="container">
+  <div class="header">
+    <h1>ByeBailly</h1>
+    <div class="header-actions">
+      <!-- Icône SVG Informations / À propos -->
+      <button class="btn-icon" id="btnToggleAbout" title="À propos">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <line x1="12" y1="11" x2="12" y2="16"/>
+          <circle cx="12" cy="7.5" r="0.5" fill="currentColor" stroke="currentColor"/>
+        </svg>
+      </button>
+
+      <!-- Icône SVG Réglages / Paramètres -->
+      <button class="btn-icon" id="btnToggleSettings" title="Paramètres">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="6" x2="20" y2="6"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="18" x2="20" y2="18"/>
+          <circle cx="8" cy="6" r="2.5" fill="var(--card-bg)"/>
+          <circle cx="16" cy="12" r="2.5" fill="var(--card-bg)"/>
+          <circle cx="9" cy="18" r="2.5" fill="var(--card-bg)"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Panneau Paramètres -->
+  <div class="settings-panel" id="settingsPanel">
+    <div class="setting-group">
+      <span class="setting-label">Thème</span>
+      <div class="segmented-control" id="themeControl">
+        <button data-value="system" class="active">Système</button>
+        <button data-value="light">Clair</button>
+        <button data-value="dark">Sombre</button>
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <span class="setting-label">Mode de saisie</span>
+      <div class="segmented-control" id="modeControl">
+        <button data-value="translit" class="active">Translittération</button>
+        <button data-value="beta">Bêta code</button>
+      </div>
+      <a class="link-table" id="btnOpenTable"> Table de correspondance</a>
+    </div>
+  </div>
+
+  <div class="score-board" id="scoreBoard">Score : 0 / 0</div>
+
+  <div id="gameArea" style="display: none;">
+    <div class="word-card">
+      <div class="word-title" id="wordLemme">-</div>
+      <div class="word-meta" id="wordMeta">-</div>
+    </div>
+
+    <div class="consigne" id="consigneText">-</div>
+
+    <div class="input-group">
+      <input type="text" id="userInput" placeholder="Saisir la réponse..." autocomplete="off">
+      <button class="btn-primary" id="btnValidate">Valider</button>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+    <button class="btn-next" id="btnNext">Question suivante </button>
+  </div>
+
+  <div id="loadingText" style="text-align:center; color: var(--text-muted);">Chargement du vocabulaire...</div>
+</div>
+
+<!-- Modal À propos -->
+<div class="modal-overlay" id="modalAbout">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>À propos</h2>
+      <button class="btn-icon" id="btnCloseAbout">✕</button>
+    </div>
+    <div class="about-body">
+      <div class="about-highlight">
+        ByeBailly
+      </div>
+      <p>
+        Sources: vocabulaire compilé par J-B. Clérigues et S. Raffin
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Table de Translittération / Beta Code -->
+<div class="modal-overlay" id="modalTable">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Table de correspondance</h2>
+      <button class="btn-icon" id="btnCloseTable">✕</button>
+    </div>
+    <table class="translit-table">
+      <thead>
+        <tr>
+          <th>Grec</th>
+          <th>Translittération</th>
+          <th>Bêta code</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>α</td><td>a</td><td>a</td></tr>
+        <tr><td>β</td><td>b</td><td>b</td></tr>
+        <tr><td>γ</td><td>g</td><td>g</td></tr>
+        <tr><td>δ</td><td>d</td><td>d</td></tr>
+        <tr><td>ε</td><td>e</td><td>e</td></tr>
+        <tr><td>ζ</td><td>z</td><td>z</td></tr>
+        <tr><td>η</td><td>h, ê</td><td>h</td></tr>
+        <tr><td>θ</td><td>th</td><td>q</td></tr>
+        <tr><td>ι</td><td>i</td><td>i</td></tr>
+        <tr><td>κ</td><td>k, c</td><td>k</td></tr>
+        <tr><td>λ</td><td>l</td><td>l</td></tr>
+        <tr><td>μ</td><td>m</td><td>m</td></tr>
+        <tr><td>ν</td><td>n</td><td>n</td></tr>
+        <tr><td>ξ</td><td>x</td><td>c</td></tr>
+        <tr><td>ο</td><td>o</td><td>o</td></tr>
+        <tr><td>π</td><td>p</td><td>p</td></tr>
+        <tr><td>ρ</td><td>r</td><td>r</td></tr>
+        <tr><td>σ / ς</td><td>s</td><td>s</td></tr>
+        <tr><td>τ</td><td>t</td><td>t</td></tr>
+        <tr><td>υ</td><td>u, y</td><td>u</td></tr>
+        <tr><td>φ</td><td>ph, f</td><td>f</td></tr>
+        <tr><td>χ</td><td>ch</td><td>x</td></tr>
+        <tr><td>ψ</td><td>ps</td><td>y</td></tr>
+        <tr><td>ω</td><td>w, ô</td><td>w</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// ---------------------------------------------------------------------------
+// 1. Gestion des Paramètres et des Modales
+// ---------------------------------------------------------------------------
+
+let currentTheme = localStorage.getItem('app_theme') || 'system';
+let currentInputMode = localStorage.getItem('app_input_mode') || 'translit';
+
+function appliquerTheme(theme) {
+  currentTheme = theme;
+  document.body.setAttribute('data-theme', theme);
+  localStorage.setItem('app_theme', theme);
+
+  document.querySelectorAll('#themeControl button').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-value') === theme);
+  });
+}
+
+function appliquerModeSaisie(mode) {
+  currentInputMode = mode;
+  localStorage.setItem('app_input_mode', mode);
+
+  document.querySelectorAll('#modeControl button').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-value') === mode);
+  });
+
+  const inputEl = document.getElementById("userInput");
+  if (inputEl) {
+    inputEl.placeholder = mode === 'beta' ? "Saisir en Bêta code (ex: qeos)..." : "Saisir en translittéré (ex: theos)...";
+  }
+}
+
+// Événements d'interface
+document.getElementById('btnToggleSettings').addEventListener('click', () => {
+  document.getElementById('settingsPanel').classList.toggle('active');
+});
+
+document.querySelectorAll('#themeControl button').forEach(btn => {
+  btn.addEventListener('click', () => appliquerTheme(btn.getAttribute('data-value')));
+});
+
+document.querySelectorAll('#modeControl button').forEach(btn => {
+  btn.addEventListener('click', () => appliquerModeSaisie(btn.getAttribute('data-value')));
+});
+
+// Modale À Propos
+document.getElementById('btnToggleAbout').addEventListener('click', () => {
+  document.getElementById('modalAbout').classList.add('active');
+});
+document.getElementById('btnCloseAbout').addEventListener('click', () => {
+  document.getElementById('modalAbout').classList.remove('active');
+});
+
+// Modale Table
+document.getElementById('btnOpenTable').addEventListener('click', () => {
+  document.getElementById('modalTable').classList.add('active');
+});
+document.getElementById('btnCloseTable').addEventListener('click', () => {
+  document.getElementById('modalTable').classList.remove('active');
+});
+
+// Initialisation au démarrage
+appliquerTheme(currentTheme);
+appliquerModeSaisie(currentInputMode);
+
+// ---------------------------------------------------------------------------
+// 2. Normalisation & Translittération
+// ---------------------------------------------------------------------------
+
+function stripAccents(s) {
+  let d = s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  d = d.replaceAll("ς", "σ").replaceAll("ϕ", "φ");
+  return d.normalize("NFC");
+}
+
+function normaliser(s) {
+  let d = s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  d = d.replaceAll("ϕ", "φ");
+  return d.normalize("NFC");
+}
+
+function translittererVersGrec(texte, mode) {
+  texte = texte.toLowerCase();
+
+  if (mode === 'beta') {
+    const betaMap = {
+      "a": "α", "b": "β", "g": "γ", "d": "δ", "e": "ε", "z": "ζ",
+      "h": "η", "q": "θ", "i": "ι", "k": "κ", "l": "λ", "m": "μ",
+      "n": "ν", "c": "ξ", "o": "ο", "p": "π", "r": "ρ", "s": "σ",
+      "t": "τ", "u": "υ", "f": "φ", "x": "χ", "y": "ψ", "w": "ω"
+    };
+    for (let [lat, gr] of Object.entries(betaMap)) {
+      texte = texte.replaceAll(lat, gr);
+    }
+    return texte;
+  }
+
+  const digrammes = { "th": "θ", "ph": "φ", "ch": "χ", "ps": "ψ" };
+  for (let [lat, gr] of Object.entries(digrammes)) {
+    texte = texte.replaceAll(lat, gr);
+  }
+  const lettres = {
+    "a": "α", "b": "β", "g": "γ", "d": "δ", "e": "ε", "z": "ζ",
+    "h": "η", "ê": "η", "i": "ι", "k": "κ", "c": "κ", "l": "λ",
+    "m": "μ", "n": "ν", "x": "ξ", "o": "ο", "p": "π", "r": "ρ",
+    "s": "σ", "t": "τ", "u": "υ", "y": "υ", "f": "φ", "w": "ω", "ô": "ω"
+  };
+  for (let [lat, gr] of Object.entries(lettres)) {
+    texte = texte.replaceAll(lat, gr);
+  }
+  return texte;
+}
+
+// ---------------------------------------------------------------------------
+// 3. Générateurs de Paradigmes
+// ---------------------------------------------------------------------------
+
+function deuxiemeDecl(stem, nomDonne, neutre) {
+  if (neutre) {
+    return {
+      "sg_nom": nomDonne, "sg_voc": nomDonne, "sg_acc": nomDonne, "sg_gen": stem + "ου", "sg_dat": stem + "ῳ",
+      "pl_nom": stem + "α", "pl_voc": stem + "α", "pl_acc": stem + "α", "pl_gen": stem + "ων", "pl_dat": stem + "οις"
+    };
+  }
+  return {
+    "sg_nom": nomDonne, "sg_voc": stem + "ε", "sg_acc": stem + "ον", "sg_gen": stem + "ου", "sg_dat": stem + "ῳ",
+    "pl_nom": stem + "οι", "pl_voc": stem + "οι", "pl_acc": stem + "ους", "pl_gen": stem + "ων", "pl_dat": stem + "οις"
+  };
+}
+
+function premiereDeclFem(stem, nomDonne, genSgSuffixe, isEta) {
+  return {
+    "sg_nom": nomDonne, "sg_voc": nomDonne,
+    "sg_acc": stem + (isEta ? "ην" : "αν"),
+    "sg_gen": stem + genSgSuffixe, "sg_dat": stem + (isEta ? "ῃ" : "ᾳ"),
+    "pl_nom": stem + "αι", "pl_voc": stem + "αι", "pl_acc": stem + "ας",
+    "pl_gen": stem + "ων", "pl_dat": stem + "αις"
+  };
+}
+
+function premiereDeclMasc(stem, nomDonne) {
+  return {
+    "sg_nom": nomDonne, "sg_voc": stem + "α", "sg_acc": stem + "ην",
+    "sg_gen": stem + "ου", "sg_dat": stem + "ῃ",
+    "pl_nom": stem + "αι", "pl_voc": stem + "αι", "pl_acc": stem + "ας",
+    "pl_gen": stem + "ων", "pl_dat": stem + "αις"
+  };
+}
+
+function troisiemeDeclIsEws(stem, nomDonne) {
+  return {
+    "sg_nom": nomDonne, "sg_voc": stem + "ι", "sg_acc": stem + "ιν", "sg_gen": stem + "εως", "sg_dat": stem + "ει",
+    "pl_nom": stem + "εις", "pl_voc": stem + "εις", "pl_acc": stem + "εις", "pl_gen": stem + "εων", "pl_dat": stem + "εσι(ν)"
+  };
+}
+
+function troisiemeDeclNeutreOsOus(stem, nomDonne) {
+  return {
+    "sg_nom": nomDonne, "sg_voc": nomDonne, "sg_acc": nomDonne, "sg_gen": stem + "ους", "sg_dat": stem + "ει",
+    "pl_nom": stem + "η", "pl_voc": stem + "η", "pl_acc": stem + "η", "pl_gen": stem + "ων", "pl_dat": stem + "εσι(ν)"
+  };
+}
+
+function troisiemeDeclConsonne(stem, nomDonne, neutre) {
+  let stemCourt = stem.length > 0 ? stem.slice(0, -1) : stem;
+  if (neutre) {
+    return {
+      "sg_nom": nomDonne, "sg_voc": nomDonne, "sg_acc": nomDonne, "sg_gen": stem + "ος", "sg_dat": stem + "ι",
+      "pl_nom": stem + "α", "pl_voc": stem + "α", "pl_acc": stem + "α", "pl_gen": stem + "ων", "pl_dat": stemCourt + "σι(ν)"
+    };
+  }
+  return {
+    "sg_nom": nomDonne, "sg_voc": stem, "sg_acc": stem + "α", "sg_gen": stem + "ος", "sg_dat": stem + "ι",
+    "pl_nom": stem + "ες", "pl_voc": stem + "ες", "pl_acc": stem + "ας", "pl_gen": stem + "ων", "pl_dat": stemCourt + "σι(ν)"
+  };
+}
+
+function adj212(mascNom, stem) {
+  let dernier = stem.length > 0 ? stem.slice(-1) : "";
+  let dernierNu = stripAccents(dernier);
+  let femEnA = ["ε", "ι", "ρ"].includes(dernierNu);
+  let masc = deuxiemeDecl(stem, mascNom, false);
+  let neut = deuxiemeDecl(stem, stem + "ον", true);
+  let fem = femEnA ? premiereDeclFem(stem, stem + "α", "ας", false) : premiereDeclFem(stem, stem + "η", "ης", true);
+  return { "masc": masc, "fem": fem, "neutre": neut };
+}
+
+function adj3rdHsEs(stem, mascNom) {
+  let commun = {
+    "sg_nom": mascNom, "sg_voc": stem + "ές", "sg_acc": stem + "ῆ", "sg_gen": stem + "οῦς", "sg_dat": stem + "εῖ",
+    "pl_nom": stem + "εῖς", "pl_voc": stem + "εῖς", "pl_acc": stem + "εῖς", "pl_gen": stem + "ῶν", "pl_dat": stem + "έσι(ν)"
+  };
+  let neut = { ...commun };
+  neut["sg_nom"] = stem + "ές"; neut["sg_voc"] = stem + "ές"; neut["sg_acc"] = stem + "ές";
+  neut["pl_nom"] = stem + "ῆ"; neut["pl_voc"] = stem + "ῆ"; neut["pl_acc"] = stem + "ῆ";
+  return { "masc": commun, "fem": commun, "neutre": neut };
+}
+
+function adj3rdConsonne(stem, mascNom) {
+  let mf = troisiemeDeclConsonne(stem, mascNom, false);
+  let neutNom = stem.endsWith("ον") ? stem : stem + "ον";
+  let neut = troisiemeDeclConsonne(stem, neutNom, true);
+  return { "masc": mf, "fem": mf, "neutre": neut };
+}
+
+// ---------------------------------------------------------------------------
+// 4. Parsers & Tables
+// ---------------------------------------------------------------------------
+
+const SUFFIXE_INFO = {
+  "ου": ["amb_ou", 2, ""], "ης": ["1fem_h", 1, ""], "ας": ["1fem_a", 1, ""],
+  "εως": ["3_is_ews", 2, ""], "ους": ["3_neut_ous", 2, ""], "ιδος": ["3_conson", 2, "ιδ"],
+  "ονος": ["3_conson", 2, "ον"], "υρος": ["3_conson", 2, "υρ"], "ατος": ["3_conson", 1, "ατ"],
+  "ητος": ["3_conson", 2, "ητ"], "ορος": ["3_conson", 2, "ορ"]
+};
+
+const IRREGULIERS = {
+  "ἀνήρ": { genre: "ὁ", forme: { "sg_nom": "ἀνήρ", "sg_voc": "ἄνερ", "sg_acc": "ἄνδρα", "sg_gen": "ἀνδρός", "sg_dat": "ἀνδρί", "pl_nom": "ἄνδρες", "pl_voc": "ἄνδρες", "pl_acc": "ἄνδρας", "pl_gen": "ἀνδρῶν", "pl_dat": "ἀνδράσι(ν)" } },
+  "γυνή": { genre: "ἡ", forme: { "sg_nom": "γυνή", "sg_voc": "γύναι", "sg_acc": "γυναῖκα", "sg_gen": "γυναικός", "sg_dat": "γυναικί", "pl_nom": "γυναῖκες", "pl_voc": "γυναῖκες", "pl_acc": "γυναῖκας", "pl_gen": "γυναικῶν", "pl_dat": "γυναιξί(ν)" } },
+  "πατήρ": { genre: "ὁ", forme: { "sg_nom": "πατήρ", "sg_voc": "πάτερ", "sg_acc": "πατέρα", "sg_gen": "πατρός", "sg_dat": "πατρί", "pl_nom": "πατέρες", "pl_voc": "πατέρες", "pl_acc": "πατέρας", "pl_gen": "πατέρων", "pl_dat": "πατράσι(ν)" } },
+  "μήτηρ": { genre: "ἡ", forme: { "sg_nom": "μήτηρ", "sg_voc": "μῆτερ", "sg_acc": "μητέρα", "sg_gen": "μητρός", "sg_dat": "μητρί", "pl_nom": "μητέρες", "pl_voc": "μητέρες", "pl_acc": "μητέρας", "pl_gen": "μητέρων", "pl_dat": "μητράσι(ν)" } },
+  "θυγατήρ": { genre: "ἡ", forme: { "sg_nom": "θυγάτηρ", "sg_voc": "θύγατερ", "sg_acc": "θυγατέρα", "sg_gen": "θυγατρός", "sg_dat": "θυγατρί", "pl_nom": "θυγατέρες", "pl_voc": "θυγατέρες", "pl_acc": "θυγατέρας", "pl_gen": "θυγατέρων", "pl_dat": "θυγατράσι(ν)" } },
+  "Ζεύς": { genre: "ὁ", forme: { "sg_nom": "Ζεύς", "sg_voc": "Ζεῦ", "sg_acc": "Δία", "sg_gen": "Διός", "sg_dat": "Διί", "pl_nom": "-", "pl_voc": "-", "pl_acc": "-", "pl_gen": "-", "pl_dat": "-" } }
+};
+
+const IRREGULIERS_ADJS = {
+  "μέγας": {
+    masc: { "sg_nom": "μέγας", "sg_voc": "μέγα", "sg_acc": "μέγαν", "sg_gen": "μεγάλου", "sg_dat": "μεγάλῳ", "pl_nom": "μεγάλοι", "pl_voc": "μεγάλοι", "pl_acc": "μεγάλους", "pl_gen": "μεγάλων", "pl_dat": "μεγάλοις" },
+    fem: { "sg_nom": "μεγάλη", "sg_voc": "μεγάλη", "sg_acc": "μεγάλην", "sg_gen": "μεγάλης", "sg_dat": "μεγάλῃ", "pl_nom": "μεγάλαι", "pl_voc": "μεγάλαι", "pl_acc": "μεγάλας", "pl_gen": "μεγάλων", "pl_dat": "μεγάλαις" },
+    neutre: { "sg_nom": "μέγα", "sg_voc": "μέγα", "sg_acc": "μέγα", "sg_gen": "μεγάλου", "sg_dat": "μεγάλῳ", "pl_nom": "μεγάλα", "pl_voc": "μεγάλα", "pl_acc": "μεγάλα", "pl_gen": "μεγάλων", "pl_dat": "μεγάλοις" }
+  }
+};
+
+function construireParadigmeNom(nom, champGen, genre) {
+  let nomNorm = normaliser(nom);
+  let champGenNorm = normaliser(champGen);
+  let neutre = (genre === "τό");
+
+  if (SUFFIXE_INFO[champGenNorm]) {
+    let [cat, n, extra] = SUFFIXE_INFO[champGenNorm];
+    let stem = nom.slice(0, -n) + extra;
+    if (cat === "amb_ou") {
+      let stemOu = nom.slice(0, -2);
+      if (nomNorm.endsWith("ον")) return deuxiemeDecl(stemOu, nom, true);
+      if (nomNorm.endsWith("ης")) return premiereDeclMasc(stemOu, nom);
+      return deuxiemeDecl(stemOu, nom, false);
+    }
+    if (cat === "1fem_h") return premiereDeclFem(stem, nom, champGen, true);
+    if (cat === "1fem_a") return premiereDeclFem(stem, nom, champGen, false);
+    if (cat === "3_is_ews") return troisiemeDeclIsEws(stem, nom);
+    if (cat === "3_neut_ous") return troisiemeDeclNeutreOsOus(stem, nom);
+    if (cat === "3_conson") return troisiemeDeclConsonne(stem, nom, neutre);
+  }
+
+  if (champGen.length > nom.length - 1 && champGenNorm.endsWith("ος")) {
+    return troisiemeDeclConsonne(champGen.slice(0, -2), nom, neutre);
+  }
+  return null;
+}
+
+function parserNom(entree) {
+  let m = entree.match(/^([^,]+),\s*([^,\-]+?)\s*-\s*(ὁ|ἡ|τό|το)/);
+  if (!m) return null;
+  let nom = m[1].trim();
+  let champGen = m[2].trim().split("(")[0].trim();
+  let genre = m[3] === "το" ? "τό" : m[3];
+  let forme = construireParadigmeNom(nom, champGen, genre);
+  if (!forme) return null;
+  return { lemme: nom, genre: genre, forme: forme, type_affiche: `nom (${genre})` };
+}
+
+function parserAdjectif(entree) {
+  entree = entree.trim();
+  let entreeNorm = normaliser(entree);
+
+  if (entree.includes(",")) {
+    let parts = entree.split(",");
+    let nom = parts[0].trim();
+    let champGen = parts[1].trim().split("(")[0].trim();
+    let champGenNorm = normaliser(champGen);
+    if (!SUFFIXE_INFO[champGenNorm]) return null;
+    let [cat, n, extra] = SUFFIXE_INFO[champGenNorm];
+    if (cat !== "3_conson") return null;
+    let stem = nom.slice(0, -n) + extra;
+    return { lemme: nom, genre: "adj.", forme: adj3rdConsonne(stem, nom), type_affiche: "adjectif (3 term.)" };
+  }
+
+  if (entreeNorm.endsWith("ης")) {
+    let stem = entree.slice(0, -2);
+    return { lemme: entree, genre: "adj.", forme: adj3rdHsEs(stem, entree), type_affiche: "adjectif (2 term.)" };
+  }
+
+  if (entreeNorm.endsWith("ος")) {
+    let stem = entree.slice(0, -2);
+    return { lemme: entree, genre: "adj.", forme: adj212(entree, stem), type_affiche: "adjectif (3 term.)" };
+  }
+
+  return null;
+}
+
+function construireLexique(data) {
+  let ok = [];
+  data.forEach(entry => {
+    let entree = entry.entree || "";
+    let typ = entry.type;
+    let trad = entry.traduction || "";
+    let lemmeBrut = entree.split(",")[0].trim();
+
+    if (IRREGULIERS[lemmeBrut]) {
+      let info = IRREGULIERS[lemmeBrut];
+      ok.push({ lemme: lemmeBrut, traduction: trad, genre: info.genre, forme: info.forme, type_affiche: `nom (${info.genre}) - irrégulier` });
+      return;
+    }
+
+    if (IRREGULIERS_ADJS[lemmeBrut]) {
+      ok.push({ lemme: lemmeBrut, traduction: trad, genre: "adj.", forme: IRREGULIERS_ADJS[lemmeBrut], type_affiche: "adjectif - irrégulier" });
+      return;
+    }
+
+    let res = (typ === "nom") ? parserNom(entree) : (typ === "adjectif" ? parserAdjectif(entree) : null);
+    if (res) {
+      res.traduction = trad;
+      ok.push(res);
+    }
+  });
+  return ok;
+}
+
+// ---------------------------------------------------------------------------
+// 5. Moteur du Jeu Web
+// ---------------------------------------------------------------------------
+
+const NOMS_CAS = { "nom": "nominatif", "voc": "vocatif", "acc": "accusatif", "gen": "génitif", "dat": "datif" };
+const NOMS_NOMBRE = { "sg": "singulier", "pl": "pluriel" };
+const NOMS_GENRE = { "masc": "masculin", "fem": "féminin", "neutre": "neutre" };
+
+let lexique = [];
+let currentQuestion = null;
+let score = 0;
+let total = 0;
+
+function comparer(attendu, propose) {
+  let attenduVariantes = [];
+  if (attendu.includes("(ν)")) {
+    attenduVariantes.push(attendu.replace("(ν)", "ν"));
+    attenduVariantes.push(attendu.replace("(ν)", ""));
+  } else {
+    attenduVariantes.push(attendu);
+  }
+
+  let proposeGrec = translittererVersGrec(propose.trim(), currentInputMode);
+  let proposeNorm = stripAccents(proposeGrec);
+
+  return attenduVariantes.some(v => stripAccents(v) === proposeNorm);
+}
+
+function genererQuestion() {
+  document.getElementById("feedback").innerText = "";
+  document.getElementById("feedback").className = "feedback";
+  document.getElementById("userInput").value = "";
+  document.getElementById("userInput").disabled = false;
+  document.getElementById("btnValidate").disabled = false;
+  document.getElementById("btnNext").style.display = "none";
+
+  let mot = lexique[Math.floor(Math.random() * lexique.length)];
+  let forme = mot.forme;
+
+  let estAdj = ('masc' in forme);
+  let genreCle = null;
+  let table = {};
+
+  if (estAdj) {
+    genreCle = Object.keys(forme)[Math.floor(Math.random() * Object.keys(forme).length)];
+    table = forme[genreCle];
+  } else {
+    table = forme;
+  }
+
+  let clesValides = Object.keys(table).filter(k => table[k] && table[k] !== "-");
+  if (clesValides.length === 0) {
+    genererQuestion();
+    return;
+  }
+
+  let cleTiree = clesValides[Math.floor(Math.random() * clesValides.length)];
+  let attendu = table[cleTiree];
+  let [nombre, cas] = cleTiree.split("_");
+
+  currentQuestion = {
+    mot: mot,
+    genreCle: genreCle,
+    nombre: nombre,
+    cas: cas,
+    attendu: attendu
+  };
+
+  document.getElementById("wordLemme").innerText = mot.lemme;
+  document.getElementById("wordMeta").innerText = `${mot.traduction} — ${mot.type_affiche}`;
+
+  let consigne = `Forme attendue : ${NOMS_CAS[cas]} ${NOMS_NOMBRE[nombre]}`;
+  if (genreCle) {
+    consigne += `, genre ${NOMS_GENRE[genreCle]}`;
+  }
+  document.getElementById("consigneText").innerText = consigne;
+  document.getElementById("userInput").focus();
+}
+// Liste des désinences grecques courantes (de la plus longue à la plus courte)
+const DESINENCES_GRECQUES = [
+  "εωσ", "εων", "οισ", "ουσ", "αισ", "εσιν", "εσι",
+  "ου", "ῳ", "ον", "οσ", "εσ", "ασ", "ων", "οι", "αι",
+  "ην", "αν", "ῃ", "ᾳ", "ησ", "ει", "ιν", "η", "α", "ε", "ι", "υ", "ν", "σ"
+];
+
+// Normalise les voyelles e/ê et o/ô uniquement pour la comparaison du radical
+function normaliserStem(s) {
+  return stripAccents(s)
+    .replaceAll("η", "ε")
+    .replaceAll("ω", "ο");
+}
+
+function analyserReponse(attendu, propose) {
+  // 1. Si la réponse est parfaite
+  if (comparer(attendu, propose)) {
+    return "CORRECT";
+  }
+
+  let proposeGrec = translittererVersGrec(propose.trim(), currentInputMode);
+  let proposeNorm = stripAccents(proposeGrec);
+
+  let attenduVariantes = attendu.includes("(ν)")
+    ? [attendu.replace("(ν)", "ν"), attendu.replace("(ν)", "")]
+    : [attendu];
+
+  for (let v of attenduVariantes) {
+    let vNorm = stripAccents(v);
+    let desinence = DESINENCES_GRECQUES.find(d => vNorm.endsWith(d));
+
+    // 2. La désinence doit correspondre EXACTEMENT (ex: -ês pour -ης)
+    if (desinence && proposeNorm.endsWith(desinence)) {
+      let stemAttendu = vNorm.slice(0, vNorm.length - desinence.length);
+      let stemPropose = proposeNorm.slice(0, proposeNorm.length - desinence.length);
+
+      // 3. Le radical est comparé en tolérant la confusion e/ê et o/ô
+      if (normaliserStem(stemAttendu) === normaliserStem(stemPropose)) {
+        return "ORTHOGRAPHE";
+      }
+    }
+  }
+
+  return "INCORRECT";
+}
+
+function validerReponse() {
+  if (!currentQuestion) return;
+
+  let inputVal = document.getElementById("userInput").value;
+  if (!inputVal.trim()) return;
+
+  total++;
+  let feedbackEl = document.getElementById("feedback");
+  let resultat = analyserReponse(currentQuestion.attendu, inputVal);
+
+  if (resultat === "CORRECT") {
+    score++;
+    feedbackEl.innerText = "✓ Correct !";
+    feedbackEl.className = "feedback correct";
+  } else if (resultat === "ORTHOGRAPHE") {
+    score++; // Compte comme correct dans le score !
+    feedbackEl.innerHTML = `Orthographe (désinence correcte !) Attendu : <span class="ifaogrec">${currentQuestion.attendu}</span>`;
+    feedbackEl.className = "feedback warning";
+  } else {
+    feedbackEl.innerHTML = `🇽 Attendu : <span class="ifaogrec">${currentQuestion.attendu}</span>`;
+    feedbackEl.className = "feedback incorrect";
+  }
+
+  document.getElementById("scoreBoard").innerText = `Score : ${score} / ${total}`;
+  document.getElementById("userInput").disabled = true;
+  document.getElementById("btnValidate").disabled = true;
+  document.getElementById("btnNext").style.display = "block";
+}
+
+// ---------------------------------------------------------------------------
+// 6. Initialisation & Contrôles Clavier
+// ---------------------------------------------------------------------------
+
+document.getElementById("btnValidate").addEventListener("click", validerReponse);
+document.getElementById("btnNext").addEventListener("click", genererQuestion);
+
+document.addEventListener("keydown", (e) => {
+  const userInput = document.getElementById("userInput");
+  if (!userInput) return;
+
+  if (e.key === "Enter") {
+    if (!userInput.disabled) {
+      validerReponse();
+    } else {
+      genererQuestion();
+    }
+  }
+
+  if (e.code === "Space" || e.key === " ") {
+    if (userInput.disabled) {
+      e.preventDefault();
+      genererQuestion();
+    }
+  }
+});
+
+// Chargement du JSON
+fetch('adj_noms.json')
+  .then(response => {
+    if (!response.ok) throw new Error("Fichier adj_noms.json introuvable");
+    return response.text();
+  })
+  .then(rawText => {
+    let fixedText = rawText.replace(/}\s*\n\s*{/g, "},\n{");
+    let data = JSON.parse(fixedText);
+    lexique = construireLexique(data);
+
+    document.getElementById("loadingText").style.display = "none";
+    document.getElementById("gameArea").style.display = "block";
+    genererQuestion();
+  })
+  .catch(err => {
+    document.getElementById("loadingText").innerText = "Erreur de chargement : " + err.message;
+  });
+</script>
+
+</body>
+</html>
