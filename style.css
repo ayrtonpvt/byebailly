@@ -48,8 +48,8 @@
 
 /* Thème Sombre */
 body[data-theme="dark"] {
-  --bg-color: #232323;
-  --card-bg: #383838;
+  --bg-color: #171717
+  --card-bg: #262626;
   --card-border: #232323;
   --text-main: #f3f4f6;
   --text-muted: #9ca3af;
@@ -496,19 +496,19 @@ input[type="text"] {
   font-family: 'IFAOGrec', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 /* ==========================================================================
-   Correction Définitive : Arrière-plan #232323 & Boîte #383838
+   Correction Définitive : Arrière-plan #171717 & Boîte #262626 (jsp pq c'est aussi compliqué) 
    ========================================================================== */
 
 /* 1. L'arrière-plan global de la page */
 html[data-theme="dark"] body,
 body[data-theme="dark"] {
-  background-color: #232323 !important;
+  background-color: #171717 !important;
 }
 
 /* 2. La grande boîte extérieure (plus claire) */
 html[data-theme="dark"] .container,
 body[data-theme="dark"] .container {
-  background-color: #383838 !important;
+  background-color: #262626 !important;
 }
 
 /* 3. Les petites boîtes intérieures (mot à deviner, réglages) */
