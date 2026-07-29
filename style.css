@@ -284,8 +284,8 @@ h1 {
 
 /* Carte de mot */
 .word-card {
-  background: transparent
-  border: none
+  background: transparent;
+  border: none;
   border-left: 4px solid var(--accent);
   padding: 18px;
   border-radius: 12px;
@@ -512,8 +512,6 @@ body[data-theme="dark"] .container {
 }
 
 /* 3. Les petites boîtes intérieures (mot à deviner, réglages) */
-html[data-theme="dark"] .word-card,
-body[data-theme="dark"] .word-card,
 html[data-theme="dark"] .settings-panel,
 body[data-theme="dark"] .settings-panel {
   background-color: #2a2a2a !important;
