@@ -10,10 +10,11 @@
 <body data-theme="system">
 
 <div class="container">
-  <div class="header">
-    <h1>ByeBailly</h1>
+  <!-- Bandeau supérieur fixe -->
+  <header class="top-bar">
+    <h1 class="app-title">ByeBailly</h1>
     <div class="header-actions">
-      <!-- Icône SVG Informations / À propos -->
+      <!-- Bouton À propos -->
       <button class="btn-icon" id="btnToggleAbout" title="À propos">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="9"/>
@@ -22,7 +23,7 @@
         </svg>
       </button>
 
-      <!-- Icône SVG Réglages / Paramètres -->
+      <!-- Bouton Paramètres -->
       <button class="btn-icon" id="btnToggleSettings" title="Paramètres">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="4" y1="6" x2="20" y2="6"/>
@@ -34,8 +35,8 @@
         </svg>
       </button>
     </div>
-  </div>
-
+  </header>
+  
   <!-- Panneau Paramètres -->
   <div class="settings-panel" id="settingsPanel">
     <div class="setting-group">
