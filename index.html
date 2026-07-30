@@ -9,79 +9,85 @@
 </head>
 <body data-theme="system">
 
-<div class="container">
-  <!-- Bandeau supérieur fixe -->
+<!-- 1. Le bandeau supérieur (sorti du container pour faire toute la largeur) -->
   <header class="top-bar">
-    <h1 class="app-title">ByeBailly</h1>
-    <div class="header-actions">
-      <!-- Bouton À propos -->
-      <button class="btn-icon" id="btnToggleAbout" title="À propos">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9"/>
-          <line x1="12" y1="11" x2="12" y2="16"/>
-          <circle cx="12" cy="7.5" r="0.5" fill="currentColor" stroke="currentColor"/>
-        </svg>
-      </button>
+    <div class="top-bar-content">
+      <h1 class="app-title">ByeBailly</h1>
+      <div class="header-actions">
+        <!-- Bouton À propos -->
+        <button class="btn-icon" id="btnToggleAbout" title="À propos">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <line x1="12" y1="11" x2="12" y2="16"/>
+            <circle cx="12" cy="7.5" r="0.5" fill="currentColor" stroke="currentColor"/>
+          </svg>
+        </button>
 
-      <!-- Bouton Paramètres -->
-      <button class="btn-icon" id="btnToggleSettings" title="Paramètres">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="4" y1="6" x2="20" y2="6"/>
-          <line x1="4" y1="12" x2="20" y2="12"/>
-          <line x1="4" y1="18" x2="20" y2="18"/>
-          <circle cx="8" cy="6" r="2.5" fill="var(--card-bg)"/>
-          <circle cx="16" cy="12" r="2.5" fill="var(--card-bg)"/>
-          <circle cx="9" cy="18" r="2.5" fill="var(--card-bg)"/>
-        </svg>
-      </button>
+        <!-- Bouton Paramètres -->
+        <button class="btn-icon" id="btnToggleSettings" title="Paramètres">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="6" x2="20" y2="6"/>
+            <line x1="4" y1="12" x2="20" y2="12"/>
+            <line x1="4" y1="18" x2="20" y2="18"/>
+            <circle cx="8" cy="6" r="2.5" fill="var(--card-bg)"/>
+            <circle cx="16" cy="12" r="2.5" fill="var(--card-bg)"/>
+            <circle cx="9" cy="18" r="2.5" fill="var(--card-bg)"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Panneau Paramètres placé sous le bandeau -->
+    <div class="settings-panel" id="settingsPanel">
+      <div class="setting-group">
+        <span class="setting-label">Thème</span>
+        <div class="segmented-control" id="themeControl">
+          <button data-value="system" class="active">Système</button>
+          <button data-value="light">Clair</button>
+          <button data-value="dark">Foncé</button>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <span class="setting-label">Mode de saisie</span>
+        <div class="segmented-control" id="modeControl">
+          <button data-value="translit" class="active">Translittération</button>
+          <button data-value="beta">Bêta code</button>
+        </div>
+        <a class="link-table" id="btnOpenTable"> Table de correspondance</a>
+      </div>
     </div>
   </header>
-  
-  <!-- Panneau Paramètres -->
-  <div class="settings-panel" id="settingsPanel">
-    <div class="setting-group">
-      <span class="setting-label">Thème</span>
-      <div class="segmented-control" id="themeControl">
-        <button data-value="system" class="active">Système</button>
-        <button data-value="light">Clair</button>
-        <button data-value="dark">Foncé</button>
+
+  <!-- 2. La boîte centrale (ne contient QUE la zone de jeu) -->
+  <main class="container">
+    <div class="score-board" id="scoreBoard">Score : 0 / 0</div>
+
+    <div id="gameArea" style="display: none;">
+      <div class="word-card">
+        <div class="word-title" id="wordLemme">-</div>
+        <div class="word-meta" id="wordMeta">-</div>
       </div>
-    </div>
 
-    <div class="setting-group">
-      <span class="setting-label">Mode de saisie</span>
-      <div class="segmented-control" id="modeControl">
-        <button data-value="translit" class="active">Translittération</button>
-        <button data-value="beta">Bêta code</button>
+      <div class="consigne" id="consigneText">-</div>
+
+      <div class="input-group">
+        <input type="text" id="userInput" placeholder="Saisir la réponse..." autocomplete="off">
+        <button class="btn-primary" id="btnValidate">
+          <span class="texte-desktop">Valider</span>
+          <span class="icone-mobile">✓</span>
+        </button>
       </div>
-      <a class="link-table" id="btnOpenTable"> Table de correspondance</a>
-    </div>
-  </div>
 
-  <div class="score-board" id="scoreBoard">Score : 0 / 0</div>
-
-  <div id="gameArea" style="display: none;">
-    <div class="word-card">
-      <div class="word-title" id="wordLemme">-</div>
-      <div class="word-meta" id="wordMeta">-</div>
+      <div class="feedback" id="feedback"></div>
+      <button class="btn-next" id="btnNext">Question suivante </button>
     </div>
 
-    <div class="consigne" id="consigneText">-</div>
+    <div id="loadingText" style="text-align:center; color: var(--text-muted);">Chargement du vocabulaire...</div>
+  </main>
 
-    <div class="input-group">
-      <input type="text" id="userInput" placeholder="Saisir la réponse..." autocomplete="off">
-      <button class="btn-primary" id="btnValidate">
-  <span class="texte-desktop">Valider</span>
-  <span class="icone-mobile">✓</span>
-</button>
-    </div>
-
-    <div class="feedback" id="feedback"></div>
-    <button class="btn-next" id="btnNext">Question suivante </button>
-  </div>
-
-  <div id="loadingText" style="text-align:center; color: var(--text-muted);">Chargement du vocabulaire...</div>
-</div>
+  <!-- Conservez vos modales d'origine ici sous le main... -->
+</body>
 
 <!-- Modal À propos -->
 <div class="modal-overlay" id="modalAbout">
