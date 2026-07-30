@@ -213,7 +213,7 @@ h1 {
   transition: all 0.2s ease;
 }
 
-btn-icon svg {
+.btn-icon svg {
   display: block;
   width: 24px;
   height: 24px;
