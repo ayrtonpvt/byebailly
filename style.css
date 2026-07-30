@@ -191,6 +191,7 @@ body[data-theme="dark"]::before {
 
 h1 {
   margin: 0;
+  font-family: 'Brill', serif;
   font-size: 1.25rem;
   font-weight: normal;
   letter-spacing: -0.02em;
