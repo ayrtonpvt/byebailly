@@ -673,8 +673,7 @@ fetch('adj_noms.json')
     let data = JSON.parse(fixedText);
     lexique = construireLexique(data);
 
-    // >>> LIGNE DE TEST TEMPORAIRE <<<
-lexique = lexique.filter(m => m.lemme === "ἐλπίς");
+    
 
     document.getElementById("loadingText").style.display = "none";
     document.getElementById("gameArea").style.display = "block";
