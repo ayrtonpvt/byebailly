@@ -4,6 +4,8 @@
   "description": "Jeu de morphologie grecque - Dites au revoir au Bailly !",
   "start_url": "/",
   "display": "standalone",
+  "background_color": "#D96A18",
+  "theme_color": "#D96A18",
   "icons": [
     {
       "src": "favicon.svg",
@@ -11,4 +13,3 @@
       "type": "image/svg+xml"
     }
   ]
-}
