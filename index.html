@@ -268,7 +268,101 @@ function translittererVersGrec(texte, mode) {
   }
   return texte;
 }
+  
+// ---------------------------------------------------------------------------
+// 2.5 Moteur d'accentuation (Transposé de greek_engine.py)
+// ---------------------------------------------------------------------------
 
+const ACUTE  = '\u0301';
+const CIRC   = '\u0342';
+const GRAVE  = '\u0300';
+const SMOOTH = '\u0313';
+const ROUGH  = '\u0314';
+const IOTA_SUB = '\u0345';
+const VOWELS = new Set('αεηιουω');
+const DIPHTHONGS = ['αι', 'ει', 'οι', 'υι', 'αυ', 'ευ', 'ου', 'ηυ'];
+
+function isVowel(ch) {
+    return VOWELS.has(ch);
+}
+
+function nfc(s) {
+    return s.normalize('NFC');
+}
+
+function nuclei(word) {
+    let res = [];
+    let i = 0;
+    let n = word.length;
+    while (i < n) {
+        let two = word.substr(i, 2);
+        if (DIPHTHONGS.includes(two)) {
+            res.push({ start: i, end: i + 2, text: two });
+            i += 2;
+            continue;
+        }
+        if (isVowel(word[i])) {
+            res.push({ start: i, end: i + 1, text: word[i] });
+            i += 1;
+            continue;
+        }
+        i += 1;
+    }
+    return res;
+}
+
+function spellingLong(text) {
+    if (text === 'η' || text === 'ω') return true;
+    if (text === 'ε' || text === 'ο') return false;
+    if (DIPHTHONGS.includes(text)) return true;
+    return null;
+}
+
+function placeAccent(word, posFromEnd, kind) {
+    let nl = nuclei(word);
+    let idx = nl.length - 1 - posFromEnd;
+    if (idx < 0 || idx >= nl.length) return word;
+    let n = nl[idx];
+    let mark = (kind === 'circumflex') ? CIRC : ACUTE;
+    return nfc(word.slice(0, n.end) + mark + word.slice(n.end));
+}
+
+function placeBreathing(word, rough = false) {
+    let nl = nuclei(word);
+    if (nl.length === 0) return word;
+    let n = nl[0];
+    let mark = rough ? ROUGH : SMOOTH;
+    return nfc(word.slice(0, n.start + 1) + mark + word.slice(n.start + 1));
+}
+
+const ULTIMA_LONG = {
+    'ω': true, 'εις': true, 'ει': true, 'ομεν': false, 'ετε': false, 'ουσι': false,
+    'ον': false, 'ες': false, 'ε': false,
+    'σω': true, 'σεις': true, 'σει': true, 'σομεν': false, 'σετε': false, 'σουσι': false,
+    'ομαι': false, 'ῃ': true, 'εται': false, 'ομεθα': false, 'εσθε': false, 'ονται': false,
+    'ομην': true, 'ου': true, 'ετο': false, 'ομεθα_i': false, 'εσθε_i': false, 'οντο': false,
+    'σομαι': false, 'σῃ': true, 'σεται': false, 'σομεθα': false, 'σεσθε': false, 'σονται': false
+};
+
+function recessive(fullWordPlain, endingKey) {
+    let longUltima = ULTIMA_LONG[endingKey] || false;
+    let total = nuclei(fullWordPlain).length;
+    if (longUltima) {
+        return [total >= 2 ? 1 : 0, 'acute'];
+    } else {
+        if (total >= 3) {
+            return [2, 'acute'];
+        }
+        if (total === 2) {
+            let nl = nuclei(fullWordPlain);
+            let pen = nl[nl.length - 2];
+            let longPen = spellingLong(pen.text);
+            return [1, longPen ? 'circumflex' : 'acute'];
+        }
+        return [0, 'acute'];
+    }
+}
+  
 // ---------------------------------------------------------------------------
 // 3. Générateurs de Paradigmes
 // ---------------------------------------------------------------------------
@@ -616,16 +710,21 @@ function validerReponse() {
   let feedbackEl = document.getElementById("feedback");
   let resultat = analyserReponse(currentQuestion.attendu, inputVal);
 
+  
+  let motAffiche = currentQuestion.attendu;
+  
+  
+
   if (resultat === "CORRECT") {
     score++;
     feedbackEl.innerText = "✓ Correct !";
     feedbackEl.className = "feedback correct";
   } else if (resultat === "ORTHOGRAPHE") {
     score++; 
-    feedbackEl.innerHTML = `Orthographe (désinence correcte !) Attendu : <span class="ifaogrec">${currentQuestion.attendu}</span>`;
+    feedbackEl.innerHTML = `Orthographe (désinence correcte !) Attendu : <span class="ifaogrec">${motAffiche}</span>`;
     feedbackEl.className = "feedback warning";
   } else {
-    feedbackEl.innerHTML = `🇽 Attendu : <span class="ifaogrec">${currentQuestion.attendu}</span>`;
+    feedbackEl.innerHTML = `🇽 Attendu : <span class="ifaogrec">${motAffiche}</span>`;
     feedbackEl.className = "feedback incorrect";
   }
 
