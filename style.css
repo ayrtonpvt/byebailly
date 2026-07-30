@@ -373,18 +373,29 @@ button.btn-primary:active { transform: scale(0.98); }
 
 
 .btn-next {
-  background-color: var(--text-main);
-  color: var(--card-bg);
+  background-color: transparent;
+  color: var(--text-main);
   width: 100%;
   margin-top: 12px;
   padding: 12px;
   font-family: inherit;
   font-size: 0.9rem;
   font-weight: normal;
-  border: none;
+  border: 1px solid var(--card-border);
   border-radius: 10px;
   cursor: pointer;
   display: none;
+  transition: all 0.2s ease;
+}
+
+.btn-next:hover {
+  background-color: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+}
+
+.btn-next:active {
+  transform: scale(0.98);
 }
 
 /* Style des Modales */
