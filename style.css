@@ -44,7 +44,7 @@
   --success: #16a34a;
   --error: #dc2626;
   --segmented-bg: #f1f5f9;
-  --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+  --shadow: 0 20px 35px -5px rgba(15, 23, 42, 0.15);
 }
 
 /* Thème Foncé */
