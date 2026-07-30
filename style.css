@@ -213,7 +213,11 @@ h1 {
   transition: all 0.2s ease;
 }
 
-.btn-icon svg { display: block; }
+btn-icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
 
 .btn-icon:hover {
   color: var(--accent);
