@@ -225,15 +225,7 @@ h1 {
   color: var(--accent);
 }
 
-/* Panneau Paramètres */
-.settings-panel {
-  background-color: var(--segmented-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  padding: 18px;
-  margin-bottom: 24px;
-  display: none;
-}
+
 
 .settings-panel.active { display: block; }
 
