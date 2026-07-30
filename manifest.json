@@ -1,0 +1,14 @@
+{
+  "name": "ByeBailly",
+  "short_name": "ByeBailly",
+  "description": "Jeu de morphologie grecque - Dites au revoir au Bailly !",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
