@@ -35,7 +35,7 @@
   --text-muted: #64748b;
   
   /* Orange #D96A18 */
-  --accent: #d96a18;
+  --accent: #EA8B16;
   --accent-hover: #c2590e;
   --accent-text: #ffffff;
   
@@ -56,8 +56,8 @@ body[data-theme="dark"] {
   --text-main: #f3f4f6;
   --text-muted: #9ca3af;
   
-  --accent: #d96a18;
-  --accent-hover: #f07823;
+  --accent: #EA8B16;
+  --accent-hover: #c2590e;
   --accent-text: #ffffff;
   
   --input-bg: #0b0f17;
@@ -76,8 +76,8 @@ body[data-theme="dark"] {
     --topbar-border: #525252;
     --text-main: #f3f4f6;
     --text-muted: #9ca3af;
-    --accent: #d96a18;
-    --accent-hover: #f07823;
+    --accent: #EA8B16;
+    --accent-hover: #c2590e;
     --accent-text: #ffffff;
     --input-bg: #0b0f17;
     --input-border: #2d3748;
@@ -268,7 +268,7 @@ h1 {
 .segmented-control button.active {
   background-color: var(--accent);
   color: var(--accent-text);
-  box-shadow: 0 2px 6px rgba(217, 106, 24, 0.3);
+  box-shadow: 0 2px 6px rgba(234, 139, 22, 0.3);
 }
 
 .link-table {
@@ -340,7 +340,7 @@ input[type="text"] {
 
 input[type="text"]:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(217, 106, 24, 0.2);
+  box-shadow: 0 2px 6px rgba(234, 139, 22, 0.3);
 }
 
 button.btn-primary {
