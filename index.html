@@ -130,7 +130,7 @@
       <h2>Paramètres</h2>
       <button class="btn-icon" id="btnCloseSettings">✕</button>
     </div>
-    
+
     <div class="setting-group">
       <span class="setting-label">Thème</span>
       <div class="segmented-control" id="themeControl">
@@ -215,7 +215,7 @@ document.getElementById('btnOpenTable').addEventListener('click', () => {
 document.getElementById('btnCloseTable').addEventListener('click', () => {
   document.getElementById('modalTable').classList.remove('active');
 });
-  
+
 
 // Initialisation au démarrage
 appliquerTheme(currentTheme);
@@ -673,8 +673,6 @@ fetch('adj_noms.json')
     let data = JSON.parse(fixedText);
     lexique = construireLexique(data);
 
-    
-
     document.getElementById("loadingText").style.display = "none";
     document.getElementById("gameArea").style.display = "block";
     genererQuestion();
@@ -682,7 +680,7 @@ fetch('adj_noms.json')
   .catch(err => {
     document.getElementById("loadingText").innerText = "Erreur de chargement : " + err.message;
   });
-  
+
 </script>
 
 </body>
