@@ -9,7 +9,7 @@
 </head>
 <body data-theme="system">
 
-<!-- 1. Le bandeau supérieur (sorti du container pour faire toute la largeur) -->
+<!-- 1. Le bandeau supérieur -->
   <header class="top-bar">
   <div class="top-bar-content">
     <h1>ByeBailly</h1>
@@ -31,7 +31,7 @@
   </div>
 </header>
 
-  <!-- 2. La boîte centrale (ne contient QUE la zone de jeu) -->
+  <!-- 2. La boîte centrale -->
   <main class="container">
     <div class="score-board" id="scoreBoard">Score : 0 / 0</div>
 
@@ -58,12 +58,8 @@
     <div id="loadingText" style="text-align:center; color: var(--text-muted);">Chargement du vocabulaire...</div>
   </main>
 
-  <!-- Conservez vos modales d'origine ici sous le main... -->
-</body>
+<!-- 3. Toutes les Modales (Placées en bas, hors du main, mais DANS le body) -->
 
-
-
-  
 <!-- Modal À propos -->
 <div class="modal-overlay" id="modalAbout">
   <div class="modal-content">
@@ -127,6 +123,35 @@
   </div>
 </div>
 
+<!-- Modal Paramètres -->
+<div class="modal-overlay" id="modalSettings">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Paramètres</h2>
+      <button class="btn-icon" id="btnCloseSettings">✕</button>
+    </div>
+    
+    <div class="setting-group">
+      <span class="setting-label">Thème</span>
+      <div class="segmented-control" id="themeControl">
+        <button data-value="system" class="active">Système</button>
+        <button data-value="light">Clair</button>
+        <button data-value="dark">Foncé</button>
+      </div>
+    </div>
+
+    <div class="setting-group" style="margin-top: 16px;">
+      <span class="setting-label">Mode de saisie</span>
+      <div class="segmented-control" id="modeControl">
+        <button data-value="translit" class="active">Translittération</button>
+        <button data-value="beta">Bêta code</button>
+      </div>
+      <a class="link-table" id="btnOpenTable"> Table de correspondance</a>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Le Script complet (Bien isolé) -->
 <script>
 // ---------------------------------------------------------------------------
 // 1. Gestion des Paramètres et des Modales
@@ -539,14 +564,13 @@ function genererQuestion() {
   document.getElementById("consigneText").innerText = consigne;
   document.getElementById("userInput").focus();
 }
-// Liste des désinences grecques courantes (de la plus longue à la plus courte)
+
 const DESINENCES_GRECQUES = [
   "εωσ", "εων", "οισ", "ουσ", "αισ", "εσιν", "εσι",
   "ου", "ῳ", "ον", "οσ", "εσ", "ασ", "ων", "οι", "αι",
   "ην", "αν", "ῃ", "ᾳ", "ησ", "ει", "ιν", "η", "α", "ε", "ι", "υ", "ν", "σ"
 ];
 
-// Normalise les voyelles e/ê et o/ô uniquement pour la comparaison du radical
 function normaliserStem(s) {
   return stripAccents(s)
     .replaceAll("η", "ε")
@@ -554,7 +578,6 @@ function normaliserStem(s) {
 }
 
 function analyserReponse(attendu, propose) {
-  // 1. Si la réponse est parfaite
   if (comparer(attendu, propose)) {
     return "CORRECT";
   }
@@ -570,12 +593,10 @@ function analyserReponse(attendu, propose) {
     let vNorm = stripAccents(v);
     let desinence = DESINENCES_GRECQUES.find(d => vNorm.endsWith(d));
 
-    // 2. La désinence doit correspondre EXACTEMENT (ex: -ês pour -ης)
     if (desinence && proposeNorm.endsWith(desinence)) {
       let stemAttendu = vNorm.slice(0, vNorm.length - desinence.length);
       let stemPropose = proposeNorm.slice(0, proposeNorm.length - desinence.length);
 
-      // 3. Le radical est comparé en tolérant la confusion e/ê et o/ô
       if (normaliserStem(stemAttendu) === normaliserStem(stemPropose)) {
         return "ORTHOGRAPHE";
       }
@@ -600,7 +621,7 @@ function validerReponse() {
     feedbackEl.innerText = "✓ Correct !";
     feedbackEl.className = "feedback correct";
   } else if (resultat === "ORTHOGRAPHE") {
-    score++; // Compte comme correct dans le score !
+    score++; 
     feedbackEl.innerHTML = `Orthographe (désinence correcte !) Attendu : <span class="ifaogrec">${currentQuestion.attendu}</span>`;
     feedbackEl.className = "feedback warning";
   } else {
@@ -659,34 +680,6 @@ fetch('adj_noms.json')
   .catch(err => {
     document.getElementById("loadingText").innerText = "Erreur de chargement : " + err.message;
   });
-  
-<!-- Modal Paramètres -->
-<div class="modal-overlay" id="modalSettings">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Paramètres</h2>
-      <button class="btn-icon" id="btnCloseSettings">✕</button>
-    </div>
-    
-    <div class="setting-group">
-      <span class="setting-label">Thème</span>
-      <div class="segmented-control" id="themeControl">
-        <button data-value="system" class="active">Système</button>
-        <button data-value="light">Clair</button>
-        <button data-value="dark">Foncé</button>
-      </div>
-    </div>
-
-    <div class="setting-group" style="margin-top: 16px;">
-      <span class="setting-label">Mode de saisie</span>
-      <div class="segmented-control" id="modeControl">
-        <button data-value="translit" class="active">Translittération</button>
-        <button data-value="beta">Bêta code</button>
-      </div>
-      <a class="link-table" id="btnOpenTable"> Table de correspondance</a>
-    </div>
-  </div>
-</div>
   
 </script>
 
