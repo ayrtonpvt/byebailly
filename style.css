@@ -183,8 +183,6 @@ body[data-theme="dark"]::before {
 
 /* Centre les éléments (titre et icônes) à l'intérieur du bandeau */
 .top-bar-content {
-  max-width: 900px;
-  margin: 0 auto;
   padding: 12px 20px;
   display: flex;
   justify-content: space-between;
