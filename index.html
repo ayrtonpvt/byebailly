@@ -499,6 +499,23 @@ let currentQuestion = null;
 let score = 0;
 let total = 0;
 
+function formaterAttenduAffichage(attendu, cas, nombre) {
+  if (cas === 'nom' && nombre === 'sg') {
+    return attendu;
+  }
+
+  let base = attendu;
+  let suffix = "";
+  if (attendu.includes("(ν)")) {
+    base = attendu.replace("(ν)", "");
+    suffix = "(ν)";
+  }
+
+  let cleaned = base.normalize("NFD").replace(/[\u0300\u0301\u0302\u0342]/g, "").normalize("NFC");
+
+  return cleaned + suffix;
+}
+
 function comparer(attendu, propose) {
   let attenduVariantes = [];
   if (attendu.includes("(ν)")) {
@@ -616,16 +633,18 @@ function validerReponse() {
   let feedbackEl = document.getElementById("feedback");
   let resultat = analyserReponse(currentQuestion.attendu, inputVal);
 
+  let attenduAffiche = formaterAttenduAffichage(currentQuestion.attendu, currentQuestion.cas, currentQuestion.nombre);
+
   if (resultat === "CORRECT") {
     score++;
     feedbackEl.innerText = "✓ Correct !";
     feedbackEl.className = "feedback correct";
   } else if (resultat === "ORTHOGRAPHE") {
     score++; 
-    feedbackEl.innerHTML = `Orthographe (désinence correcte !) Attendu : <span class="ifaogrec">${currentQuestion.attendu}</span>`;
+    feedbackEl.innerHTML = `Orthographe (désinence correcte !) Attendu : <span class="ifaogrec">${attenduAffiche}</span>`;
     feedbackEl.className = "feedback warning";
   } else {
-    feedbackEl.innerHTML = `🇽 Attendu : <span class="ifaogrec">${currentQuestion.attendu}</span>`;
+    feedbackEl.innerHTML = `🇽 Attendu : <span class="ifaogrec">${attenduAffiche}</span>`;
     feedbackEl.className = "feedback incorrect";
   }
 
