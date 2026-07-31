@@ -95,6 +95,8 @@ body {
   background-color: var(--bg-color);
   color: var(--text-main);
   display: flex;
+  gap: 0.25rem;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
