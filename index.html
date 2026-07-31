@@ -654,7 +654,7 @@ function validerReponse() {
 
   document.getElementById("scoreBoard").innerText = `Score : ${score} / ${total}`;
   document.getElementById("userInput").disabled = true;
-  document.getElementById("btnValidate").disabled = true;
+  document.getElementById("btnValidate").disabled = false;
   document.getElementById("btnNext").style.display = "block";
 }
 
@@ -662,7 +662,15 @@ function validerReponse() {
 // 6. Initialisation & Contrôles Clavier
 // ---------------------------------------------------------------------------
 
-document.getElementById("btnValidate").addEventListener("click", validerReponse);
+document.getElementById("btnValidate").addEventListener("click", () => {
+  const userInput = document.getElementById("userInput");
+
+  if (userInput.disabled) {
+    genererQuestion();
+  } else {
+    validerReponse();
+  }
+});
 document.getElementById("btnNext").addEventListener("click", genererQuestion);
 
 document.addEventListener("keydown", (e) => {
