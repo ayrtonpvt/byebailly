@@ -498,6 +498,7 @@ const NOMS_NOMBRE = { "sg": "singulier", "pl": "pluriel" };
 const NOMS_GENRE = { "masc": "masculin", "fem": "féminin", "neutre": "neutre" };
 
 let lexique = [];
+let motsRestants = [];
 let currentQuestion = null;
 let score = 0;
 let total = 0;
@@ -542,7 +543,24 @@ function genererQuestion() {
   document.getElementById("btnValidate").disabled = false;
   document.getElementById("btnNext").style.display = "none";
 
-  let mot = lexique[Math.floor(Math.random() * lexique.length)];
+  if (motsRestants.length === 0) {
+  document.getElementById("wordLemme").innerText = "Session terminée";
+  document.getElementById("wordMeta").innerText =
+    "Tous les mots ont été proposés.";
+  document.getElementById("consigneText").innerText =
+    "Recharge la page pour recommencer une nouvelle session.";
+
+  document.getElementById("userInput").style.display = "none";
+  document.getElementById("btnValidate").style.display = "none";
+  document.getElementById("btnNext").style.display = "none";
+  document.getElementById("feedback").innerText = "";
+
+  currentQuestion = null;
+  return;
+}
+
+const indexMot = Math.floor(Math.random() * motsRestants.length);
+let mot = motsRestants.splice(indexMot, 1)[0];
   let forme = mot.forme;
 
   let estAdj = ('masc' in forme);
@@ -703,6 +721,7 @@ fetch('adj_noms.json')
     let fixedText = rawText.replace(/}\s*\n\s*{/g, "},\n{");
     let data = JSON.parse(fixedText);
     lexique = construireLexique(data);
+    motsRestants = [...lexique];
 
     document.getElementById("loadingText").style.display = "none";
     document.getElementById("gameArea").style.display = "block";
