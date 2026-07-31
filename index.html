@@ -595,6 +595,7 @@ function normaliserStem(s) {
   return stripAccents(s)
     .replaceAll("η", "ε")
     .replaceAll("ω", "ο");
+    .replaceAll("θ", "τ")
 }
 
 function analyserReponse(attendu, propose) {
