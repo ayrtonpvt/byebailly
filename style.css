@@ -345,18 +345,19 @@ input[type="text"]:focus {
 
 button.btn-primary {
   padding: 12px 20px;
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: normal;
-  color: var(--accent-text);
-  background-color: var(--accent);
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: normal;
+    color: var(--accent);
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
-button.btn-primary:hover { background-color: var(--accent-hover); }
+button.btn-primary:hover  border-color: var(--accent);
+    box-shadow: 0 2px 6px rgba(234, 139, 22, 0.3);
 button.btn-primary:active { transform: scale(0.98); }
 
 .feedback {
