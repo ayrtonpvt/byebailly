@@ -39,7 +39,13 @@
 
     <div id="gameArea" style="display: none;">
       <div class="word-card">
-        <div class="word-title" id="wordLemme">-</div>
+        <a
+  class="word-title"
+  id="wordLemme"
+  href="#"
+  target="_blank"
+  rel="noopener noreferrer"
+>-</a>
         <div class="word-meta" id="wordMeta">-</div>
       </div>
 
@@ -269,6 +275,42 @@ function translittererVersGrec(texte, mode) {
     texte = texte.replaceAll(lat, gr);
   }
   return texte;
+}
+
+  function translittererPourBailly(motGrec) {
+  let mot = stripAccents(motGrec).toLowerCase();
+
+  const correspondances = {
+    "α": "a",
+    "β": "b",
+    "γ": "g",
+    "δ": "d",
+    "ε": "e",
+    "ζ": "z",
+    "η": "ê",
+    "θ": "th",
+    "ι": "i",
+    "κ": "k",
+    "λ": "l",
+    "μ": "m",
+    "ν": "n",
+    "ξ": "x",
+    "ο": "o",
+    "π": "p",
+    "ρ": "r",
+    "σ": "s",
+    "ς": "s",
+    "τ": "t",
+    "υ": "u",
+    "φ": "ph",
+    "χ": "ch",
+    "ψ": "ps",
+    "ω": "ô"
+  };
+
+  return Array.from(mot)
+    .map(lettre => correspondances[lettre] ?? lettre)
+    .join("");
 }
 
 // ---------------------------------------------------------------------------
@@ -544,7 +586,10 @@ function genererQuestion() {
   document.getElementById("btnNext").style.display = "none";
 
   if (motsRestants.length === 0) {
-  document.getElementById("wordLemme").innerText = "Session terminée";
+  const wordLemmeEl = document.getElementById("wordLemme");
+
+wordLemmeEl.innerText = "Session terminée";
+wordLemmeEl.removeAttribute("href");
   document.getElementById("wordMeta").innerText =
     "Tous les mots ont été proposés.";
   document.getElementById("consigneText").innerText =
@@ -592,8 +637,15 @@ let mot = motsRestants.splice(indexMot, 1)[0];
     attendu: attendu
   };
 
-  document.getElementById("wordLemme").innerText = mot.lemme;
-  document.getElementById("wordMeta").innerText = `${mot.traduction} — ${mot.type_affiche}`;
+  const wordLemmeEl = document.getElementById("wordLemme");
+const lemmeBailly = translittererPourBailly(mot.lemme);
+
+wordLemmeEl.innerText = mot.lemme;
+wordLemmeEl.href =
+  `https://bailly.app/${encodeURIComponent(lemmeBailly)}`;
+
+document.getElementById("wordMeta").innerText =
+  `${mot.traduction} — ${mot.type_affiche}`;
 
   let consigne = `Forme attendue : ${NOMS_CAS[cas]} ${NOMS_NOMBRE[nombre]}`;
   if (genreCle) {
