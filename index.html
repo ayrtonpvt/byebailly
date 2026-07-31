@@ -434,6 +434,7 @@ function parserNom(entree) {
 function parserAdjectif(entree) {
   entree = entree.trim();
   let entreeNorm = normaliser(entree);
+      <!-- à l'origine ce bout de code devait distinguer les classes d'adj (1 3 2 ) mais on s'en fiche en fait le joueur peut décliner sans du moment qu'il sait que c'est un adj -->
 
   if (entree.includes(",")) {
     let parts = entree.split(",");
@@ -444,17 +445,17 @@ function parserAdjectif(entree) {
     let [cat, n, extra] = SUFFIXE_INFO[champGenNorm];
     if (cat !== "3_conson") return null;
     let stem = nom.slice(0, -n) + extra;
-    return { lemme: nom, genre: "adj.", forme: adj3rdConsonne(stem, nom), type_affiche: "adjectif (3 term.)" };
+    return { lemme: nom, genre: "adj.", forme: adj3rdConsonne(stem, nom), type_affiche: "adjectif " };
   }
 
   if (entreeNorm.endsWith("ης")) {
     let stem = entree.slice(0, -2);
-    return { lemme: entree, genre: "adj.", forme: adj3rdHsEs(stem, entree), type_affiche: "adjectif (2 term.)" };
+    return { lemme: entree, genre: "adj.", forme: adj3rdHsEs(stem, entree), type_affiche: "adjectif " };
   }
 
   if (entreeNorm.endsWith("ος")) {
     let stem = entree.slice(0, -2);
-    return { lemme: entree, genre: "adj.", forme: adj212(entree, stem), type_affiche: "adjectif (3 term.)" };
+    return { lemme: entree, genre: "adj.", forme: adj212(entree, stem), type_affiche: "adjectif " };
   }
 
   return null;
