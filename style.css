@@ -285,7 +285,8 @@ h1 {
 
 .score-board {
   font-weight: normal;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   color: var(--text-muted);
   margin-bottom: 20px;
   text-align: center;
@@ -313,7 +314,7 @@ h1 {
 }
 
 .consigne {
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin-bottom: 18px;
   font-weight: normal;
   text-align: center;
@@ -560,4 +561,27 @@ body[data-theme="dark"] .container {
 html[data-theme="dark"] .settings-panel,
 body[data-theme="dark"] .settings-panel {
   background-color: #2a2a2a !important;
+
+  /* Libellés sous les boutons de l'en-tête */
+.header-action-label {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .header-actions .btn-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    width: auto;
+    height: auto;
+  }
+
+  .header-action-label {
+    display: block;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    white-space: nowrap;
+  }
+}
 }
