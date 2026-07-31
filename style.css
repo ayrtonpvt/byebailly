@@ -494,6 +494,17 @@ input[type="text"] {
   display: none;
 }
 
+.word-title {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.word-title:hover {
+  text-decoration: underline;
+}
+
+
 /* --- Remplacer "Valider" par "✓" sur écran mobile (< 600px) --- */
 @media (max-width: 600px) {
   .texte-desktop {
