@@ -511,11 +511,6 @@ table.translit-table thead th {
   color: var(--text-main);
 }
 
-table.translit-table tbody th {
-  font-weight: 600;
-  font-family: 'IFAOGrec', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
 table.translit-table tbody td {
   font-weight: normal;
 }
