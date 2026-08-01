@@ -209,9 +209,7 @@ h1 {
   z-index: 20;
 
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
 
   transform: translate(-50%, -50%);
 }
@@ -219,7 +217,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-
+  gap: 0.6rem;
   width: 3rem;
   height: 3rem;
   padding: 0;
@@ -855,8 +853,7 @@ body[data-theme="dark"] .btn-inverser:hover{
 }
 .game-mode-label {
   display: block;
-  margin-top: 0.15rem;
-
+  order: -1;
   font-family: 'Brill', serif;
   font-size: 0.875rem;
   line-height: 1rem;
