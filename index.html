@@ -645,32 +645,71 @@ function parserAdjectif(entree) {
   return null;
 }
 
-function construireLexique(data) {
-  let ok = [];
-  data.forEach(entry => {
-    let entree = entry.entree || "";
-    let typ = entry.type;
-    let trad = entry.traduction || "";
-    let lemmeBrut = entree.split(",")[0].trim();
+const LIBELLES_TYPES = {
+  "nom": "nom",
+  "adjectif": "adjectif",
+  "adjectif_pronominal": "adjectif pronominal",
+  "adjectif_possessif": "adjectif possessif",
+  "adjectif_distributif": "adjectif distributif",
+  "adjectif_superlatif": "adjectif superlatif",
+  "numeral": "numéral",
+  "pronom_personnel": "pronom personnel",
+  "pronom_indefini": "pronom indéfini",
+  "pronom_relatif": "pronom relatif",
+  "participe_adjectival": "participe adjectival"
+};
 
-    if (IRREGULIERS[lemmeBrut]) {
-      let info = IRREGULIERS[lemmeBrut];
-      ok.push({ lemme: lemmeBrut, traduction: trad, genre: info.genre, forme: info.forme, type_affiche: `nom (${info.genre}) - irrégulier` });
-      return;
-    }
+function extraireArticleNom(entree) {
+  const articles = new Set(["ὁ", "ἡ", "τό", "ό", "το", "τά", "αἱ"]);
+  const morceaux = String(entree || "")
+    .replace(/[,\-–—()]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
 
-    if (IRREGULIERS_ADJS[lemmeBrut]) {
-      ok.push({ lemme: lemmeBrut, traduction: trad, genre: "adj.", forme: IRREGULIERS_ADJS[lemmeBrut], type_affiche: "adjectif - irrégulier" });
-      return;
-    }
+  for (let i = morceaux.length - 1; i >= 0; i--) {
+    if (articles.has(morceaux[i])) return morceaux[i];
+  }
+  return null;
+}
 
-    let res = (typ === "nom") ? parserNom(entree) : (typ === "adjectif" ? parserAdjectif(entree) : null);
-    if (res) {
-      res.traduction = trad;
-      ok.push(res);
+function formaterTypeAffiche(entry) {
+  const libelle = LIBELLES_TYPES[entry.type]
+    || String(entry.type || "mot").replaceAll("_", " ");
+
+  if (entry.type !== "nom") return libelle;
+
+  const article = extraireArticleNom(entry.entree);
+  return article ? `${libelle} (${article})` : libelle;
+}
+
+function contientFormeDeclinable(formes) {
+  if (!formes || typeof formes !== "object") return false;
+
+  return Object.entries(formes).some(([cle, valeur]) => {
+    if (/^(sg|pl)_(nom|voc|acc|gen|dat)$/.test(cle)) {
+      return typeof valeur === "string" && valeur.trim() !== "" && valeur !== "-";
     }
+    return valeur && typeof valeur === "object" && contientFormeDeclinable(valeur);
   });
-  return ok;
+}
+
+function construireLexique(data) {
+  const entrees = Array.isArray(data) ? data : data?.declinaisons;
+  if (!Array.isArray(entrees)) {
+    throw new Error("Structure JSON invalide : tableau « declinaisons » absent");
+  }
+
+  return entrees
+    .filter(entry => entry && contientFormeDeclinable(entry.formes))
+    .map(entry => ({
+      id: entry.id,
+      lemme: entry.lemme || String(entry.entree || "").split(",")[0].trim(),
+      entree: entry.entree || "",
+      traduction: entry.traduction || "",
+      forme: entry.formes,
+      formes_variantes: entry.formes_variantes || {},
+      type_affiche: formaterTypeAffiche(entry)
+    }));
 }
 
 // ---------------------------------------------------------------------------
@@ -688,20 +727,7 @@ let score = 0;
 let total = 0;
 
 function formaterAttenduAffichage(attendu, cas, nombre) {
-  if (cas === 'nom' && nombre === 'sg') {
-    return attendu;
-  }
-
-  let base = attendu;
-  let suffix = "";
-  if (attendu.includes("(ν)")) {
-    base = attendu.replace("(ν)", "");
-    suffix = "(ν)";
-  }
-
-  let cleaned = base.normalize("NFD").replace(/[\u0300\u0301\u0302\u0342]/g, "").normalize("NFC");
-
-  return cleaned + suffix;
+  return attendu;
 }
 
 function comparer(attendu, propose) {
@@ -716,7 +742,9 @@ function comparer(attendu, propose) {
   let proposeGrec = translittererVersGrec(propose.trim(), currentInputMode);
   let proposeNorm = stripAccents(proposeGrec);
 
-  return attenduVariantes.some(v => stripAccents(v) === proposeNorm);
+  return attenduVariantes.some(
+    variante => stripAccents(variante) === proposeNorm
+  );
 }
 
 function genererQuestion() {
@@ -750,25 +778,38 @@ const indexMot = Math.floor(Math.random() * motsRestants.length);
 let mot = motsRestants.splice(indexMot, 1)[0];
   let forme = mot.forme;
 
-  let estAdj = ('masc' in forme);
-  let genreCle = null;
-  let table = {};
+  const candidats = [];
+  const genres = ["masc", "fem", "neutre"];
+  const estDeclinaisonParGenre = genres.some(genre => forme[genre]);
 
-  if (estAdj) {
-    genreCle = Object.keys(forme)[Math.floor(Math.random() * Object.keys(forme).length)];
-    table = forme[genreCle];
+  if (estDeclinaisonParGenre) {
+    genres.forEach(genre => {
+      const tableGenre = forme[genre];
+      if (!tableGenre) return;
+
+      Object.entries(tableGenre).forEach(([cle, valeur]) => {
+        if (/^(sg|pl)_(nom|voc|acc|gen|dat)$/.test(cle) && valeur && valeur !== "-") {
+          candidats.push({ genreCle: genre, cle, attendu: valeur });
+        }
+      });
+    });
   } else {
-    table = forme;
+    Object.entries(forme).forEach(([cle, valeur]) => {
+      if (/^(sg|pl)_(nom|voc|acc|gen|dat)$/.test(cle) && valeur && valeur !== "-") {
+        candidats.push({ genreCle: null, cle, attendu: valeur });
+      }
+    });
   }
 
-  let clesValides = Object.keys(table).filter(k => table[k] && table[k] !== "-");
-  if (clesValides.length === 0) {
+  if (candidats.length === 0) {
     genererQuestion();
     return;
   }
 
-  let cleTiree = clesValides[Math.floor(Math.random() * clesValides.length)];
-  let attendu = table[cleTiree];
+  const tirage = candidats[Math.floor(Math.random() * candidats.length)];
+  let genreCle = tirage.genreCle;
+  let cleTiree = tirage.cle;
+  let attendu = tirage.attendu;
   let [nombre, cas] = cleTiree.split("_");
 
   currentQuestion = {
@@ -906,14 +947,12 @@ document.addEventListener("keydown", (e) => {
 });
 
 // Chargement du JSON
-fetch('adj_noms.json')
+fetch('declinaisons_compilees_accentuees.json')
   .then(response => {
-    if (!response.ok) throw new Error("Fichier adj_noms.json introuvable");
-    return response.text();
+    if (!response.ok) throw new Error("Fichier declinaisons_compilees_accentuees.json introuvable");
+    return response.json();
   })
-  .then(rawText => {
-    let fixedText = rawText.replace(/}\s*\n\s*{/g, "},\n{");
-    let data = JSON.parse(fixedText);
+  .then(data => {
     lexique = construireLexique(data);
     motsRestants = [...lexique];
 
