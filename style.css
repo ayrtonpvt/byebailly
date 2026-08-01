@@ -333,7 +333,7 @@ input[type="text"] {
   font-size: 0.95rem;
   border: 1px solid var(--input-border);
   border-radius: 10px;
-  background-color: var(--input-bg);
+  background-color: transparent;
   color: var(--text-main);
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -349,7 +349,7 @@ button.btn-primary {
     font-family: inherit;
     font-size: 0.9rem;
     font-weight: normal;
-    color: var(--accent);
+    color: transparent;
     background-color: var(--input-bg);
     border: 1px solid var(--input-border);
     border-radius: 10px;
