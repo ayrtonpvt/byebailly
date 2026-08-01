@@ -842,6 +842,17 @@ body[data-theme="dark"] .settings-panel {
     line-height: 1.25rem;
     white-space: nowrap;
   }
+   .game-mode-label {
+    display: block;
+    order: -1;
+    font-family: 'Brill', serif;
+    font-size: 1rem;
+    line-height: 1rem;
+    font-style: italic;
+    font-weight: normal;
+    color: var(--text-main);
+    white-space: nowrap;
+    user-select: none;
 }
 body[data-theme="dark"] .btn-inverser{
   background:#35322D;
@@ -851,19 +862,7 @@ body[data-theme="dark"] .btn-inverser{
 body[data-theme="dark"] .btn-inverser:hover{
   background:#403C35;
 }
-.game-mode-label {
-  display: block;
-  order: -1;
-  font-family: 'Brill', serif;
-  font-size: 1rem;
-  line-height: 1rem;
-  font-style: italic;
-  font-weight: normal;
 
-  color: var(--text-main);
-  white-space: nowrap;
-  user-select: none;
-}
 
 @media (prefers-color-scheme: dark){
   body[data-theme="system"] .btn-inverser{
