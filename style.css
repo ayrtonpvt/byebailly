@@ -938,6 +938,7 @@ body[data-theme="dark"] .settings-panel {
     white-space: nowrap;
     user-select: none;
     transform: translateX(-10px);
+ }
 }
 body[data-theme="dark"] .btn-inverser{
   background:#35322D;
