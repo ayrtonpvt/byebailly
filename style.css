@@ -299,31 +299,92 @@ h1 {
 
 .segmented-control {
   display: flex;
-  background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 10px;
-  padding: 4px;
-  gap: 4px;
+  overflow: hidden;
+
+  border: 1px solid rgba(64, 64, 64, 0.5);
+  border-radius: 0.5rem;
+
+  background-color: #262626;
+
+  box-shadow:
+    0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .segmented-control button {
   flex: 1;
-  padding: 8px 10px;
+
+  padding: 0.75rem 0.875rem;
+
   border: none;
-  background: transparent;
-  color: var(--text-muted);
-  font-family: inherit;
-  font-size: 0.85rem;
-  font-weight: normal;
-  border-radius: 7px;
+  border-right: 1px solid rgba(64, 64, 64, 0.5);
+  border-radius: 0;
+
+  background-color: transparent;
+  color: #d4d4d4;
+
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+
   cursor: pointer;
-  transition: all 0.15s ease;
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+.segmented-control button:last-child {
+  border-right: none;
+}
+.segmented-control button:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #f5f5f5;
 }
 
 .segmented-control button.active {
   background-color: var(--accent);
   color: var(--accent-text);
   box-shadow: 0 2px 6px rgba(234, 139, 22, 0.3);
+}
+body[data-theme="light"] .segmented-control {
+  background-color: #ffffff;
+  border-color: #DDD9CB;
+}
+
+body[data-theme="light"] .segmented-control button {
+  color: #53463B;
+  border-right-color: #DDD9CB;
+}
+
+body[data-theme="light"] .segmented-control button:hover {
+  background-color: #F8F7F4;
+  color: #53463B;
+}
+
+body[data-theme="light"] .segmented-control button.active {
+  background-color: #EFEDE5;
+  color: #CF6710;
+}
+@media (prefers-color-scheme: light) {
+  body[data-theme="system"] .segmented-control {
+    background-color: #ffffff;
+    border-color: #DDD9CB;
+  }
+
+  body[data-theme="system"] .segmented-control button {
+    color: #53463B;
+    border-right-color: #DDD9CB;
+  }
+
+  body[data-theme="system"] .segmented-control button:hover {
+    background-color: #F8F7F4;
+    color: #53463B;
+  }
+
+  body[data-theme="system"] .segmented-control button.active {
+    background-color: #EFEDE5;
+    color: #CF6710;
+  }
 }
 
 .link-table {
