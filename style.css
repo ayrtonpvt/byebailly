@@ -310,18 +310,20 @@ transform: translate(calc(-50% + 18px), -50%);}
 }
 
 .segmented-control button {
+  position: relative;
+
   flex: 1;
 
-  padding: 0.75rem 0.875rem;
+  padding: 0.75rem 0.875rem 1.25rem;
 
   border: none;
   border-right: 1px solid rgba(64, 64, 64, 0.5);
   border-radius: 0;
 
-  background-color: transparent;
-  color: #d4d4d4;
+  background: transparent;
+  color: var(--text-muted);
 
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: inherit;
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 500;
@@ -329,21 +331,45 @@ transform: translate(calc(-50% + 18px), -50%);}
   cursor: pointer;
 
   transition:
-    background-color 0.15s ease,
-    color 0.15s ease;
+    background-color .15s ease,
+    color .15s ease;
 }
 .segmented-control button:last-child {
   border-right: none;
 }
 .segmented-control button:hover {
-  background-color: rgba(255, 255, 255, 0.06);
-  color: #f5f5f5;
+  background-color: rgba(255,255,255,.04);
 }
 
 .segmented-control button.active {
-  background-color: var(--accent);
-  color: var(--accent-text);
-  box-shadow: 0 2px 6px rgba(234, 139, 22, 0.3);
+  background: transparent;
+  color: var(--text-main);
+  box-shadow: none;
+}
+.segmented-control button:last-child {
+  border-right: none;
+}
+
+.segmented-control button::after {
+  content: "";
+
+  position: absolute;
+  left: 50%;
+  bottom: 0.38rem;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  transform: translateX(-50%);
+  transition: background-color .15s ease;
+}
+
+.segmented-control button.active::after {
+  background: var(--accent);
 }
 body[data-theme="light"] .segmented-control {
   background-color: #ffffff;
@@ -357,7 +383,6 @@ body[data-theme="light"] .segmented-control button {
 
 body[data-theme="light"] .segmented-control button:hover {
   background-color: #F8F7F4;
-  color: #53463B;
 }
 
 body[data-theme="light"] .segmented-control button.active {
@@ -377,7 +402,6 @@ body[data-theme="light"] .segmented-control button.active {
 
   body[data-theme="system"] .segmented-control button:hover {
     background-color: #F8F7F4;
-    color: #53463B;
   }
 
   body[data-theme="system"] .segmented-control button.active {
