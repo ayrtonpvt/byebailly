@@ -412,6 +412,9 @@ button.btn-primary:active { transform: scale(0.98); }
   z-index: 100;
   padding: 20px;
 }
+#modalTable {
+  z-index: 110;
+}
 
 .modal-overlay.active { display: flex; }
 
