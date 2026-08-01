@@ -90,12 +90,21 @@
 
 <!-- Modal Table de Translittération / Beta Code -->
 <div class="modal-overlay" id="modalTable">
-  <div class="modal-content modal-content-table">
+  <div class="translit-modal-wrapper">
 
-    <div class="modal-header">
-      <h2>Table de correspondance</h2>
-      <button class="btn-icon" id="btnCloseTable">✕</button>
+    <div class="translit-modal-title">
+      <span>Table de correspondance</span>
+
+      <button
+        class="btn-icon translit-close-button"
+        id="btnCloseTable"
+        aria-label="Fermer"
+      >
+        ✕
+      </button>
     </div>
+
+    <div class="modal-content modal-content-table">
 
     <div class="translit-scroll">
 
