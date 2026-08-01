@@ -183,6 +183,7 @@ body[data-theme="dark"]::before {
 
 /* Centre les éléments (titre et icônes) à l'intérieur du bandeau */
 .top-bar-content {
+  position: relative;
   padding: 3px 20px 6px;
   display: flex;
   justify-content: space-between;
@@ -200,6 +201,53 @@ h1 {
 .header-actions {
   display: flex;
   gap: 8px;
+}
+.btn-inverser {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+
+  border: none;
+  border-radius: 9999px;
+
+  background: #EFEDE5;
+  color: #CF6710;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 15px -3px rgba(0,0,0,.10),
+    0 4px 6px -4px rgba(0,0,0,.10);
+
+  transition:
+    background-color .15s,
+    color .15s,
+    transform .1s,
+    box-shadow .15s;
+}
+
+.btn-inverser svg{
+  width:24px;
+  height:24px;
+}
+
+.btn-inverser:hover{
+  background:#E5E1D6;
+}
+
+.btn-inverser:active{
+  transform:translate(-50%,-50%) scale(.95);
 }
 
 .btn-icon {
@@ -333,7 +381,7 @@ input[type="text"] {
   font-size: 0.95rem;
   border: 1px solid var(--input-border);
   border-radius: 10px;
-  background-color: transparent;
+  background-color: var(--input-bg);
   color: var(--text-main);
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -349,8 +397,8 @@ button.btn-primary {
     font-family: inherit;
     font-size: 0.9rem;
     font-weight: normal;
-    color: var(--accent)
-    background-color: transparent;
+    color: var(--accent);
+    background-color: var(--input-bg);
     border: 1px solid var(--input-border);
     border-radius: 10px;
     cursor: pointer;
@@ -781,5 +829,24 @@ body[data-theme="dark"] .settings-panel {
     font-size: 0.875rem;
     line-height: 1.25rem;
     white-space: nowrap;
+  }
+}
+body[data-theme="dark"] .btn-inverser{
+  background:#35322D;
+  color:#B4A68B;
+}
+
+body[data-theme="dark"] .btn-inverser:hover{
+  background:#403C35;
+}
+
+@media (prefers-color-scheme: dark){
+  body[data-theme="system"] .btn-inverser{
+    background:#35322D;
+    color:#B4A68B;
+  }
+
+  body[data-theme="system"] .btn-inverser:hover{
+    background:#403C35;
   }
 }
