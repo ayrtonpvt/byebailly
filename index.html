@@ -329,13 +329,14 @@ document.getElementById('btnOpenTable').addEventListener('click', () => {
 	document
   .getElementById('btnInverser')
   .addEventListener('click', () => {
-
     const nouveauMode =
       currentGameMode === 'declinaison'
         ? 'analyse'
         : 'declinaison';
 
     appliquerModeJeu(nouveauMode);
+  });
+
 document.getElementById('btnCloseTable').addEventListener('click', () => {
   document.getElementById('modalTable').classList.remove('active');
 });
