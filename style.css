@@ -855,7 +855,7 @@ body[data-theme="dark"] .btn-inverser:hover{
   display: block;
   order: -1;
   font-family: 'Brill', serif;
-  font-size: 0.875rem;
+  font-size: 1rem;
   line-height: 1rem;
   font-style: italic;
   font-weight: normal;
