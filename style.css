@@ -60,7 +60,7 @@ body[data-theme="dark"] {
   --accent-hover: #c2590e;
   --accent-text: #ffffff;
   
-  --input-bg: #0b0f17;
+  --input-bg: #var(--card-bg);
   --input-border: #2d3748;
   --success: #22c55e;
   --error: #ef4444;
@@ -79,7 +79,7 @@ body[data-theme="dark"] {
     --accent: #EA8B16;
     --accent-hover: #c2590e;
     --accent-text: #ffffff;
-    --input-bg: #0b0f17;
+    --input-bg: var(--card-bg);
     --input-border: #2d3748;
     --success: #22c55e;
     --error: #ef4444;
