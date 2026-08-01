@@ -83,7 +83,21 @@
 
       <div class="consigne" id="consigneText">-</div>
 
-      <div class="input-group">
+      <div class="analysis-controls" id="analysisControls" style="display: none;">
+        <div class="analysis-row analysis-row-number" aria-label="Nombre">
+          <button type="button" class="analysis-choice" data-group="nombre" data-value="sg">Singulier</button>
+          <button type="button" class="analysis-choice" data-group="nombre" data-value="pl">Pluriel</button>
+        </div>
+        <div class="analysis-row analysis-row-case" aria-label="Cas">
+          <button type="button" class="analysis-choice" data-group="cas" data-value="nom">nom</button>
+          <button type="button" class="analysis-choice" data-group="cas" data-value="voc">voc</button>
+          <button type="button" class="analysis-choice" data-group="cas" data-value="acc">acc</button>
+          <button type="button" class="analysis-choice" data-group="cas" data-value="gen">gen</button>
+          <button type="button" class="analysis-choice" data-group="cas" data-value="dat">dat</button>
+        </div>
+      </div>
+
+      <div class="input-group" id="declinaisonInputGroup">
         <input type="text" id="userInput" placeholder="Saisir la réponse..." autocomplete="off">
         <button class="btn-primary" id="btnValidate">
           <span class="texte-desktop">Valider</span>
@@ -278,6 +292,7 @@ function appliquerModeSaisie(mode) {
 }
 function appliquerModeJeu(mode) {
   currentGameMode = mode;
+  document.body.setAttribute("data-game-mode", mode);
   localStorage.setItem('app_game_mode', mode);
 
   const label = document.getElementById('gameModeLabel');
@@ -335,6 +350,10 @@ document.getElementById('btnOpenTable').addEventListener('click', () => {
         : 'declinaison';
 
     appliquerModeJeu(nouveauMode);
+
+    if (lexique.length > 0) {
+      genererQuestion();
+    }
   });
 
 document.getElementById('btnCloseTable').addEventListener('click', () => {
@@ -719,6 +738,8 @@ function construireLexique(data) {
 const NOMS_CAS = { "nom": "nominatif", "voc": "vocatif", "acc": "accusatif", "gen": "génitif", "dat": "datif" };
 const NOMS_NOMBRE = { "sg": "singulier", "pl": "pluriel" };
 const NOMS_GENRE = { "masc": "masculin", "fem": "féminin", "neutre": "neutre" };
+const ORDRE_NOMBRES = ["sg", "pl"];
+const ORDRE_CAS = ["nom", "voc", "acc", "gen", "dat"];
 
 let lexique = [];
 let motsRestants = [];
@@ -730,15 +751,24 @@ function formaterAttenduAffichage(attendu, cas, nombre) {
   return attendu;
 }
 
-function comparer(attendu, propose) {
-  let attenduVariantes = [];
-  if (attendu.includes("(ν)")) {
-    attenduVariantes.push(attendu.replace("(ν)", "ν"));
-    attenduVariantes.push(attendu.replace("(ν)", ""));
-  } else {
-    attenduVariantes.push(attendu);
-  }
+function varianteSansNuFacultatif(forme) {
+  return String(forme || "").replace("(ν)", "");
+}
 
+function variantesNuFacultatif(forme) {
+  const f = String(forme || "");
+  if (f.includes("(ν)")) {
+    return [f.replace("(ν)", "ν"), f.replace("(ν)", "")];
+  }
+  return [f];
+}
+
+function normaliserComparaisonForme(forme) {
+  return stripAccents(varianteSansNuFacultatif(forme));
+}
+
+function comparer(attendu, propose) {
+  let attenduVariantes = variantesNuFacultatif(attendu);
   let proposeGrec = translittererVersGrec(propose.trim(), currentInputMode);
   let proposeNorm = stripAccents(proposeGrec);
 
@@ -747,96 +777,174 @@ function comparer(attendu, propose) {
   );
 }
 
-function genererQuestion() {
-  document.getElementById("feedback").innerText = "";
-  document.getElementById("feedback").className = "feedback";
-  document.getElementById("userInput").value = "";
-  document.getElementById("userInput").disabled = false;
-  document.getElementById("btnValidate").disabled = false;
-  document.getElementById("btnNext").style.display = "none";
-
-  if (motsRestants.length === 0) {
-  const wordLemmeEl = document.getElementById("wordLemme");
-
-wordLemmeEl.innerText = "Session terminée";
-wordLemmeEl.removeAttribute("href");
-  document.getElementById("wordMeta").innerText =
-    "Tous les mots ont été proposés.";
-  document.getElementById("consigneText").innerText =
-    "Recharge la page pour recommencer une nouvelle session.";
-
-  document.getElementById("userInput").style.display = "none";
-  document.getElementById("btnValidate").style.display = "none";
-  document.getElementById("btnNext").style.display = "none";
-  document.getElementById("feedback").innerText = "";
-
-  currentQuestion = null;
-  return;
-}
-
-const indexMot = Math.floor(Math.random() * motsRestants.length);
-let mot = motsRestants.splice(indexMot, 1)[0];
-  let forme = mot.forme;
-
+function extraireCandidats(mot) {
   const candidats = [];
+  const forme = mot.forme;
   const genres = ["masc", "fem", "neutre"];
-  const estDeclinaisonParGenre = genres.some(genre => forme[genre]);
+  const estDeclinaisonParGenre = forme && genres.some(genre => forme[genre]);
 
-  if (estDeclinaisonParGenre) {
-    genres.forEach(genre => {
-      const tableGenre = forme[genre];
-      if (!tableGenre) return;
+  function ajouterDepuisTable(table, genreCle = null) {
+    if (!table || typeof table !== "object") return;
 
-      Object.entries(tableGenre).forEach(([cle, valeur]) => {
-        if (/^(sg|pl)_(nom|voc|acc|gen|dat)$/.test(cle) && valeur && valeur !== "-") {
-          candidats.push({ genreCle: genre, cle, attendu: valeur });
-        }
-      });
-    });
-  } else {
-    Object.entries(forme).forEach(([cle, valeur]) => {
-      if (/^(sg|pl)_(nom|voc|acc|gen|dat)$/.test(cle) && valeur && valeur !== "-") {
-        candidats.push({ genreCle: null, cle, attendu: valeur });
+    Object.entries(table).forEach(([cle, valeur]) => {
+      if (/^(sg|pl)_(nom|voc|acc|gen|dat)$/.test(cle) && typeof valeur === "string" && valeur.trim() !== "" && valeur !== "-") {
+        const [nombre, cas] = cle.split("_");
+        candidats.push({
+          genreCle,
+          cle,
+          nombre,
+          cas,
+          attendu: valeur.trim(),
+          signature: `${nombre}_${cas}`
+        });
       }
     });
   }
+
+  if (estDeclinaisonParGenre) {
+    genres.forEach(genre => ajouterDepuisTable(forme[genre], genre));
+  } else {
+    ajouterDepuisTable(forme, null);
+  }
+
+  return candidats;
+}
+
+function preparerInterfaceQuestion() {
+  document.getElementById("feedback").innerText = "";
+  document.getElementById("feedback").className = "feedback";
+  document.getElementById("btnValidate").disabled = false;
+  document.getElementById("btnValidate").style.display = "";
+  document.getElementById("btnNext").style.display = "none";
+
+  const modeAnalyse = currentGameMode === "analyse";
+  const declinaisonInputGroup = document.getElementById("declinaisonInputGroup");
+  const userInput = document.getElementById("userInput");
+  const btnValidate = document.getElementById("btnValidate");
+
+  // En mode analyse, on garde le bouton Valider visible,
+  // mais on masque seulement le champ de saisie.
+  declinaisonInputGroup.style.display = "flex";
+  declinaisonInputGroup.classList.toggle("analysis-validate-row", modeAnalyse);
+  userInput.style.display = modeAnalyse ? "none" : "";
+  btnValidate.classList.toggle("analysis-validate-button", modeAnalyse);
+
+  document.getElementById("analysisControls").style.display = modeAnalyse ? "block" : "none";
+
+  document.querySelectorAll(".analysis-choice").forEach(btn => {
+    btn.classList.remove("selected");
+    btn.disabled = false;
+  });
+
+  const input = document.getElementById("userInput");
+  input.value = "";
+  input.disabled = false;
+}
+
+function afficherFinSession() {
+  const wordLemmeEl = document.getElementById("wordLemme");
+  wordLemmeEl.innerText = "Session terminée";
+  wordLemmeEl.removeAttribute("href");
+  document.getElementById("wordMeta").innerText = "Tous les mots ont été proposés.";
+  document.getElementById("consigneText").innerText = "Recharge la page pour recommencer une nouvelle session.";
+  document.getElementById("declinaisonInputGroup").style.display = "none";
+  document.getElementById("analysisControls").style.display = "none";
+  document.getElementById("btnNext").style.display = "none";
+  document.getElementById("feedback").innerText = "";
+  currentQuestion = null;
+}
+
+function mettreAJourCarteMot(mot) {
+  const wordLemmeEl = document.getElementById("wordLemme");
+  const lemmeBailly = translittererPourBailly(mot.lemme);
+
+  wordLemmeEl.innerText = mot.lemme;
+  wordLemmeEl.href = `https://bailly.app/${encodeURIComponent(lemmeBailly)}`;
+  document.getElementById("wordMeta").innerText = `${mot.traduction} — ${mot.type_affiche}`;
+}
+
+function genererQuestion() {
+  preparerInterfaceQuestion();
+
+  if (motsRestants.length === 0) {
+    afficherFinSession();
+    return;
+  }
+
+  const indexMot = Math.floor(Math.random() * motsRestants.length);
+  const mot = motsRestants.splice(indexMot, 1)[0];
+  const candidats = extraireCandidats(mot);
 
   if (candidats.length === 0) {
     genererQuestion();
     return;
   }
 
+  if (currentGameMode === "analyse") {
+    genererQuestionAnalyse(mot, candidats);
+  } else {
+    genererQuestionDeclinaison(mot, candidats);
+  }
+}
+
+function genererQuestionDeclinaison(mot, candidats) {
   const tirage = candidats[Math.floor(Math.random() * candidats.length)];
-  let genreCle = tirage.genreCle;
-  let cleTiree = tirage.cle;
-  let attendu = tirage.attendu;
-  let [nombre, cas] = cleTiree.split("_");
 
   currentQuestion = {
-    mot: mot,
-    genreCle: genreCle,
-    nombre: nombre,
-    cas: cas,
-    attendu: attendu
+    mode: "declinaison",
+    mot,
+    genreCle: tirage.genreCle,
+    nombre: tirage.nombre,
+    cas: tirage.cas,
+    attendu: tirage.attendu
   };
 
-  const wordLemmeEl = document.getElementById("wordLemme");
-const lemmeBailly = translittererPourBailly(mot.lemme);
+  mettreAJourCarteMot(mot);
 
-wordLemmeEl.innerText = mot.lemme;
-wordLemmeEl.href =
-  `https://bailly.app/${encodeURIComponent(lemmeBailly)}`;
-
-document.getElementById("wordMeta").innerText =
-  `${mot.traduction} — ${mot.type_affiche}`;
-
-  let consigne = `Forme attendue : ${NOMS_CAS[cas]} ${NOMS_NOMBRE[nombre]}`;
-  if (genreCle) {
-    consigne += `, genre ${NOMS_GENRE[genreCle]}`;
+  let consigne = `Forme attendue : ${NOMS_CAS[tirage.cas]} ${NOMS_NOMBRE[tirage.nombre]}`;
+  if (tirage.genreCle) {
+    consigne += `, genre ${NOMS_GENRE[tirage.genreCle]}`;
   }
   document.getElementById("consigneText").innerText = consigne;
   document.getElementById("userInput").focus();
 }
+
+function genererQuestionAnalyse(mot, candidats) {
+  const tirage = candidats[Math.floor(Math.random() * candidats.length)];
+  const cibleNorm = normaliserComparaisonForme(tirage.attendu);
+  const attendusMap = new Map();
+
+  candidats.forEach(candidat => {
+    if (normaliserComparaisonForme(candidat.attendu) === cibleNorm) {
+      attendusMap.set(candidat.signature, {
+        nombre: candidat.nombre,
+        cas: candidat.cas,
+        signature: candidat.signature
+      });
+    }
+  });
+
+  const attendus = [...attendusMap.values()];
+
+  currentQuestion = {
+    mode: "analyse",
+    mot,
+    formeAffichee: tirage.attendu,
+    attendus
+  };
+
+ const wordLemmeEl = document.getElementById("wordLemme");
+
+wordLemmeEl.innerText = tirage.attendu;
+wordLemmeEl.removeAttribute("href");
+wordLemmeEl.removeAttribute("target");
+wordLemmeEl.removeAttribute("rel");
+
+document.getElementById("wordMeta").innerText =
+  `[${mot.traduction} — ${mot.type_affiche}]`;
+
+document.getElementById("consigneText").innerText = "";
+} // fin de genererQuestionAnalyse
 
 const DESINENCES_GRECQUES = [
   "εωσ", "εων", "οισ", "ουσ", "αισ", "εσιν", "εσι",
@@ -858,10 +966,7 @@ function analyserReponse(attendu, propose) {
 
   let proposeGrec = translittererVersGrec(propose.trim(), currentInputMode);
   let proposeNorm = stripAccents(proposeGrec);
-
-  let attenduVariantes = attendu.includes("(ν)")
-    ? [attendu.replace("(ν)", "ν"), attendu.replace("(ν)", "")]
-    : [attendu];
+  let attenduVariantes = variantesNuFacultatif(attendu);
 
   for (let v of attenduVariantes) {
     let vNorm = stripAccents(v);
@@ -880,16 +985,41 @@ function analyserReponse(attendu, propose) {
   return "INCORRECT";
 }
 
-function validerReponse() {
-  if (!currentQuestion) return;
+function formaterAnalyseAttendue(attendus) {
+  return attendus
+    .slice()
+    .sort((a, b) => {
+      const n = ORDRE_NOMBRES.indexOf(a.nombre) - ORDRE_NOMBRES.indexOf(b.nombre);
+      if (n !== 0) return n;
+      return ORDRE_CAS.indexOf(a.cas) - ORDRE_CAS.indexOf(b.cas);
+    })
+    .map(item => `${NOMS_CAS[item.cas]} ${NOMS_NOMBRE[item.nombre]}`)
+    .join(", ");
+}
 
+function getSelectionsAnalyse() {
+  const nombres = [...document.querySelectorAll('.analysis-choice[data-group="nombre"].selected')]
+    .map(btn => btn.dataset.value);
+  const cas = [...document.querySelectorAll('.analysis-choice[data-group="cas"].selected')]
+    .map(btn => btn.dataset.value);
+
+  return { nombres, cas };
+}
+
+function comparerSets(a, b) {
+  if (a.size !== b.size) return false;
+  for (const valeur of a) {
+    if (!b.has(valeur)) return false;
+  }
+  return true;
+}
+
+function validerReponseDeclinaison() {
   let inputVal = document.getElementById("userInput").value;
-  if (!inputVal.trim()) return;
+  if (!inputVal.trim()) return false;
 
-  total++;
   let feedbackEl = document.getElementById("feedback");
   let resultat = analyserReponse(currentQuestion.attendu, inputVal);
-
   let attenduAffiche = formaterAttenduAffichage(currentQuestion.attendu, currentQuestion.cas, currentQuestion.nombre);
 
   if (resultat === "CORRECT") {
@@ -897,16 +1027,80 @@ function validerReponse() {
     feedbackEl.innerText = "✓ Correct !";
     feedbackEl.className = "feedback correct";
   } else if (resultat === "ORTHOGRAPHE") {
-    score++; 
+    score++;
     feedbackEl.innerHTML = `Orthographe (désinence correcte !) Attendu : <span class="ifaogrec">${attenduAffiche}</span>`;
     feedbackEl.className = "feedback warning";
   } else {
-    feedbackEl.innerHTML = `🇽 Attendu : <span class="ifaogrec">${attenduAffiche}</span>`;
+    feedbackEl.innerHTML = `✗ Attendu : <span class="ifaogrec">${attenduAffiche}</span>`;
     feedbackEl.className = "feedback incorrect";
   }
 
-  document.getElementById("scoreBoard").innerText = `Score : ${score} / ${total}`;
   document.getElementById("userInput").disabled = true;
+  return true;
+}
+
+function validerReponseAnalyse() {
+  const feedbackEl = document.getElementById("feedback");
+  const selection = getSelectionsAnalyse();
+
+  if (selection.nombres.length === 0 || selection.cas.length === 0) return false;
+
+  const attendusNombres = new Set(currentQuestion.attendus.map(item => item.nombre));
+  const attendusCas = new Set(currentQuestion.attendus.map(item => item.cas));
+  const selectionNombres = new Set(selection.nombres);
+  const selectionCas = new Set(selection.cas);
+  const attenduAffiche = formaterAnalyseAttendue(currentQuestion.attendus);
+
+  const nombresCorrects = comparerSets(selectionNombres, attendusNombres);
+  const casCorrects = comparerSets(selectionCas, attendusCas);
+
+  if (nombresCorrects && casCorrects) {
+    score++;
+    feedbackEl.innerText = "✓ Correct !";
+    feedbackEl.className = "feedback correct";
+  } else {
+    const casManquants = [...attendusCas].filter(c => !selectionCas.has(c));
+    const nombresManquants = [...attendusNombres].filter(n => !selectionNombres.has(n));
+    const casEnTrop = [...selectionCas].filter(c => !attendusCas.has(c));
+    const nombresEnTrop = [...selectionNombres].filter(n => !attendusNombres.has(n));
+    const seulVocatifOublie =
+      nombresManquants.length === 0 &&
+      nombresEnTrop.length === 0 &&
+      casEnTrop.length === 0 &&
+      casManquants.length === 1 &&
+      casManquants[0] === "voc";
+
+    if (seulVocatifOublie) {
+      score += 0.5;
+      feedbackEl.innerHTML = `Incomplet : attendu ${attenduAffiche}`;
+      feedbackEl.className = "feedback warning";
+    } else {
+      feedbackEl.innerHTML = `Incomplet : attendu ${attenduAffiche}`;
+      feedbackEl.className = "feedback incorrect";
+    }
+  }
+
+  document.querySelectorAll(".analysis-choice").forEach(btn => {
+    btn.disabled = true;
+  });
+  return true;
+}
+
+function afficherScore() {
+  document.getElementById("scoreBoard").innerText = `Score : ${score} / ${total}`;
+}
+
+function validerReponse() {
+  if (!currentQuestion) return;
+
+  const valide = currentQuestion.mode === "analyse"
+    ? validerReponseAnalyse()
+    : validerReponseDeclinaison();
+
+  if (!valide) return;
+
+  total++;
+  afficherScore();
   document.getElementById("btnValidate").disabled = false;
   document.getElementById("btnNext").style.display = "block";
 }
@@ -915,10 +1109,20 @@ function validerReponse() {
 // 6. Initialisation & Contrôles Clavier
 // ---------------------------------------------------------------------------
 
+document.querySelectorAll(".analysis-choice").forEach(btn => {
+  btn.addEventListener("click", () => {
+    if (!currentQuestion || currentQuestion.mode !== "analyse" || btn.disabled) return;
+    btn.classList.toggle("selected");
+  });
+});
+
 document.getElementById("btnValidate").addEventListener("click", () => {
   const userInput = document.getElementById("userInput");
 
-  if (userInput.disabled) {
+  if (
+    (currentQuestion?.mode === "declinaison" && userInput.disabled) ||
+    (currentQuestion?.mode === "analyse" && document.getElementById("btnNext").style.display === "block")
+  ) {
     genererQuestion();
   } else {
     validerReponse();
@@ -931,15 +1135,23 @@ document.addEventListener("keydown", (e) => {
   if (!userInput) return;
 
   if (e.key === "Enter") {
-    if (!userInput.disabled) {
-      validerReponse();
-    } else {
+    const questionDejaValidee = currentQuestion?.mode === "declinaison"
+      ? userInput.disabled
+      : document.getElementById("btnNext").style.display === "block";
+
+    if (questionDejaValidee) {
       genererQuestion();
+    } else {
+      validerReponse();
     }
   }
 
   if (e.code === "Space" || e.key === " ") {
-    if (userInput.disabled) {
+    const questionDejaValidee = currentQuestion?.mode === "declinaison"
+      ? userInput.disabled
+      : document.getElementById("btnNext").style.display === "block";
+
+    if (questionDejaValidee) {
       e.preventDefault();
       genererQuestion();
     }
