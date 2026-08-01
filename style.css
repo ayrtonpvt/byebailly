@@ -536,7 +536,8 @@ table.translit-table th span {
   margin-top: 12px;
   padding: 12px;
   border-radius: 0.5rem;
-  background-color: rgba(234, 139, 22, 0.08);
+  background-color: #F8F7F4;
+  color: #53463B;
 }
 
 .translit-examples-title {
@@ -545,18 +546,57 @@ table.translit-table th span {
   padding: 6px 12px;
   border: 2px solid currentColor;
   border-radius: 0.5rem;
-
-  color: var(--accent);
+  color: #53463B;
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 600;
 }
+
+.translit-examples .translit-table,
+.translit-examples .translit-table th,
+.translit-examples .translit-table td {
+  color: #53463B;
+}
+
+.translit-examples
+.translit-table tbody tr:nth-child(odd) {
+  background-color: #EFEDE5;
+}
+
+.translit-examples
+.translit-table tbody tr:nth-child(even) {
+  background-color: #F8F7F4;
+}
+
 body[data-theme="dark"] .translit-examples {
   background-color: rgba(0, 0, 0, 0.25);
+  color: #B4A68B;
 }
+
+body[data-theme="dark"] .translit-examples-title {
+  color: #B4A68B;
+}
+
+body[data-theme="dark"] .translit-examples .translit-table,
+body[data-theme="dark"] .translit-examples .translit-table th,
+body[data-theme="dark"] .translit-examples .translit-table td {
+  color: #B4A68B;
+}
+
 @media (prefers-color-scheme: dark) {
   body[data-theme="system"] .translit-examples {
     background-color: rgba(0, 0, 0, 0.25);
+    color: #B4A68B;
+  }
+
+  body[data-theme="system"] .translit-examples-title {
+    color: #B4A68B;
+  }
+
+  body[data-theme="system"] .translit-examples .translit-table,
+  body[data-theme="system"] .translit-examples .translit-table th,
+  body[data-theme="system"] .translit-examples .translit-table td {
+    color: #B4A68B;
   }
 }
 @media (max-width: 600px) {
