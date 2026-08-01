@@ -183,7 +183,7 @@ body[data-theme="dark"]::before {
 
 /* Centre les éléments (titre et icônes) à l'intérieur du bandeau */
 .top-bar-content {
-  padding: 12px 20px;
+  padding: 6px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -587,5 +587,6 @@ body[data-theme="dark"] .settings-panel {
     font-size: 0.875rem;
     line-height: 1.25rem;
     white-space: nowrap;
+    font-weight: 600;
   }
 }
