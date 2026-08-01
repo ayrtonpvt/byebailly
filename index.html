@@ -266,7 +266,31 @@ document.getElementById('btnOpenTable').addEventListener('click', () => {
 document.getElementById('btnCloseTable').addEventListener('click', () => {
   document.getElementById('modalTable').classList.remove('active');
 });
+// Fermer une modale en cliquant sur son arrière-plan
+document.querySelectorAll('.modal-overlay').forEach(modal => {
+  modal.addEventListener('click', event => {
+    if (event.target === modal) {
+      modal.classList.remove('active');
+    }
+  });
+});
 
+// Fermer la modale située au premier plan avec Échap
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape') return;
+
+  const modalTable = document.getElementById('modalTable');
+  const modalSettings = document.getElementById('modalSettings');
+  const modalAbout = document.getElementById('modalAbout');
+
+  if (modalTable.classList.contains('active')) {
+    modalTable.classList.remove('active');
+  } else if (modalSettings.classList.contains('active')) {
+    modalSettings.classList.remove('active');
+  } else if (modalAbout.classList.contains('active')) {
+    modalAbout.classList.remove('active');
+  }
+});
 
 // Initialisation au démarrage
 appliquerTheme(currentTheme);
