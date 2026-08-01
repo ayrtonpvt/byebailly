@@ -565,7 +565,7 @@ table.translit-table th span {
 
 .translit-examples
 .translit-table tbody tr:nth-child(even) {
-  background-color: #F8F7F4;
+  background-color: transparent;
 }
 
 body[data-theme="dark"] .translit-examples {
