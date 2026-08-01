@@ -211,8 +211,7 @@ h1 {
   display: flex;
   align-items: center;
 
-  transform: translate(-50%, -50%);
-}
+transform: translate(calc(-50% + 18px), -50%);}
 .btn-inverser {
   display: flex;
   align-items: center;
