@@ -90,46 +90,87 @@
 
 <!-- Modal Table de Translittération / Beta Code -->
 <div class="modal-overlay" id="modalTable">
-  <div class="modal-content">
+  <div class="modal-content modal-content-table">
+
     <div class="modal-header">
       <h2>Table de correspondance</h2>
       <button class="btn-icon" id="btnCloseTable">✕</button>
     </div>
-    <table class="translit-table">
-      <thead>
-        <tr>
-          <th>Grec</th>
-          <th>Translittération</th>
-          <th>Bêta code</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>α</td><td>a</td><td>a</td></tr>
-        <tr><td>β</td><td>b</td><td>b</td></tr>
-        <tr><td>γ</td><td>g</td><td>g</td></tr>
-        <tr><td>δ</td><td>d</td><td>d</td></tr>
-        <tr><td>ε</td><td>e</td><td>e</td></tr>
-        <tr><td>ζ</td><td>z</td><td>z</td></tr>
-        <tr><td>η</td><td>h, ê</td><td>h</td></tr>
-        <tr><td>θ</td><td>th</td><td>q</td></tr>
-        <tr><td>ι</td><td>i</td><td>i</td></tr>
-        <tr><td>κ</td><td>k, c</td><td>k</td></tr>
-        <tr><td>λ</td><td>l</td><td>l</td></tr>
-        <tr><td>μ</td><td>m</td><td>m</td></tr>
-        <tr><td>ν</td><td>n</td><td>n</td></tr>
-        <tr><td>ξ</td><td>x</td><td>c</td></tr>
-        <tr><td>ο</td><td>o</td><td>o</td></tr>
-        <tr><td>π</td><td>p</td><td>p</td></tr>
-        <tr><td>ρ</td><td>r</td><td>r</td></tr>
-        <tr><td>σ / ς</td><td>s</td><td>s</td></tr>
-        <tr><td>τ</td><td>t</td><td>t</td></tr>
-        <tr><td>υ</td><td>u, y</td><td>u</td></tr>
-        <tr><td>φ</td><td>ph, f</td><td>f</td></tr>
-        <tr><td>χ</td><td>ch</td><td>x</td></tr>
-        <tr><td>ψ</td><td>ps</td><td>y</td></tr>
-        <tr><td>ω</td><td>w, ô</td><td>w</td></tr>
-      </tbody>
-    </table>
+
+    <div class="translit-scroll">
+
+      <table class="translit-table">
+        <thead>
+          <tr>
+            <th scope="col">Bêta code</th>
+            <th scope="col">Grec</th>
+            <th scope="col">Translittération</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr><td>A, <span>a</span></td><th scope="row">Α, <span>α</span></th><td>A, <span>a</span></td></tr>
+          <tr><td>B, <span>b</span></td><th scope="row">Β, <span>β</span></th><td>B, <span>b</span></td></tr>
+          <tr><td>G, <span>g</span></td><th scope="row">Γ, <span>γ</span></th><td>G, <span>g</span></td></tr>
+          <tr><td>D, <span>d</span></td><th scope="row">Δ, <span>δ</span></th><td>D, <span>d</span></td></tr>
+          <tr><td>E, <span>e</span></td><th scope="row">Ε, <span>ε</span></th><td>E, <span>e</span></td></tr>
+          <tr><td>Z, <span>z</span></td><th scope="row">Ζ, <span>ζ</span></th><td>Z, <span>z</span></td></tr>
+          <tr><td>H, <span>h</span></td><th scope="row">Η, <span>η</span></th><td>Ê, <span>ê</span></td></tr>
+          <tr><td>Q, <span>q</span></td><th scope="row">Θ, <span>θ</span></th><td>Th, <span>th</span></td></tr>
+          <tr><td>I, <span>i</span></td><th scope="row">Ι, <span>ι</span></th><td>I, <span>i</span></td></tr>
+          <tr><td>K, <span>k</span></td><th scope="row">Κ, <span>κ</span></th><td>K, <span>k</span></td></tr>
+          <tr><td>L, <span>l</span></td><th scope="row">Λ, <span>λ</span></th><td>L, <span>l</span></td></tr>
+          <tr><td>M, <span>m</span></td><th scope="row">Μ, <span>μ</span></th><td>M, <span>m</span></td></tr>
+          <tr><td>N, <span>n</span></td><th scope="row">Ν, <span>ν</span></th><td>N, <span>n</span></td></tr>
+          <tr><td>C, <span>c</span></td><th scope="row">Ξ, <span>ξ</span></th><td>X, <span>x</span></td></tr>
+          <tr><td>O, <span>o</span></td><th scope="row">Ο, <span>ο</span></th><td>O, <span>o</span></td></tr>
+          <tr><td>P, <span>p</span></td><th scope="row">Π, <span>π</span></th><td>P, <span>p</span></td></tr>
+          <tr><td>R, <span>r</span></td><th scope="row">Ρ, <span>ρ</span></th><td>R, <span>r</span></td></tr>
+          <tr><td>S, <span>s</span></td><th scope="row">Σ, <span>σ</span></th><td>S, <span>s</span></td></tr>
+          <tr><td>T, <span>t</span></td><th scope="row">Τ, <span>τ</span></th><td>T, <span>t</span></td></tr>
+          <tr><td>U, <span>u</span></td><th scope="row">Υ, <span>υ</span></th><td>Y/U, <span>y/u</span></td></tr>
+          <tr><td>F, <span>f</span></td><th scope="row">Φ, <span>φ</span></th><td>Ph, <span>ph</span></td></tr>
+          <tr><td>X, <span>x</span></td><th scope="row">Χ, <span>χ</span></th><td>Ch, <span>ch</span></td></tr>
+          <tr><td>Y, <span>y</span></td><th scope="row">Ψ, <span>ψ</span></th><td>Ps, <span>ps</span></td></tr>
+          <tr><td>W, <span>w</span></td><th scope="row">Ω, <span>ω</span></th><td>Ô, <span>ô</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="translit-examples">
+        <div class="translit-examples-title">Exemples</div>
+
+        <table class="translit-table examples-table">
+          <thead>
+            <tr>
+              <th scope="col">Bêta code</th>
+              <th scope="col">Grec</th>
+              <th scope="col">Translittération</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>anqrwpos</td>
+              <th scope="row">ἀνθρωπος</th>
+              <td>anthrôpos</td>
+            </tr>
+
+            <tr>
+              <td>cifos</td>
+              <th scope="row">ξιφος</th>
+              <td>xiphos</td>
+            </tr>
+
+            <tr>
+              <td>yuxh</td>
+              <th scope="row">ψυχη</th>
+              <td>psuchê</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
   </div>
 </div>
 
