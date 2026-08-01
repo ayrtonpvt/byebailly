@@ -429,6 +429,30 @@ button.btn-primary:active { transform: scale(0.98); }
   overflow-y: auto;
   box-shadow: var(--shadow);
 }
+.modal-content-table {
+  width: 100%;
+  max-width: 640px;
+  max-height: 100vh;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background-color: var(--card-bg);
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+.modal-content-table .modal-header {
+  margin: 0;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--card-border);
+  background-color: var(--card-bg);
+}
+.translit-scroll {
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  padding: 12px;
+  -webkit-overflow-scrolling: touch;
+}
 
 .modal-header {
   display: flex;
@@ -465,19 +489,99 @@ button.btn-primary:active { transform: scale(0.98); }
 
 table.translit-table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
-  font-size: 0.85rem;
-  text-align: left;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-align: center;
 }
 
-table.translit-table th, table.translit-table td {
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--card-border);
+table.translit-table th,
+table.translit-table td {
+  padding: 10px 8px;
+  border: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-table.translit-table th {
+table.translit-table thead th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+table.translit-table tbody th {
+  font-weight: 600;
+  font-family: 'IFAOGrec', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+table.translit-table tbody td {
+  font-weight: normal;
+}
+table.translit-table tbody tr:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.035);
+}
+body[data-theme="dark"]
+table.translit-table tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+@media (prefers-color-scheme: dark) {
+  body[data-theme="system"]
+  table.translit-table tbody tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+}
+table.translit-table td span,
+table.translit-table th span {
   color: var(--text-muted);
   font-weight: normal;
+}
+.translit-examples {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 0.5rem;
+  background-color: rgba(234, 139, 22, 0.08);
+}
+
+.translit-examples-title {
+  width: fit-content;
+  margin: 0 auto 12px;
+  padding: 6px 12px;
+  border: 2px solid currentColor;
+  border-radius: 0.5rem;
+
+  color: var(--accent);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+body[data-theme="dark"] .translit-examples {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+@media (prefers-color-scheme: dark) {
+  body[data-theme="system"] .translit-examples {
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+}
+@media (max-width: 600px) {
+  .modal-content-table {
+    max-width: 100%;
+  }
+
+  .translit-scroll {
+    padding: 8px;
+  }
+
+  table.translit-table {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  table.translit-table th,
+  table.translit-table td {
+    padding: 8px 4px;
+  }
 }
 /* --- Polices spécifiques --- */
 
