@@ -874,3 +874,21 @@ body[data-theme="dark"] .btn-inverser:hover{
     background:#403C35;
   }
 }
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+  button:focus-visible,
+.btn-icon:focus-visible,
+.btn-inverser:focus-visible,
+.btn-primary:focus-visible,
+.btn-next:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+  button,
+input,
+a {
+  outline: none;
+}
