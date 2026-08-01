@@ -251,6 +251,7 @@
 
 let currentTheme = localStorage.getItem('app_theme') || 'system';
 let currentInputMode = localStorage.getItem('app_input_mode') || 'translit';
+let currentGameMode =localStorage.getItem('app_game_mode') || 'declinaison';
 
 function appliquerTheme(theme) {
   currentTheme = theme;
@@ -273,6 +274,27 @@ function appliquerModeSaisie(mode) {
   const inputEl = document.getElementById("userInput");
   if (inputEl) {
     inputEl.placeholder = mode === 'beta' ? "Saisir en Bêta code (ex: qeos)..." : "Saisir en translittéré (ex: theos)...";
+  }
+}
+function appliquerModeJeu(mode) {
+  currentGameMode = mode;
+  localStorage.setItem('app_game_mode', mode);
+
+  const label = document.getElementById('gameModeLabel');
+  const bouton = document.getElementById('btnInverser');
+
+  if (mode === 'declinaison') {
+    label.innerText = 'Déclinaison';
+    bouton.setAttribute(
+      'aria-label',
+      'Passer en mode Analyse'
+    );
+  } else {
+    label.innerText = 'Analyse';
+    bouton.setAttribute(
+      'aria-label',
+      'Passer en mode Déclinaison'
+    );
   }
 }
 
@@ -304,6 +326,16 @@ document.getElementById('btnCloseAbout').addEventListener('click', () => {
 document.getElementById('btnOpenTable').addEventListener('click', () => {
   document.getElementById('modalTable').classList.add('active');
 });
+	document
+  .getElementById('btnInverser')
+  .addEventListener('click', () => {
+
+    const nouveauMode =
+      currentGameMode === 'declinaison'
+        ? 'analyse'
+        : 'declinaison';
+
+    appliquerModeJeu(nouveauMode);
 document.getElementById('btnCloseTable').addEventListener('click', () => {
   document.getElementById('modalTable').classList.remove('active');
 });
@@ -336,6 +368,7 @@ document.addEventListener('keydown', event => {
 // Initialisation au démarrage
 appliquerTheme(currentTheme);
 appliquerModeSaisie(currentInputMode);
+appliquerModeJeu(currentGameMode);
 
 // ---------------------------------------------------------------------------
 // 2. Normalisation & Translittération
