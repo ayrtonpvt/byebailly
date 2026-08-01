@@ -202,14 +202,20 @@ h1 {
   display: flex;
   gap: 8px;
 }
-.btn-inverser {
+.game-mode-control {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
-
   z-index: 20;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  transform: translate(-50%, -50%);
+}
+.btn-inverser {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -241,13 +247,16 @@ h1 {
   width:24px;
   height:24px;
 }
+.game-mode-label {
+  display: none;
+}
 
 .btn-inverser:hover{
   background:#E5E1D6;
 }
 
 .btn-inverser:active{
-  transform:translate(-50%,-50%) scale(.95);
+   transform: scale(0.95);;
 }
 
 .btn-icon {
@@ -843,6 +852,20 @@ body[data-theme="dark"] .btn-inverser{
 
 body[data-theme="dark"] .btn-inverser:hover{
   background:#403C35;
+}
+.game-mode-label {
+  display: block;
+  margin-top: 0.15rem;
+
+  font-family: 'Brill', serif;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  font-style: italic;
+  font-weight: normal;
+
+  color: var(--text-main);
+  white-space: nowrap;
+  user-select: none;
 }
 
 @media (prefers-color-scheme: dark){
