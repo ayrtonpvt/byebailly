@@ -439,8 +439,6 @@ function translittererVersGrec(texte, mode) {
 }
 
   function translittererPourBailly(motGrec) {
-  let mot = stripAccents(motGrec).toLowerCase();
-
   const correspondances = {
     "α": "a",
     "β": "b",
@@ -469,8 +467,23 @@ function translittererVersGrec(texte, mode) {
     "ω": "ô"
   };
 
-  return Array.from(mot)
-    .map(lettre => correspondances[lettre] ?? lettre)
+  return Array.from(String(motGrec || "").toLowerCase())
+    .map(caractere => {
+      const decompose = caractere.normalize("NFD");
+      const lettreGrecque = decompose
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace("ϕ", "φ")
+        .normalize("NFC");
+
+      const translit = correspondances[lettreGrecque] ?? lettreGrecque;
+      const aEspritRude = decompose.includes("\u0314");
+
+      if (aEspritRude) {
+        return translit + "h";
+      }
+
+      return translit;
+    })
     .join("");
 }
 
