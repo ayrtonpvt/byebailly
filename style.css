@@ -1073,10 +1073,10 @@ body[data-game-mode="analyse"] .word-card {
 }
 
 body[data-game-mode="analyse"] .word-title {
-  display: block;
+  display: inline-block;
   font-size: 2rem;
   margin-bottom: 8px;
-  cursor: default;
+  cursor: pointer;
 }
 
 body[data-game-mode="analyse"] .word-title:hover {
