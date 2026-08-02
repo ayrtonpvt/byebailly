@@ -1076,7 +1076,7 @@ body[data-game-mode="analyse"] .word-title {
   display: block;
   font-size: 2rem;
   margin-bottom: 8px;
-  cursor: default;
+  cursor: pointer;
 }
 
 body[data-game-mode="analyse"] .word-title:hover {
