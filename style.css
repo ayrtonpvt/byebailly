@@ -1013,7 +1013,7 @@ button.analysis-choice {
   min-width: 0;
   padding: 12px 10px;
   font-family: 'Brill', serif;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   line-height: 1.2;
   font-weight: normal;
   color: var(--accent);
@@ -1080,7 +1080,7 @@ body[data-game-mode="analyse"] .word-title {
 }
 
 body[data-game-mode="analyse"] .word-title:hover {
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 body[data-game-mode="analyse"] .word-meta {
