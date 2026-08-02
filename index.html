@@ -1309,7 +1309,7 @@ async function chargerPremierJson(paths) {
   let derniereErreur = null;
   for (const path of paths) {
     try {
-      const response = await fetch(path, { cache: 'no-store' });
+      const response = await fetch(path, { cache: 'default' });
       if (!response.ok) throw new Error(`${path} : HTTP ${response.status}`);
       return await response.json();
     } catch (error) { derniereErreur = error; }
