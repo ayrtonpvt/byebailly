@@ -1085,7 +1085,13 @@ function formatAnalyse(analyse) {
 
 function formatAnalysesUniques(analyses) { return [...new Set(analyses.map(formatAnalyse))]; }
 
-const groupes = {
+
+// Pondération commune aux modes Conjugaison et Analyse :
+// Indicatif 50 %, Participe 40 %, Infinitif 10 %.
+// Si un mode n'existe pas pour le verbe choisi, son poids est redistribué
+// proportionnellement entre les modes réellement disponibles.
+function tirerAnalysePonderee(analyses) {
+  const groupes = {
     indicative: analyses.filter(a => a.mode === 'indicative'),
     participle: analyses.filter(a => a.mode === 'participle'),
     infinitive: analyses.filter(a => a.mode === 'infinitive')
@@ -1097,71 +1103,75 @@ const groupes = {
     { mode: 'infinitive', poids: 10 }
   ].filter(item => groupes[item.mode].length > 0);
 
+  if (!modesDisponibles.length) return null;
+
   const poidsTotal = modesDisponibles.reduce(
     (somme, item) => somme + item.poids,
     0
   );
 
   let hasard = Math.random() * poidsTotal;
-  let modeTire = modesDisponibles[0].mode;
 
   for (const item of modesDisponibles) {
     hasard -= item.poids;
+
     if (hasard < 0) {
-      modeTire = item.mode;
-      break;
+      const groupe = groupes[item.mode];
+      return groupe[randomIndex(groupe.length)];
     }
   }
 
-  const analysesDuMode = groupes[modeTire];
-  const tirage = analyses[randomIndex(analyses.length)];
-  currentQuestion = { kind: 'conjugation-production', verb: verbe, analysis: tirage, expectedForms: tirage.forms };
+  // Sécurité contre un éventuel effet d'arrondi flottant.
+  const dernierMode = modesDisponibles[modesDisponibles.length - 1].mode;
+  const dernierGroupe = groupes[dernierMode];
+  return dernierGroupe[randomIndex(dernierGroupe.length)];
+}
+
+function genererConjugaisonProduction(verbe, analyses) {
+  const tirage = tirerAnalysePonderee(analyses);
+  if (!tirage) return false;
+
+  currentQuestion = {
+    kind: 'conjugation-production',
+    verb: verbe,
+    analysis: tirage,
+    expectedForms: tirage.forms
+  };
+
   transliterationBaillyEtLien(verbe.lemma, verbe.lemma);
-  document.getElementById('wordMeta').innerText = traductionPourVoix(verbe, tirage.voice);
-  document.getElementById('consigneText').innerText = `Forme attendue : ${formatAnalyse(tirage)}`;
-  if (window.matchMedia('(pointer: fine)').matches) document.getElementById('userInput').focus();
+  document.getElementById('wordMeta').innerText =
+    traductionPourVoix(verbe, tirage.voice);
+  document.getElementById('consigneText').innerText =
+    `Forme attendue : ${formatAnalyse(tirage)}`;
+
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.getElementById('userInput').focus();
+  }
+
+  return true;
 }
 
 function genererConjugaisonAnalyse(verbe, analyses, graphies) {
-  const groupes = {
-  indicative: analyses.filter(a => a.mode === 'indicative'),
-  participle: analyses.filter(a => a.mode === 'participle'),
-  infinitive: analyses.filter(a => a.mode === 'infinitive')
-};
+  const tirage = tirerAnalysePonderee(analyses);
+  if (!tirage) return false;
 
-const modesDisponibles = [
-  { mode: 'indicative', poids: 50 },
-  { mode: 'participle', poids: 40 },
-  { mode: 'infinitive', poids: 10 }
-].filter(item => groupes[item.mode].length > 0);
-
-const poidsTotal = modesDisponibles.reduce(
-  (total, item) => total + item.poids,
-  0
-);
-
-let hasard = Math.random() * poidsTotal;
-let modeTire = modesDisponibles[0].mode;
-
-for (const item of modesDisponibles) {
-  hasard -= item.poids;
-
-  if (hasard < 0) {
-    modeTire = item.mode;
-    break;
-  }
-}
-
-const analysesDuMode = groupes[modeTire];
-
-const tirage =
-  analysesDuMode[randomIndex(analysesDuMode.length)];
   const forme = tirage.forms[randomIndex(tirage.forms.length)];
-  const alternatives = graphies.get(cleGraphieExacte(forme)) || [tirage];
-  currentQuestion = { kind: 'conjugation-analysis', verb: verbe, displayedForm: forme, acceptedAnalyses: alternatives };
+  const alternatives =
+    graphies.get(cleGraphieExacte(forme)) || [tirage];
+
+  currentQuestion = {
+    kind: 'conjugation-analysis',
+    verb: verbe,
+    displayedForm: forme,
+    acceptedAnalyses: alternatives
+  };
+
   transliterationBaillyEtLien(verbe.lemma, forme);
-  document.getElementById('wordMeta').innerText = `[${verbe.lemma} — ${traductionPourVoix(verbe, tirage.voice)}]`;
+  document.getElementById('wordMeta').innerText =
+    `[${verbe.lemma} — ${traductionPourVoix(verbe, tirage.voice)}]`;
   document.getElementById('consigneText').innerText = '';
+
+  return true;
 }
 
 // ---------------------------------------------------------------------------
