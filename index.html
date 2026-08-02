@@ -326,7 +326,8 @@
 
 let currentTheme = localStorage.getItem("app_theme") || "system";
 let currentInputMode = localStorage.getItem("app_input_mode") || "translit";
-let currentCategorieJeu = localStorage.getItem("app_categorie_jeu") || "declinaison";
+// La page démarre toujours en déclinaison afin que le premier écran reste léger.
+let currentCategorieJeu = "declinaison";
 let currentGameMode = localStorage.getItem("app_game_mode") || "analyse";
 if (currentGameMode === "declinaison" || currentGameMode === "conjugaison") {
   currentGameMode = "production";
@@ -337,6 +338,11 @@ let declensionLexicon = [];
 let conjugationLexicon = [];
 let declensionRemaining = [];
 let conjugationRemaining = [];
+
+// Une seule requête par base, même si plusieurs actions demandent le même fichier.
+let declensionLoadingPromise = null;
+let conjugationLoadingPromise = null;
+
 let currentQuestion = null;
 let questionValidated = false;
 let score = 0;
@@ -428,10 +434,39 @@ document.querySelectorAll('#modeControl button').forEach(btn => {
   btn.addEventListener('click', () => appliquerModeSaisie(btn.dataset.value));
 });
 document.querySelectorAll('#gameCategoryControl button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    appliquerCategorieJeu(btn.dataset.value);
-    fermerModal('modalSettings');
-    genererQuestion();
+  btn.addEventListener('click', async () => {
+    const nouvelleCategorie = btn.dataset.value;
+    const loading = document.getElementById('loadingText');
+    const gameArea = document.getElementById('gameArea');
+
+    try {
+      if (nouvelleCategorie === 'declinaison' && !declensionLexicon.length) {
+        gameArea.style.display = 'none';
+        loading.style.display = 'block';
+        loading.innerText = 'Chargement des déclinaisons…';
+        await chargerDeclinaisons();
+      }
+
+      if (nouvelleCategorie === 'conjugaison' && !conjugationLexicon.length) {
+        gameArea.style.display = 'none';
+        loading.style.display = 'block';
+        loading.innerText = 'Chargement des conjugaisons…';
+        // Si le préchargement est déjà en cours, cette fonction attend la même promesse.
+        await chargerConjugaisons();
+      }
+
+      appliquerCategorieJeu(nouvelleCategorie);
+      fermerModal('modalSettings');
+      loading.style.display = 'none';
+      gameArea.style.display = 'block';
+      genererQuestion();
+    } catch (error) {
+      console.error(`Chargement impossible pour ${nouvelleCategorie} :`, error);
+      loading.style.display = 'block';
+      loading.innerText = nouvelleCategorie === 'conjugaison'
+        ? 'Le fichier des conjugaisons n’a pas pu être chargé.'
+        : 'Le fichier des déclinaisons n’a pas pu être chargé.';
+    }
   });
 });
 
@@ -1302,7 +1337,7 @@ document.addEventListener('keydown', event => {
 });
 
 // ---------------------------------------------------------------------------
-// 9. Chargement indépendant des deux bases JSON
+// 9. Chargement prioritaire puis préchargement en arrière-plan
 // ---------------------------------------------------------------------------
 
 async function chargerPremierJson(paths) {
@@ -1312,46 +1347,122 @@ async function chargerPremierJson(paths) {
       const response = await fetch(path, { cache: 'default' });
       if (!response.ok) throw new Error(`${path} : HTTP ${response.status}`);
       return await response.json();
-    } catch (error) { derniereErreur = error; }
+    } catch (error) {
+      derniereErreur = error;
+    }
   }
   throw derniereErreur || new Error('Aucun fichier JSON disponible');
 }
 
-async function initialiserDonnees() {
-  const loading = document.getElementById('loadingText');
-  loading.innerText = 'Chargement des vocabulaires…';
-  const [declResult, conjResult] = await Promise.allSettled([
-    chargerPremierJson(['declinaisons_compilees_accentuees.json']),
-    chargerPremierJson(['verbes_grecs_jeu_final.min.json', 'verbes_grecs_jeu_final.json'])
-  ]);
+async function chargerDeclinaisons() {
+  if (declensionLexicon.length) return declensionLexicon;
+  if (declensionLoadingPromise) return declensionLoadingPromise;
 
-  if (declResult.status === 'fulfilled') {
-    declensionLexicon = construireLexique(declResult.value);
-    declensionRemaining = [...declensionLexicon];
-  } else console.warn('Déclinaisons non chargées :', declResult.reason);
+  declensionLoadingPromise = chargerPremierJson([
+    'declinaisons_compilees_accentuees.json'
+  ])
+    .then(data => {
+      declensionLexicon = construireLexique(data);
+      declensionRemaining = [...declensionLexicon];
+      return declensionLexicon;
+    })
+    .finally(() => {
+      declensionLoadingPromise = null;
+    });
 
-  if (conjResult.status === 'fulfilled') {
-    const verbs = conjResult.value?.verbs;
-    if (!Array.isArray(verbs)) throw new Error('Structure verbale invalide : tableau « verbs » absent');
-    conjugationLexicon = verbs.filter(v => v && v.lemma && v.forms);
-    conjugationRemaining = [...conjugationLexicon];
-  } else console.warn('Conjugaisons non chargées :', conjResult.reason);
-
-  if (!categorieDisponible(currentCategorieJeu)) {
-    if (conjugationLexicon.length) appliquerCategorieJeu('conjugaison');
-    else if (declensionLexicon.length) appliquerCategorieJeu('declinaison');
-  }
-
-  if (!declensionLexicon.length && !conjugationLexicon.length) {
-    afficherErreurChargement('Aucun vocabulaire n’a pu être chargé. Lance le site avec un serveur local plutôt qu’en ouvrant directement index.html.');
-    return;
-  }
-  loading.style.display = 'none';
-  document.getElementById('gameArea').style.display = 'block';
-  genererQuestion();
+  return declensionLoadingPromise;
 }
 
-initialiserDonnees().catch(error => afficherErreurChargement(`Erreur de chargement : ${error.message}`));
+async function chargerConjugaisons() {
+  if (conjugationLexicon.length) return conjugationLexicon;
+  if (conjugationLoadingPromise) return conjugationLoadingPromise;
+
+  conjugationLoadingPromise = chargerPremierJson([
+    'verbes_grecs_jeu_final.min.json',
+    'verbes_grecs_jeu_final.json'
+  ])
+    .then(data => {
+      const verbs = data?.verbs;
+      if (!Array.isArray(verbs)) {
+        throw new Error('Structure verbale invalide : tableau « verbs » absent');
+      }
+      conjugationLexicon = verbs.filter(v => v && v.lemma && v.forms);
+      conjugationRemaining = [...conjugationLexicon];
+      return conjugationLexicon;
+    })
+    .finally(() => {
+      conjugationLoadingPromise = null;
+    });
+
+  return conjugationLoadingPromise;
+}
+
+function connexionInterditPrechargement() {
+  const connexion = navigator.connection
+    || navigator.mozConnection
+    || navigator.webkitConnection;
+
+  if (!connexion) return false;
+  if (connexion.saveData) return true;
+
+  // Sur ces réseaux, les conjugaisons ne seront chargées que sur demande.
+  return ['slow-2g', '2g'].includes(connexion.effectiveType);
+}
+
+function programmerPrechargementConjugaisons() {
+  if (conjugationLexicon.length || conjugationLoadingPromise) return;
+
+  if (connexionInterditPrechargement()) {
+    console.info(
+      'Préchargement des conjugaisons désactivé : économiseur de données ou connexion lente.'
+    );
+    return;
+  }
+
+  const lancer = () => {
+    chargerConjugaisons().catch(error => {
+      // La déclinaison reste jouable même si ce téléchargement de fond échoue.
+      console.warn('Préchargement des conjugaisons interrompu :', error);
+    });
+  };
+
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(lancer, { timeout: 5000 });
+  } else {
+    window.setTimeout(lancer, 1000);
+  }
+}
+
+async function initialiserDonnees() {
+  const loading = document.getElementById('loadingText');
+  const gameArea = document.getElementById('gameArea');
+
+  // La déclinaison est toujours l'écran initial et la seule base bloquante.
+  appliquerCategorieJeu('declinaison');
+  loading.innerText = 'Chargement des déclinaisons…';
+
+  try {
+    await chargerDeclinaisons();
+  } catch (error) {
+    console.error('Déclinaisons non chargées :', error);
+    afficherErreurChargement(
+      'Le fichier declinaisons_compilees_accentuees.json n’a pas pu être chargé.'
+    );
+    return;
+  }
+
+  // Le jeu devient jouable avant le téléchargement de la base verbale.
+  loading.style.display = 'none';
+  gameArea.style.display = 'block';
+  genererQuestion();
+
+  // Téléchargement discret après affichage de la première question.
+  programmerPrechargementConjugaisons();
+}
+
+initialiserDonnees().catch(error => {
+  afficherErreurChargement(`Erreur de chargement : ${error.message}`);
+});
 </script>
 
 </body>
