@@ -975,10 +975,12 @@ function genererQuestionAnalyse(mot, candidats) {
    * mais l'adresse est construite avec le lemme.
    */
   wordLemmeEl.innerText = tirage.attendu;
-  wordLemmeEl.href =
-    `https://bailly.app/${encodeURIComponent(lemmeBailly)}`;
-  wordLemmeEl.target = "_blank";
-  wordLemmeEl.rel = "noopener noreferrer";
+wordLemmeEl.setAttribute(
+  "href",
+  `https://bailly.app/${encodeURIComponent(lemmeBailly)}`
+);
+wordLemmeEl.setAttribute("target", "_blank");
+wordLemmeEl.setAttribute("rel", "noopener noreferrer");
 
   let precisionGenre = "";
 
