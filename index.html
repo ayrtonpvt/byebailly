@@ -265,7 +265,7 @@
 
 let currentTheme = localStorage.getItem('app_theme') || 'system';
 let currentInputMode = localStorage.getItem('app_input_mode') || 'translit';
-let currentGameMode =localStorage.getItem('app_game_mode') || 'declinaison';
+let currentGameMode =localStorage.getItem('app_game_mode') || 'analyse';
 
 function appliquerTheme(theme) {
   currentTheme = theme;
@@ -428,7 +428,7 @@ function translittererVersGrec(texte, mode) {
   }
   const lettres = {
     "a": "α", "b": "β", "g": "γ", "d": "δ", "e": "ε", "z": "ζ",
-    "h": "η", "ê": "η", "i": "ι", "k": "κ", "c": "κ", "l": "λ",
+    "h": "η", "ê": "η", "q": "θ","i": "ι", "k": "κ", "c": "κ", "l": "λ",
     "m": "μ", "n": "ν", "x": "ξ", "o": "ο", "p": "π", "r": "ρ",
     "s": "σ", "t": "τ", "u": "υ", "y": "υ", "f": "φ", "w": "ω", "ô": "ω"
   };
@@ -764,7 +764,16 @@ function variantesNuFacultatif(forme) {
 }
 
 function normaliserComparaisonForme(forme) {
-  return stripAccents(varianteSansNuFacultatif(forme));
+  return varianteSansNuFacultatif(forme)
+    .normalize("NFD")
+
+    // Enlève accents, esprits, tréma, macron, brève et coronis,
+    // mais conserve U+0345 : le iota souscrit.
+    .replace(/[\u0300-\u0344\u0346-\u036f]/g, "")
+
+    .replaceAll("ς", "σ")
+    .replaceAll("ϕ", "φ")
+    .normalize("NFC");
 }
 
 function comparer(attendu, propose) {
@@ -906,7 +915,9 @@ function genererQuestionDeclinaison(mot, candidats) {
     consigne += `, genre ${NOMS_GENRE[tirage.genreCle]}`;
   }
   document.getElementById("consigneText").innerText = consigne;
-  document.getElementById("userInput").focus();
+  if (window.matchMedia("(pointer: fine)").matches) {
+    document.getElementById("userInput").focus();
+  }
 }
 
 function genererQuestionAnalyse(mot, candidats) {
@@ -915,7 +926,16 @@ function genererQuestionAnalyse(mot, candidats) {
   const attendusMap = new Map();
 
   candidats.forEach(candidat => {
-    if (normaliserComparaisonForme(candidat.attendu) === cibleNorm) {
+    const memeForme =
+      normaliserComparaisonForme(candidat.attendu) === cibleNorm;
+
+    /*
+     * Pour un adjectif, on ne retient que les analyses du genre
+     * qui a été tiré. Pour un nom, genreCle vaut normalement null.
+     */
+    const memeGenre = candidat.genreCle === tirage.genreCle;
+
+    if (memeForme && memeGenre) {
       attendusMap.set(candidat.signature, {
         nombre: candidat.nombre,
         cas: candidat.cas,
@@ -929,21 +949,34 @@ function genererQuestionAnalyse(mot, candidats) {
   currentQuestion = {
     mode: "analyse",
     mot,
+    genreCle: tirage.genreCle,
     formeAffichee: tirage.attendu,
     attendus
   };
 
- const wordLemmeEl = document.getElementById("wordLemme");
+  const wordLemmeEl = document.getElementById("wordLemme");
+  const lemmeBailly = translittererPourBailly(mot.lemme);
 
-wordLemmeEl.innerText = tirage.attendu;
-wordLemmeEl.removeAttribute("href");
-wordLemmeEl.removeAttribute("target");
-wordLemmeEl.removeAttribute("rel");
+  /*
+   * Le texte du lien est la forme fléchie,
+   * mais l'adresse est construite avec le lemme.
+   */
+  wordLemmeEl.innerText = tirage.attendu;
+  wordLemmeEl.href =
+    `https://bailly.app/${encodeURIComponent(lemmeBailly)}`;
+  wordLemmeEl.target = "_blank";
+  wordLemmeEl.rel = "noopener noreferrer";
 
-document.getElementById("wordMeta").innerText =
-  `[${mot.traduction} — ${mot.type_affiche}]`;
+  let precisionGenre = "";
 
-document.getElementById("consigneText").innerText = "";
+  if (tirage.genreCle) {
+    precisionGenre = ` — ${NOMS_GENRE[tirage.genreCle]}`;
+  }
+
+  document.getElementById("wordMeta").innerText =
+    `[${mot.traduction} — ${mot.type_affiche}${precisionGenre}]`;
+
+  document.getElementById("consigneText").innerText = "";
 } // fin de genererQuestionAnalyse
 
 const DESINENCES_GRECQUES = [
