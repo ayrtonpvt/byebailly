@@ -1124,7 +1124,25 @@ document.querySelectorAll('.conj-choice').forEach(btn => {
 
 document.querySelectorAll('.declension-analysis-choice').forEach(btn => {
   btn.addEventListener('click', () => {
-    if (!currentQuestion || currentQuestion.kind !== 'declension-analysis' || btn.disabled) return;
+    if (
+      !currentQuestion ||
+      currentQuestion.kind !== 'declension-analysis' ||
+      btn.disabled
+    ) return;
+
+    const groupe = btn.dataset.group;
+
+    if (groupe === 'nombre') {
+      document
+        .querySelectorAll(
+          '.declension-analysis-choice[data-group="nombre"]'
+        )
+        .forEach(other => other.classList.remove('selected'));
+
+      btn.classList.add('selected');
+      return;
+    }
+
     btn.classList.toggle('selected');
   });
 });
