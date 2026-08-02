@@ -116,7 +116,7 @@ body::before {
   height: 100vh;
   
   /* Lien vers ton image exacte */
-  background-image: url('topo.png'); 
+  background-image: url('topo.svg'); 
   background-repeat: repeat;
   background-position: center;
   
