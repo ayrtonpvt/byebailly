@@ -1098,3 +1098,127 @@ body[data-game-mode="analyse"] .word-meta {
     font-size: 0.82rem;
   }
 }
+
+
+/* ========================================================================== 
+   Analyse de conjugaison
+   ========================================================================== */
+
+.conjugation-analysis-controls {
+  width: 100%;
+  margin: 0 0 16px;
+}
+
+.conjugation-selector-grid {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) 54px;
+  align-items: start;
+  gap: 10px;
+  width: 100%;
+}
+
+.morph-main {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.morph-main-row {
+  gap: 8px;
+}
+
+.morph-mode-row,
+.morph-voice-row {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.morph-tense-row {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.morph-number-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.morph-side {
+  width: 54px;
+}
+
+.morph-side.is-hidden {
+  visibility: hidden;
+}
+
+.morph-mini-stack {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+.morph-mini-stack[hidden],
+.morph-side[hidden],
+.morph-number-row[hidden] {
+  display: none !important;
+}
+
+button.analysis-choice.morph-mini-choice {
+  width: 54px;
+  min-height: 38px;
+  padding: 7px 3px;
+  border-radius: 6px;
+  font-size: 0.86rem;
+}
+
+.morph-main button.analysis-choice {
+  min-height: 44px;
+  padding: 10px 5px;
+  overflow-wrap: anywhere;
+}
+
+.feedback-detail {
+  display: block;
+  margin-top: 5px;
+  color: inherit;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+body[data-game-category="conjugaison"][data-game-mode="production"] .word-card {
+  text-align: center;
+}
+
+body[data-game-category="conjugaison"][data-game-mode="production"] .word-title {
+  display: inline-block;
+}
+
+@media (max-width: 600px) {
+  .conjugation-selector-grid {
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    gap: 6px;
+  }
+
+  .morph-side {
+    width: 44px;
+  }
+
+  button.analysis-choice.morph-mini-choice {
+    width: 44px;
+    min-height: 35px;
+    padding: 6px 2px;
+    font-size: 0.78rem;
+  }
+
+  .morph-main {
+    gap: 8px;
+  }
+
+  .morph-main-row {
+    gap: 5px;
+  }
+
+  .morph-main button.analysis-choice {
+    min-height: 40px;
+    padding: 8px 2px;
+    font-size: 0.71rem;
+    line-height: 1.05;
+  }
+}
