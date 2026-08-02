@@ -14298,56 +14298,56 @@
       "source_accentuation": "regles_et_lemme"
     },
     {
-      "id": "E0435",
-      "lemme": "οἷος",
-      "entree": "οἷος",
-      "type": "adjectif_pronominal",
-      "paradigme": "adj_212",
-      "traduction": "seul, unique",
-      "nombre": "singulier_et_pluriel",
-      "formes": {
-        "masc": {
-          "sg_nom": "οἷος",
-          "sg_voc": "οἷε",
-          "sg_acc": "οἷον",
-          "sg_gen": "οἵου",
-          "sg_dat": "οἵῳ",
-          "pl_nom": "οἷοι",
-          "pl_voc": "οἷοι",
-          "pl_acc": "οἵους",
-          "pl_gen": "οἵων",
-          "pl_dat": "οἵοις"
-        },
-        "fem": {
-          "sg_nom": "οἵα",
-          "sg_voc": "οἵα",
-          "sg_acc": "οἵαν",
-          "sg_gen": "οἵας",
-          "sg_dat": "οἵᾳ",
-          "pl_nom": "οἷαι",
-          "pl_voc": "οἷαι",
-          "pl_acc": "οἵας",
-          "pl_gen": "οἵων",
-          "pl_dat": "οἵαις"
-        },
-        "neutre": {
-          "sg_nom": "οἷον",
-          "sg_voc": "οἷον",
-          "sg_acc": "οἷον",
-          "sg_gen": "οἵου",
-          "sg_dat": "οἵῳ",
-          "pl_nom": "οἷα",
-          "pl_voc": "οἷα",
-          "pl_acc": "οἷα",
-          "pl_gen": "οἵων",
-          "pl_dat": "οἵοις"
-        }
-      },
-      "formes_variantes": {},
-      "source_formes": "paradigme",
-      "accentuation_calculee": true,
-      "source_accentuation": "regles_et_lemme"
+  "id": "E0435",
+  "lemme": "οἷος",
+  "entree": "οἷος",
+  "type": "adjectif_pronominal",
+  "paradigme": "adj_212",
+  "traduction": "seul, unique",
+  "nombre": "singulier_et_pluriel",
+  "formes": {
+    "masc": {
+      "sg_nom": "οἶος",
+      "sg_voc": "οἶε",
+      "sg_acc": "οἶον",
+      "sg_gen": "οἴου",
+      "sg_dat": "οἴῳ",
+      "pl_nom": "οἶοι",
+      "pl_voc": "οἶοι",
+      "pl_acc": "οἴους",
+      "pl_gen": "οἴων",
+      "pl_dat": "οἴοις"
     },
+    "fem": {
+      "sg_nom": "οἴα",
+      "sg_voc": "οἴα",
+      "sg_acc": "οἴαν",
+      "sg_gen": "οἴας",
+      "sg_dat": "οἴᾳ",
+      "pl_nom": "οἶαι",
+      "pl_voc": "οἶαι",
+      "pl_acc": "οἴας",
+      "pl_gen": "οἴων",
+      "pl_dat": "οἴαις"
+    },
+    "neutre": {
+      "sg_nom": "οἶον",
+      "sg_voc": "οἶον",
+      "sg_acc": "οἶον",
+      "sg_gen": "οἴου",
+      "sg_dat": "οἴῳ",
+      "pl_nom": "οἶα",
+      "pl_voc": "οἶα",
+      "pl_acc": "οἶα",
+      "pl_gen": "οἴων",
+      "pl_dat": "οἴοις"
+    }
+  },
+  "formes_variantes": {},
+  "source_formes": "paradigme",
+  "accentuation_calculee": true,
+  "source_accentuation": "regles_et_lemme"
+}
     {
       "id": "E0436",
       "lemme": "οὐδέτερος",
