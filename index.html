@@ -1533,6 +1533,19 @@ async function initialiserDonnees() {
 initialiserDonnees().catch(error => {
   afficherErreurChargement(`Erreur de chargement : ${error.message}`);
 });
+
+	function updateTenseLabels() {
+  const btn = document.querySelector(
+    '.conj-choice[data-group="tense"][data-value="imperfect"]'
+  );
+
+  if (!btn) return;
+
+  btn.textContent = window.innerWidth <= 390 ? "Impf." : "Imparfait";
+}
+
+window.addEventListener("resize", updateTenseLabels);
+updateTenseLabels();
 </script>
 
 </body>
