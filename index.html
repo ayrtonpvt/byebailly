@@ -236,7 +236,16 @@
       <h2>Paramètres</h2>
       <button class="btn-icon" id="btnCloseSettings">✕</button>
     </div>
-
+	  
+<div class="setting-group">
+  <span class="setting-label">Mode de jeu</span>
+  <div class="segmented-control" id="gameCategoryControl">
+    <button data-value="declinaison" class="active">Déclinaison</button>
+    <button data-value="conjugaison">Conjugaison</button>
+    <button data-value="version">Version</button>
+  </div>
+</div>
+	  
     <div class="setting-group">
       <span class="setting-label">Thème</span>
       <div class="segmented-control" id="themeControl">
@@ -265,8 +274,12 @@
 
 let currentTheme = localStorage.getItem('app_theme') || 'system';
 let currentInputMode = localStorage.getItem('app_input_mode') || 'translit';
-let currentGameMode =localStorage.getItem('app_game_mode') || 'analyse';
 
+let currentCategorieJeu =
+  localStorage.getItem('app_categorie_jeu') || 'declinaison';
+
+let currentGameMode =
+  localStorage.getItem('app_game_mode') || 'analyse';
 function appliquerTheme(theme) {
   currentTheme = theme;
   document.body.setAttribute('data-theme', theme);
@@ -288,6 +301,31 @@ function appliquerModeSaisie(mode) {
   const inputEl = document.getElementById("userInput");
   if (inputEl) {
     inputEl.placeholder = mode === 'beta' ? "Saisir en Bêta code (ex: qeos)..." : "Saisir en translittéré (ex: theos)...";
+  }
+}
+function appliquerCategorieJeu(categorie) {
+  currentCategorieJeu = categorie;
+  localStorage.setItem('app_categorie_jeu', categorie);
+
+  document.querySelectorAll('#gameCategoryControl button').forEach(btn => {
+    btn.classList.toggle(
+      'active',
+      btn.getAttribute('data-value') === categorie
+    );
+  });
+
+  if (categorie === 'declinaison') {
+    if (!['declinaison', 'analyse'].includes(currentGameMode)) {
+      appliquerModeJeu('analyse');
+    }
+  }
+
+  if (categorie === 'conjugaison') {
+    console.warn('Mode Conjugaison pas encore implémenté.');
+  }
+
+  if (categorie === 'version') {
+    console.warn('Mode Version pas encore implémenté.');
   }
 }
 function appliquerModeJeu(mode) {
@@ -321,7 +359,17 @@ document.getElementById('btnCloseSettings').addEventListener('click', () => {
   document.getElementById('modalSettings').classList.remove('active');
 });
 
-document.querySelectorAll('#themeControl button').forEach(btn => {
+document.querySelectorAll('#gameCategoryControl button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    appliquerCategorieJeu(btn.getAttribute('data-value'));
+
+    if (lexique.length > 0) {
+      genererQuestion();
+    }
+  });
+});
+	
+  document.querySelectorAll('#themeControl button').forEach(btn => {
   btn.addEventListener('click', () => appliquerTheme(btn.getAttribute('data-value')));
 });
 
@@ -387,6 +435,7 @@ document.addEventListener('keydown', event => {
 
 // Initialisation au démarrage
 appliquerTheme(currentTheme);
+appliquerCategorieJeu(currentCategorieJeu);
 appliquerModeSaisie(currentInputMode);
 appliquerModeJeu(currentGameMode);
 
