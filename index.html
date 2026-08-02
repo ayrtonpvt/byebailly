@@ -1095,7 +1095,39 @@ function genererConjugaisonProduction(verbe, analyses) {
 }
 
 function genererConjugaisonAnalyse(verbe, analyses, graphies) {
-  const tirage = analyses[randomIndex(analyses.length)];
+  const groupes = {
+  indicative: analyses.filter(a => a.mode === 'indicative'),
+  participle: analyses.filter(a => a.mode === 'participle'),
+  infinitive: analyses.filter(a => a.mode === 'infinitive')
+};
+
+const modesDisponibles = [
+  { mode: 'indicative', poids: 50 },
+  { mode: 'participle', poids: 40 },
+  { mode: 'infinitive', poids: 10 }
+].filter(item => groupes[item.mode].length > 0);
+
+const poidsTotal = modesDisponibles.reduce(
+  (total, item) => total + item.poids,
+  0
+);
+
+let hasard = Math.random() * poidsTotal;
+let modeTire = modesDisponibles[0].mode;
+
+for (const item of modesDisponibles) {
+  hasard -= item.poids;
+
+  if (hasard < 0) {
+    modeTire = item.mode;
+    break;
+  }
+}
+
+const analysesDuMode = groupes[modeTire];
+
+const tirage =
+  analysesDuMode[randomIndex(analysesDuMode.length)];
   const forme = tirage.forms[randomIndex(tirage.forms.length)];
   const alternatives = graphies.get(cleGraphieExacte(forme)) || [tirage];
   currentQuestion = { kind: 'conjugation-analysis', verb: verbe, displayedForm: forme, acceptedAnalyses: alternatives };
