@@ -83,17 +83,69 @@
 
       <div class="consigne" id="consigneText">-</div>
 
-      <div class="analysis-controls" id="analysisControls" style="display: none;">
+      <div class="analysis-controls" id="declensionAnalysisControls" style="display: none;">
         <div class="analysis-row analysis-row-number" aria-label="Nombre">
-          <button type="button" class="analysis-choice" data-group="nombre" data-value="sg">Singulier</button>
-          <button type="button" class="analysis-choice" data-group="nombre" data-value="pl">Pluriel</button>
+          <button type="button" class="analysis-choice declension-analysis-choice" data-group="nombre" data-value="sg">Singulier</button>
+          <button type="button" class="analysis-choice declension-analysis-choice" data-group="nombre" data-value="pl">Pluriel</button>
         </div>
         <div class="analysis-row analysis-row-case" aria-label="Cas">
-          <button type="button" class="analysis-choice" data-group="cas" data-value="nom">nom</button>
-          <button type="button" class="analysis-choice" data-group="cas" data-value="voc">voc</button>
-          <button type="button" class="analysis-choice" data-group="cas" data-value="acc">acc</button>
-          <button type="button" class="analysis-choice" data-group="cas" data-value="gen">gen</button>
-          <button type="button" class="analysis-choice" data-group="cas" data-value="dat">dat</button>
+          <button type="button" class="analysis-choice declension-analysis-choice" data-group="cas" data-value="nom">nom</button>
+          <button type="button" class="analysis-choice declension-analysis-choice" data-group="cas" data-value="voc">voc</button>
+          <button type="button" class="analysis-choice declension-analysis-choice" data-group="cas" data-value="acc">acc</button>
+          <button type="button" class="analysis-choice declension-analysis-choice" data-group="cas" data-value="gen">gen</button>
+          <button type="button" class="analysis-choice declension-analysis-choice" data-group="cas" data-value="dat">dat</button>
+        </div>
+      </div>
+
+      <div class="conjugation-analysis-controls" id="conjugationAnalysisControls" style="display: none;">
+        <div class="conjugation-selector-grid" id="conjugationSelectorGrid">
+          <div class="morph-side morph-side-left is-hidden" id="conjugationLeftRail">
+            <div class="morph-mini-stack" id="personControls" aria-label="Personne" hidden>
+              <button type="button" class="analysis-choice conj-choice morph-mini-choice" data-group="person" data-value="1s">1s</button>
+              <button type="button" class="analysis-choice conj-choice morph-mini-choice" data-group="person" data-value="2s">2s</button>
+              <button type="button" class="analysis-choice conj-choice morph-mini-choice" data-group="person" data-value="3s">3s</button>
+              <button type="button" class="analysis-choice conj-choice morph-mini-choice" data-group="person" data-value="1p">1p</button>
+              <button type="button" class="analysis-choice conj-choice morph-mini-choice" data-group="person" data-value="2p">2p</button>
+              <button type="button" class="analysis-choice conj-choice morph-mini-choice" data-group="person" data-value="3p">3p</button>
+            </div>
+            <div class="morph-mini-stack" id="caseControls" aria-label="Cas" hidden>
+              <button type="button" class="analysis-choice conj-choice morph-mini-choice" data-group="case" data-value="nominative">nom</button>
+              <button type="button" class="analysis-choice conj-choice morph-mini-choice" data-group="case" data-value="accusative">acc</button>
+              <button type="button" class="analysis-choice conj-choice morph-mini-choice" data-group="case" data-value="dative">dat</button>
+              <button type="button" class="analysis-choice conj-choice morph-mini-choice" data-group="case" data-value="genitive">gen</button>
+            </div>
+          </div>
+
+          <div class="morph-main">
+            <div class="analysis-row morph-main-row morph-mode-row" aria-label="Mode verbal">
+              <button type="button" class="analysis-choice conj-choice" data-group="morphMode" data-value="indicative">Indicatif</button>
+              <button type="button" class="analysis-choice conj-choice" data-group="morphMode" data-value="participle">Participe</button>
+              <button type="button" class="analysis-choice conj-choice" data-group="morphMode" data-value="infinitive">Infinitif</button>
+            </div>
+            <div class="analysis-row morph-main-row morph-voice-row" aria-label="Voix">
+              <button type="button" class="analysis-choice conj-choice" data-group="voice" data-value="active">Actif</button>
+              <button type="button" class="analysis-choice conj-choice" data-group="voice" data-value="middle_passive">Moyen/<wbr>Passif</button>
+              <button type="button" class="analysis-choice conj-choice" data-group="voice" data-value="passive">Passif</button>
+            </div>
+            <div class="analysis-row morph-main-row morph-tense-row" aria-label="Temps">
+              <button type="button" class="analysis-choice conj-choice" data-group="tense" data-value="present">Présent</button>
+              <button type="button" class="analysis-choice conj-choice" data-group="tense" data-value="imperfect">Imparfait</button>
+              <button type="button" class="analysis-choice conj-choice" data-group="tense" data-value="future">Futur</button>
+              <button type="button" class="analysis-choice conj-choice" data-group="tense" data-value="aorist">Aoriste</button>
+            </div>
+            <div class="analysis-row morph-main-row morph-number-row" id="participleNumberControls" aria-label="Nombre du participe" hidden>
+              <button type="button" class="analysis-choice conj-choice" data-group="participleNumber" data-value="singular">Singulier</button>
+              <button type="button" class="analysis-choice conj-choice" data-group="participleNumber" data-value="plural">Pluriel</button>
+            </div>
+          </div>
+
+          <div class="morph-side morph-side-right is-hidden" id="genderControls" aria-label="Genre" hidden>
+            <div class="morph-mini-stack">
+              <button type="button" class="analysis-choice conj-choice morph-mini-choice" data-group="gender" data-value="masculine">Masc</button>
+              <button type="button" class="analysis-choice conj-choice morph-mini-choice" data-group="gender" data-value="feminine">Fem</button>
+              <button type="button" class="analysis-choice conj-choice morph-mini-choice" data-group="gender" data-value="neuter">Neut</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -269,178 +321,146 @@
 <!-- 4. Le Script complet (Bien isolé) -->
 <script>
 // ---------------------------------------------------------------------------
-// 1. Gestion des Paramètres et des Modales
+// 1. État global, paramètres et modales
 // ---------------------------------------------------------------------------
 
-let currentTheme = localStorage.getItem('app_theme') || 'system';
-let currentInputMode = localStorage.getItem('app_input_mode') || 'translit';
+let currentTheme = localStorage.getItem("app_theme") || "system";
+let currentInputMode = localStorage.getItem("app_input_mode") || "translit";
+let currentCategorieJeu = localStorage.getItem("app_categorie_jeu") || "declinaison";
+let currentGameMode = localStorage.getItem("app_game_mode") || "analyse";
+if (currentGameMode === "declinaison" || currentGameMode === "conjugaison") {
+  currentGameMode = "production";
+}
+if (!['production', 'analyse'].includes(currentGameMode)) currentGameMode = 'analyse';
 
-let currentCategorieJeu =
-  localStorage.getItem('app_categorie_jeu') || 'declinaison';
+let declensionLexicon = [];
+let conjugationLexicon = [];
+let declensionRemaining = [];
+let conjugationRemaining = [];
+let currentQuestion = null;
+let questionValidated = false;
+let score = 0;
+let total = 0;
+const conjugationCandidateCache = new WeakMap();
 
-let currentGameMode =
-  localStorage.getItem('app_game_mode') || 'analyse';
 function appliquerTheme(theme) {
   currentTheme = theme;
-  document.body.setAttribute('data-theme', theme);
-  localStorage.setItem('app_theme', theme);
-
-  document.querySelectorAll('#themeControl button').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-value') === theme);
+  document.body.setAttribute("data-theme", theme);
+  localStorage.setItem("app_theme", theme);
+  document.querySelectorAll("#themeControl button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.value === theme);
   });
+}
+
+function mettreAJourPlaceholder() {
+  const input = document.getElementById("userInput");
+  if (!input) return;
+  const exemple = currentCategorieJeu === 'conjugaison' ? 'luomen' : 'theos';
+  input.placeholder = currentInputMode === "beta"
+    ? `Saisir en Bêta code (ex. ${exemple})…`
+    : currentCategorieJeu === 'conjugaison'
+      ? "Saisir la forme verbale en translittération…"
+      : "Saisir en translittéré (ex. theos)…";
 }
 
 function appliquerModeSaisie(mode) {
   currentInputMode = mode;
-  localStorage.setItem('app_input_mode', mode);
-
-  document.querySelectorAll('#modeControl button').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-value') === mode);
+  localStorage.setItem("app_input_mode", mode);
+  document.querySelectorAll("#modeControl button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.value === mode);
   });
-
-  const inputEl = document.getElementById("userInput");
-  if (inputEl) {
-    inputEl.placeholder = mode === 'beta' ? "Saisir en Bêta code (ex: qeos)..." : "Saisir en translittéré (ex: theos)...";
-  }
+  mettreAJourPlaceholder();
 }
+
+function libelleModeProduction() {
+  if (currentCategorieJeu === 'conjugaison') return 'Conjugaison';
+  if (currentCategorieJeu === 'version') return 'Version';
+  return 'Déclinaison';
+}
+
+function appliquerModeJeu(mode) {
+  currentGameMode = mode === 'analyse' ? 'analyse' : 'production';
+  document.body.setAttribute("data-game-mode", currentGameMode);
+  localStorage.setItem("app_game_mode", currentGameMode);
+
+  const label = document.getElementById("gameModeLabel");
+  const bouton = document.getElementById("btnInverser");
+  label.innerText = currentGameMode === 'analyse' ? 'Analyse' : libelleModeProduction();
+  bouton.setAttribute(
+    'aria-label',
+    currentGameMode === 'analyse'
+      ? `Passer en mode ${libelleModeProduction()}`
+      : 'Passer en mode Analyse'
+  );
+}
+
+function categorieDisponible(categorie) {
+  if (categorie === 'declinaison') return declensionLexicon.length > 0;
+  if (categorie === 'conjugaison') return conjugationLexicon.length > 0;
+  return categorie === 'version';
+}
+
 function appliquerCategorieJeu(categorie) {
   currentCategorieJeu = categorie;
-  localStorage.setItem('app_categorie_jeu', categorie);
-
-  document.querySelectorAll('#gameCategoryControl button').forEach(btn => {
-    btn.classList.toggle(
-      'active',
-      btn.getAttribute('data-value') === categorie
-    );
+  localStorage.setItem("app_categorie_jeu", categorie);
+  document.body.setAttribute('data-game-category', categorie);
+  document.querySelectorAll("#gameCategoryControl button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.value === categorie);
   });
-
-  if (categorie === 'declinaison') {
-    if (!['declinaison', 'analyse'].includes(currentGameMode)) {
-      appliquerModeJeu('analyse');
-    }
-  }
-
-  if (categorie === 'conjugaison') {
-    console.warn('Mode Conjugaison pas encore implémenté.');
-  }
-
-  if (categorie === 'version') {
-    console.warn('Mode Version pas encore implémenté.');
-  }
-}
-function appliquerModeJeu(mode) {
-  currentGameMode = mode;
-  document.body.setAttribute("data-game-mode", mode);
-  localStorage.setItem('app_game_mode', mode);
-
-  const label = document.getElementById('gameModeLabel');
-  const bouton = document.getElementById('btnInverser');
-
-  if (mode === 'declinaison') {
-    label.innerText = 'Déclinaison';
-    bouton.setAttribute(
-      'aria-label',
-      'Passer en mode Analyse'
-    );
-  } else {
-    label.innerText = 'Analyse';
-    bouton.setAttribute(
-      'aria-label',
-      'Passer en mode Déclinaison'
-    );
-  }
+  appliquerModeJeu(currentGameMode);
+  mettreAJourPlaceholder();
 }
 
-// Modale Paramètres
-document.getElementById('btnToggleSettings').addEventListener('click', () => {
-  document.getElementById('modalSettings').classList.add('active');
-});
-document.getElementById('btnCloseSettings').addEventListener('click', () => {
-  document.getElementById('modalSettings').classList.remove('active');
-});
+function ouvrirModal(id) { document.getElementById(id).classList.add('active'); }
+function fermerModal(id) { document.getElementById(id).classList.remove('active'); }
 
+document.getElementById('btnToggleSettings').addEventListener('click', () => ouvrirModal('modalSettings'));
+document.getElementById('btnCloseSettings').addEventListener('click', () => fermerModal('modalSettings'));
+document.getElementById('btnToggleAbout').addEventListener('click', () => ouvrirModal('modalAbout'));
+document.getElementById('btnCloseAbout').addEventListener('click', () => fermerModal('modalAbout'));
+document.getElementById('btnOpenTable').addEventListener('click', () => ouvrirModal('modalTable'));
+document.getElementById('btnCloseTable').addEventListener('click', () => fermerModal('modalTable'));
+
+document.querySelectorAll('#themeControl button').forEach(btn => {
+  btn.addEventListener('click', () => appliquerTheme(btn.dataset.value));
+});
+document.querySelectorAll('#modeControl button').forEach(btn => {
+  btn.addEventListener('click', () => appliquerModeSaisie(btn.dataset.value));
+});
 document.querySelectorAll('#gameCategoryControl button').forEach(btn => {
   btn.addEventListener('click', () => {
-    appliquerCategorieJeu(btn.getAttribute('data-value'));
-
-    if (lexique.length > 0) {
-      genererQuestion();
-    }
+    appliquerCategorieJeu(btn.dataset.value);
+    fermerModal('modalSettings');
+    genererQuestion();
   });
 });
-	
-  document.querySelectorAll('#themeControl button').forEach(btn => {
-  btn.addEventListener('click', () => appliquerTheme(btn.getAttribute('data-value')));
+
+document.getElementById('btnInverser').addEventListener('click', () => {
+  appliquerModeJeu(currentGameMode === 'analyse' ? 'production' : 'analyse');
+  genererQuestion();
 });
 
-document.querySelectorAll('#modeControl button').forEach(btn => {
-  btn.addEventListener('click', () => appliquerModeSaisie(btn.getAttribute('data-value')));
-});
-
-// Modale À Propos
-document.getElementById('btnToggleAbout').addEventListener('click', () => {
-  document.getElementById('modalAbout').classList.add('active');
-});
-document.getElementById('btnCloseAbout').addEventListener('click', () => {
-  document.getElementById('modalAbout').classList.remove('active');
-});
-
-// Modale Table
-document.getElementById('btnOpenTable').addEventListener('click', () => {
-  document.getElementById('modalTable').classList.add('active');
-});
-	document
-  .getElementById('btnInverser')
-  .addEventListener('click', () => {
-    const nouveauMode =
-      currentGameMode === 'declinaison'
-        ? 'analyse'
-        : 'declinaison';
-
-    appliquerModeJeu(nouveauMode);
-
-    if (lexique.length > 0) {
-      genererQuestion();
-    }
-  });
-
-document.getElementById('btnCloseTable').addEventListener('click', () => {
-  document.getElementById('modalTable').classList.remove('active');
-});
-// Fermer une modale en cliquant sur son arrière-plan
 document.querySelectorAll('.modal-overlay').forEach(modal => {
   modal.addEventListener('click', event => {
-    if (event.target === modal) {
-      modal.classList.remove('active');
-    }
+    if (event.target === modal) modal.classList.remove('active');
   });
 });
 
-// Fermer la modale située au premier plan avec Échap
 document.addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
-
-  const modalTable = document.getElementById('modalTable');
-  const modalSettings = document.getElementById('modalSettings');
-  const modalAbout = document.getElementById('modalAbout');
-
-  if (modalTable.classList.contains('active')) {
-    modalTable.classList.remove('active');
-  } else if (modalSettings.classList.contains('active')) {
-    modalSettings.classList.remove('active');
-  } else if (modalAbout.classList.contains('active')) {
-    modalAbout.classList.remove('active');
+  for (const id of ['modalTable', 'modalSettings', 'modalAbout']) {
+    const modal = document.getElementById(id);
+    if (modal.classList.contains('active')) { modal.classList.remove('active'); break; }
   }
 });
 
-// Initialisation au démarrage
 appliquerTheme(currentTheme);
 appliquerCategorieJeu(currentCategorieJeu);
 appliquerModeSaisie(currentInputMode);
 appliquerModeJeu(currentGameMode);
 
 // ---------------------------------------------------------------------------
-// 2. Normalisation & Translittération
+// 2. Normalisation et translittération
 // ---------------------------------------------------------------------------
 
 function stripAccents(s) {
@@ -537,7 +557,7 @@ function translittererVersGrec(texte, mode) {
 }
 
 // ---------------------------------------------------------------------------
-// 3. Générateurs de Paradigmes
+// 3. Déclinaisons : générateurs et lecture du lexique existant
 // ---------------------------------------------------------------------------
 
 function deuxiemeDecl(stem, nomDonne, neutre) {
@@ -699,7 +719,7 @@ function parserNom(entree) {
 function parserAdjectif(entree) {
   entree = entree.trim();
   let entreeNorm = normaliser(entree);
-      <!-- à l'origine ce bout de code devait distinguer les classes d'adj (1 3 2 ) mais on s'en fiche en fait le joueur peut décliner sans du moment qu'il sait que c'est un adj -->
+  // Le type précis d'adjectif n'est pas affiché au joueur.
 
   if (entree.includes(",")) {
     let parts = entree.split(",");
@@ -794,485 +814,526 @@ function construireLexique(data) {
 }
 
 // ---------------------------------------------------------------------------
-// 5. Moteur du Jeu Web
+// 4. Constantes et utilitaires communs
 // ---------------------------------------------------------------------------
 
-const NOMS_CAS = { "nom": "nominatif", "voc": "vocatif", "acc": "accusatif", "gen": "génitif", "dat": "datif" };
-const NOMS_NOMBRE = { "sg": "singulier", "pl": "pluriel" };
-const NOMS_GENRE = { "masc": "masculin", "fem": "féminin", "neutre": "neutre" };
-const ORDRE_NOMBRES = ["sg", "pl"];
-const ORDRE_CAS = ["nom", "voc", "acc", "gen", "dat"];
+const NOMS_CAS = { nom: 'nominatif', voc: 'vocatif', acc: 'accusatif', gen: 'génitif', dat: 'datif' };
+const NOMS_NOMBRE = { sg: 'singulier', pl: 'pluriel' };
+const NOMS_GENRE = { masc: 'masculin', fem: 'féminin', neutre: 'neutre' };
+const ORDRE_NOMBRES = ['sg', 'pl'];
+const ORDRE_CAS = ['nom', 'voc', 'acc', 'gen', 'dat'];
 
-let lexique = [];
-let motsRestants = [];
-let currentQuestion = null;
-let score = 0;
-let total = 0;
+const MORPH_LABELS = {
+  mode: { indicative: 'Indicatif', participle: 'Participe', infinitive: 'Infinitif' },
+  tense: { present: 'présent', imperfect: 'imparfait', future: 'futur', aorist: 'aoriste' },
+  voice: { active: 'actif', middle: 'moyen', middle_passive: 'moyen/passif', passive: 'passif' },
+  person: {
+    '1s': '1re personne du singulier', '2s': '2e personne du singulier', '3s': '3e personne du singulier',
+    '1p': '1re personne du pluriel', '2p': '2e personne du pluriel', '3p': '3e personne du pluriel'
+  },
+  case: { nominative: 'nominatif', accusative: 'accusatif', dative: 'datif', genitive: 'génitif' },
+  gender: { masculine: 'masculin', feminine: 'féminin', neuter: 'neutre' },
+  number: { singular: 'singulier', plural: 'pluriel' }
+};
 
-function formaterAttenduAffichage(attendu, cas, nombre) {
-  return attendu;
-}
-
-function varianteSansNuFacultatif(forme) {
-  return String(forme || "").replace("(ν)", "");
-}
-
+function randomIndex(length) { return Math.floor(Math.random() * length); }
+function uniqueStrings(values) { return [...new Set((values || []).filter(v => typeof v === 'string' && v.trim()).map(v => v.trim()))]; }
+function varianteSansNuFacultatif(forme) { return String(forme || '').replace('(ν)', ''); }
 function variantesNuFacultatif(forme) {
-  const f = String(forme || "");
-  if (f.includes("(ν)")) {
-    return [f.replace("(ν)", "ν"), f.replace("(ν)", "")];
-  }
-  return [f];
+  const f = String(forme || '');
+  return f.includes('(ν)') ? [f.replace('(ν)', 'ν'), f.replace('(ν)', '')] : [f];
 }
-
 function normaliserComparaisonForme(forme) {
   return varianteSansNuFacultatif(forme)
-    .normalize("NFD")
-
-    // Enlève accents, esprits, tréma, macron, brève et coronis,
-    // mais conserve U+0345 : le iota souscrit.
-    .replace(/[\u0300-\u0344\u0346-\u036f]/g, "")
-
-    .replaceAll("ς", "σ")
-    .replaceAll("ϕ", "φ")
-    .normalize("NFC");
+    .normalize('NFD')
+    .replace(/[̀-̈́͆-ͯ]/g, '')
+    .replaceAll('ς', 'σ').replaceAll('ϕ', 'φ').normalize('NFC');
 }
-
+function cleGraphieExacte(forme) {
+  return String(forme || '').trim().replaceAll('ϕ', 'φ').normalize('NFC');
+}
 function comparer(attendu, propose) {
-  let attenduVariantes = variantesNuFacultatif(attendu);
-  let proposeGrec = translittererVersGrec(propose.trim(), currentInputMode);
-  let proposeNorm = stripAccents(proposeGrec);
-
-  return attenduVariantes.some(
-    variante => stripAccents(variante) === proposeNorm
-  );
+  const proposeGrec = translittererVersGrec(propose.trim(), currentInputMode);
+  const proposeNorm = stripAccents(proposeGrec);
+  return variantesNuFacultatif(attendu).some(v => stripAccents(v) === proposeNorm);
+}
+function comparerPlusieurs(attendus, propose) { return attendus.some(attendu => comparer(attendu, propose)); }
+function transliterationBaillyEtLien(lemme, texte) {
+  const el = document.getElementById('wordLemme');
+  el.innerText = texte;
+  el.href = `https://bailly.app/${encodeURIComponent(translittererPourBailly(lemme))}`;
+  el.target = '_blank';
+  el.rel = 'noopener noreferrer';
+}
+function afficherScore() { document.getElementById('scoreBoard').innerText = `Score : ${score} / ${total}`; }
+function afficherErreurChargement(message) {
+  document.getElementById('loadingText').style.display = 'block';
+  document.getElementById('loadingText').innerText = message;
+  document.getElementById('gameArea').style.display = 'none';
 }
 
-function extraireCandidats(mot) {
+// ---------------------------------------------------------------------------
+// 5. Moteur des déclinaisons
+// ---------------------------------------------------------------------------
+
+function extraireCandidatsDeclinaison(mot) {
   const candidats = [];
   const forme = mot.forme;
-  const genres = ["masc", "fem", "neutre"];
-  const estDeclinaisonParGenre = forme && genres.some(genre => forme[genre]);
-
-  function ajouterDepuisTable(table, genreCle = null) {
-    if (!table || typeof table !== "object") return;
-
+  const genres = ['masc', 'fem', 'neutre'];
+  const parGenre = forme && genres.some(genre => forme[genre]);
+  function ajouter(table, genreCle = null) {
+    if (!table || typeof table !== 'object') return;
     Object.entries(table).forEach(([cle, valeur]) => {
-      if (/^(sg|pl)_(nom|voc|acc|gen|dat)$/.test(cle) && typeof valeur === "string" && valeur.trim() !== "" && valeur !== "-") {
-        const [nombre, cas] = cle.split("_");
-        candidats.push({
-          genreCle,
-          cle,
-          nombre,
-          cas,
-          attendu: valeur.trim(),
-          signature: `${nombre}_${cas}`
-        });
+      if (/^(sg|pl)_(nom|voc|acc|gen|dat)$/.test(cle) && typeof valeur === 'string' && valeur.trim() && valeur !== '-') {
+        const [nombre, cas] = cle.split('_');
+        candidats.push({ genreCle, nombre, cas, attendu: valeur.trim(), signature: `${nombre}_${cas}` });
       }
     });
   }
-
-  if (estDeclinaisonParGenre) {
-    genres.forEach(genre => ajouterDepuisTable(forme[genre], genre));
-  } else {
-    ajouterDepuisTable(forme, null);
-  }
-
+  if (parGenre) genres.forEach(genre => ajouter(forme[genre], genre)); else ajouter(forme);
   return candidats;
 }
 
-function preparerInterfaceQuestion() {
-  document.getElementById("feedback").innerText = "";
-  document.getElementById("feedback").className = "feedback";
-  document.getElementById("btnValidate").disabled = false;
-  document.getElementById("btnValidate").style.display = "";
-  document.getElementById("btnNext").style.display = "none";
+function mettreAJourCarteDeclinaison(mot) {
+  transliterationBaillyEtLien(mot.lemme, mot.lemme);
+  document.getElementById('wordMeta').innerText = `${mot.traduction} — ${mot.type_affiche}`;
+}
 
-  const modeAnalyse = currentGameMode === "analyse";
-  const declinaisonInputGroup = document.getElementById("declinaisonInputGroup");
-  const userInput = document.getElementById("userInput");
-  const btnValidate = document.getElementById("btnValidate");
+function genererDeclinaisonProduction(mot, candidats) {
+  const tirage = candidats[randomIndex(candidats.length)];
+  currentQuestion = { kind: 'declension-production', mot, ...tirage };
+  mettreAJourCarteDeclinaison(mot);
+  let consigne = `Forme attendue : ${NOMS_CAS[tirage.cas]} ${NOMS_NOMBRE[tirage.nombre]}`;
+  if (tirage.genreCle) consigne += `, genre ${NOMS_GENRE[tirage.genreCle]}`;
+  document.getElementById('consigneText').innerText = consigne;
+  if (window.matchMedia('(pointer: fine)').matches) document.getElementById('userInput').focus();
+}
 
-  // En mode analyse, on garde le bouton Valider visible,
-  // mais on masque seulement le champ de saisie.
-  declinaisonInputGroup.style.display = "flex";
-  declinaisonInputGroup.classList.toggle("analysis-validate-row", modeAnalyse);
-  userInput.style.display = modeAnalyse ? "none" : "";
-  btnValidate.classList.toggle("analysis-validate-button", modeAnalyse);
+function genererDeclinaisonAnalyse(mot, candidats) {
+  const tirage = candidats[randomIndex(candidats.length)];
+  const cibleNorm = normaliserComparaisonForme(tirage.attendu);
+  const map = new Map();
+  candidats.forEach(c => {
+    if (normaliserComparaisonForme(c.attendu) === cibleNorm && c.genreCle === tirage.genreCle) {
+      map.set(c.signature, { nombre: c.nombre, cas: c.cas, signature: c.signature });
+    }
+  });
+  currentQuestion = { kind: 'declension-analysis', mot, genreCle: tirage.genreCle, formeAffichee: tirage.attendu, attendus: [...map.values()] };
+  transliterationBaillyEtLien(mot.lemme, tirage.attendu);
+  const precisionGenre = tirage.genreCle ? ` — ${NOMS_GENRE[tirage.genreCle]}` : '';
+  document.getElementById('wordMeta').innerText = `[${mot.lemme} — ${mot.traduction} — ${mot.type_affiche}${precisionGenre}]`;
+  document.getElementById('consigneText').innerText = '';
+}
 
-  document.getElementById("analysisControls").style.display = modeAnalyse ? "block" : "none";
+function getDeclensionSelections() {
+  return {
+    nombres: [...document.querySelectorAll('.declension-analysis-choice[data-group="nombre"].selected')].map(b => b.dataset.value),
+    cas: [...document.querySelectorAll('.declension-analysis-choice[data-group="cas"].selected')].map(b => b.dataset.value)
+  };
+}
+function comparerSets(a, b) { if (a.size !== b.size) return false; for (const v of a) if (!b.has(v)) return false; return true; }
+function formaterAnalyseDeclinaison(attendus) {
+  return attendus.slice().sort((a,b) => ORDRE_NOMBRES.indexOf(a.nombre)-ORDRE_NOMBRES.indexOf(b.nombre) || ORDRE_CAS.indexOf(a.cas)-ORDRE_CAS.indexOf(b.cas))
+    .map(a => `${NOMS_CAS[a.cas]} ${NOMS_NOMBRE[a.nombre]}`).join(', ');
+}
 
-  document.querySelectorAll(".analysis-choice").forEach(btn => {
-    btn.classList.remove("selected");
-    btn.disabled = false;
+function validerDeclinaisonProduction() {
+  const input = document.getElementById('userInput');
+  if (!input.value.trim()) return false;
+  const feedback = document.getElementById('feedback');
+  if (comparer(currentQuestion.attendu, input.value)) {
+    score++; feedback.innerText = '✓ Correct !'; feedback.className = 'feedback correct';
+  } else {
+    feedback.innerHTML = `✗ Attendu : <span class="ifaogrec">${currentQuestion.attendu}</span>`;
+    feedback.className = 'feedback incorrect';
+  }
+  input.disabled = true;
+  return true;
+}
+
+function validerDeclinaisonAnalyse() {
+  const selection = getDeclensionSelections();
+  if (!selection.nombres.length || !selection.cas.length) return false;
+  const expectedNumbers = new Set(currentQuestion.attendus.map(a => a.nombre));
+  const expectedCases = new Set(currentQuestion.attendus.map(a => a.cas));
+  const ok = comparerSets(new Set(selection.nombres), expectedNumbers) && comparerSets(new Set(selection.cas), expectedCases);
+  const feedback = document.getElementById('feedback');
+  if (ok) { score++; feedback.innerText = '✓ Correct !'; feedback.className = 'feedback correct'; }
+  else { feedback.innerText = `✗ Attendu : ${formaterAnalyseDeclinaison(currentQuestion.attendus)}`; feedback.className = 'feedback incorrect'; }
+  document.querySelectorAll('.declension-analysis-choice').forEach(b => b.disabled = true);
+  return true;
+}
+
+// ---------------------------------------------------------------------------
+// 6. Lecture du JSON verbal et index local des ambiguïtés
+// ---------------------------------------------------------------------------
+
+function voixInterface(voice) { return ['middle', 'middle_passive'].includes(voice) ? 'middle_passive' : voice; }
+function signatureAnalyse(a) {
+  return [a.mode, a.tense, a.voice, a.person || '', a.gender || '', a.number || '', a.case || ''].join('|');
+}
+function ajouterAnalyse(map, analyse, formes) {
+  const propres = uniqueStrings(formes);
+  if (!propres.length) return;
+  const signature = signatureAnalyse(analyse);
+  if (!map.has(signature)) map.set(signature, { ...analyse, forms: [] });
+  map.get(signature).forms = uniqueStrings([...map.get(signature).forms, ...propres]);
+}
+
+function extraireAnalysesVerbe(verbe) {
+  if (conjugationCandidateCache.has(verbe)) return conjugationCandidateCache.get(verbe);
+  const map = new Map();
+  const forms = verbe.forms || {};
+
+  Object.entries(forms.indicative || {}).forEach(([tense, voices]) => {
+    Object.entries(voices || {}).forEach(([voice, persons]) => {
+      Object.entries(persons || {}).forEach(([person, spellings]) => {
+        ajouterAnalyse(map, { mode: 'indicative', tense, voice, person }, spellings);
+      });
+    });
   });
 
-  const input = document.getElementById("userInput");
-  input.value = "";
-  input.disabled = false;
+  Object.entries(forms.infinitive || {}).forEach(([tense, voices]) => {
+    if (tense === 'imperfect' || !voices || typeof voices !== 'object' || voices.available === false) return;
+    Object.entries(voices).forEach(([voice, spellings]) => {
+      if (voice === 'available' || voice === 'reason') return;
+      ajouterAnalyse(map, { mode: 'infinitive', tense, voice }, spellings);
+    });
+  });
+
+  Object.entries(forms.participle || {}).forEach(([tense, voices]) => {
+    Object.entries(voices || {}).forEach(([voice, genders]) => {
+      Object.entries(genders || {}).forEach(([gender, numbers]) => {
+        Object.entries(numbers || {}).forEach(([number, cases]) => {
+          Object.entries(cases || {}).forEach(([caseName, spellings]) => {
+            ajouterAnalyse(map, { mode: 'participle', tense, voice, gender, number, case: caseName }, spellings);
+          });
+        });
+      });
+    });
+  });
+
+  const analyses = [...map.values()];
+  const graphies = new Map();
+  analyses.forEach(analyse => analyse.forms.forEach(forme => {
+    const key = cleGraphieExacte(forme);
+    if (!graphies.has(key)) graphies.set(key, []);
+    graphies.get(key).push(analyse);
+  }));
+  const result = { analyses, graphies };
+  conjugationCandidateCache.set(verbe, result);
+  return result;
 }
 
-function afficherFinSession() {
-  const wordLemmeEl = document.getElementById("wordLemme");
-  wordLemmeEl.innerText = "Session terminée";
-  wordLemmeEl.removeAttribute("href");
-  document.getElementById("wordMeta").innerText = "Tous les mots ont été proposés.";
-  document.getElementById("consigneText").innerText = "Recharge la page pour recommencer une nouvelle session.";
-  document.getElementById("declinaisonInputGroup").style.display = "none";
-  document.getElementById("analysisControls").style.display = "none";
-  document.getElementById("btnNext").style.display = "none";
-  document.getElementById("feedback").innerText = "";
+function traductionPourVoix(verbe, voice) {
+  const tr = verbe.translation || {};
+  const ordre = voice === 'middle'
+    ? ['middle', 'middle_passive', 'common']
+    : voice === 'middle_passive'
+      ? ['middle_passive', 'middle', 'common']
+      : voice === 'passive'
+        ? ['passive', 'middle_passive', 'common']
+        : ['active', 'common'];
+  for (const cle of ordre) {
+    const valeurs = uniqueStrings(tr[cle]);
+    if (valeurs.length) return valeurs.join(' / ');
+  }
+  return 'traduction non renseignée';
+}
+
+function formatAnalyse(analyse) {
+  const parties = [MORPH_LABELS.mode[analyse.mode], MORPH_LABELS.tense[analyse.tense], MORPH_LABELS.voice[analyse.voice]];
+  if (analyse.mode === 'indicative') parties.push(MORPH_LABELS.person[analyse.person]);
+  if (analyse.mode === 'participle') parties.push(MORPH_LABELS.case[analyse.case], MORPH_LABELS.number[analyse.number], MORPH_LABELS.gender[analyse.gender]);
+  return parties.filter(Boolean).join(' · ');
+}
+
+function formatAnalysesUniques(analyses) { return [...new Set(analyses.map(formatAnalyse))]; }
+
+function genererConjugaisonProduction(verbe, analyses) {
+  const tirage = analyses[randomIndex(analyses.length)];
+  currentQuestion = { kind: 'conjugation-production', verb: verbe, analysis: tirage, expectedForms: tirage.forms };
+  transliterationBaillyEtLien(verbe.lemma, verbe.lemma);
+  document.getElementById('wordMeta').innerText = traductionPourVoix(verbe, tirage.voice);
+  document.getElementById('consigneText').innerText = `Forme attendue : ${formatAnalyse(tirage)}`;
+  if (window.matchMedia('(pointer: fine)').matches) document.getElementById('userInput').focus();
+}
+
+function genererConjugaisonAnalyse(verbe, analyses, graphies) {
+  const tirage = analyses[randomIndex(analyses.length)];
+  const forme = tirage.forms[randomIndex(tirage.forms.length)];
+  const alternatives = graphies.get(cleGraphieExacte(forme)) || [tirage];
+  currentQuestion = { kind: 'conjugation-analysis', verb: verbe, displayedForm: forme, acceptedAnalyses: alternatives };
+  transliterationBaillyEtLien(verbe.lemma, forme);
+  document.getElementById('wordMeta').innerText = `[${verbe.lemma} — ${traductionPourVoix(verbe, tirage.voice)}]`;
+  document.getElementById('consigneText').innerText = '';
+}
+
+// ---------------------------------------------------------------------------
+// 7. Interface d’analyse verbale
+// ---------------------------------------------------------------------------
+
+function selectionBouton(group) { return document.querySelector(`.conj-choice[data-group="${group}"].selected`)?.dataset.value || null; }
+function viderGroupe(group) {
+  document.querySelectorAll(`.conj-choice[data-group="${group}"]`).forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed','false'); });
+}
+function mettreAJourControlesMorphologiques() {
+  const mode = selectionBouton('morphMode');
+  const leftRail = document.getElementById('conjugationLeftRail');
+  const persons = document.getElementById('personControls');
+  const cases = document.getElementById('caseControls');
+  const genders = document.getElementById('genderControls');
+  const numbers = document.getElementById('participleNumberControls');
+
+  const indicative = mode === 'indicative';
+  const participle = mode === 'participle';
+  persons.hidden = !indicative;
+  cases.hidden = !participle;
+  numbers.hidden = !participle;
+  genders.hidden = !participle;
+  leftRail.classList.toggle('is-hidden', !(indicative || participle));
+  genders.classList.toggle('is-hidden', !participle);
+
+  if (!indicative) viderGroupe('person');
+  if (!participle) { viderGroupe('case'); viderGroupe('gender'); viderGroupe('participleNumber'); }
+}
+
+function choisirBoutonMorphologique(btn) {
+  if (btn.disabled) return;
+  const group = btn.dataset.group;
+  const value = btn.dataset.value;
+  const deja = btn.classList.contains('selected');
+  viderGroupe(group);
+  if (!deja) { btn.classList.add('selected'); btn.setAttribute('aria-pressed','true'); }
+
+  // Infinitif et participe imparfaits n’existent pas : le dernier choix effectué l’emporte.
+  if (group === 'tense' && value === 'imperfect' && !deja) {
+    const mode = selectionBouton('morphMode');
+    if (mode === 'participle' || mode === 'infinitive') viderGroupe('morphMode');
+  }
+  if (group === 'morphMode' && ['participle','infinitive'].includes(value) && !deja) {
+    if (selectionBouton('tense') === 'imperfect') viderGroupe('tense');
+  }
+  mettreAJourControlesMorphologiques();
+}
+
+document.querySelectorAll('.conj-choice').forEach(btn => {
+  btn.setAttribute('aria-pressed', 'false');
+  btn.addEventListener('click', () => choisirBoutonMorphologique(btn));
+});
+
+document.querySelectorAll('.declension-analysis-choice').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (!currentQuestion || currentQuestion.kind !== 'declension-analysis' || btn.disabled) return;
+    btn.classList.toggle('selected');
+  });
+});
+
+function selectionsConjugaison() {
+  return {
+    mode: selectionBouton('morphMode'), voice: selectionBouton('voice'), tense: selectionBouton('tense'),
+    person: selectionBouton('person'), case: selectionBouton('case'), gender: selectionBouton('gender'),
+    number: selectionBouton('participleNumber')
+  };
+}
+function selectionComplete(s) {
+  if (!s.mode || !s.voice || !s.tense) return false;
+  if (s.mode === 'indicative') return Boolean(s.person);
+  if (s.mode === 'participle') return Boolean(s.case && s.gender && s.number);
+  return s.mode === 'infinitive';
+}
+function analyseCorrespond(selection, analyse) {
+  if (selection.mode !== analyse.mode || selection.tense !== analyse.tense || selection.voice !== voixInterface(analyse.voice)) return false;
+  if (analyse.mode === 'indicative') return selection.person === analyse.person;
+  if (analyse.mode === 'participle') return selection.case === analyse.case && selection.gender === analyse.gender && selection.number === analyse.number;
+  return true;
+}
+
+function validerConjugaisonProduction() {
+  const input = document.getElementById('userInput');
+  if (!input.value.trim()) return false;
+  const feedback = document.getElementById('feedback');
+  if (comparerPlusieurs(currentQuestion.expectedForms, input.value)) {
+    score++; feedback.innerText = '✓ Correct !'; feedback.className = 'feedback correct';
+  } else {
+    feedback.innerHTML = `✗ Attendu : <span class="ifaogrec">${currentQuestion.expectedForms.join(' / ')}</span>`;
+    feedback.className = 'feedback incorrect';
+  }
+  input.disabled = true;
+  return true;
+}
+
+function validerConjugaisonAnalyse() {
+  const selection = selectionsConjugaison();
+  if (!selectionComplete(selection)) {
+  const feedback = document.getElementById('feedback');
+  feedback.innerText = 'Sélectionne toutes les caractéristiques nécessaires.';
+  feedback.className = 'feedback warning';
+  return false;
+}
+  const correspondances = currentQuestion.acceptedAnalyses.filter(a => analyseCorrespond(selection, a));
+  const feedback = document.getElementById('feedback');
+  const attendues = formatAnalysesUniques(currentQuestion.acceptedAnalyses);
+  if (correspondances.length) {
+    score++;
+    const reponseChoisie = formatAnalyse(correspondances[0]);
+    const autres = attendues.filter(a => a !== reponseChoisie);
+    feedback.innerHTML = autres.length
+      ? `✓ Correct ! <span class="feedback-detail">(Autres analyses correctes : ${autres.join(' ; ')})</span>`
+      : '✓ Correct !';
+    feedback.className = 'feedback correct';
+  } else {
+    feedback.innerHTML = `✗ Analyse${attendues.length > 1 ? 's' : ''} attendue${attendues.length > 1 ? 's' : ''} : ${attendues.join(' ; ')}`;
+    feedback.className = 'feedback incorrect';
+  }
+  document.querySelectorAll('.conj-choice').forEach(b => b.disabled = true);
+  return true;
+}
+
+// ---------------------------------------------------------------------------
+// 8. Génération, validation et navigation
+// ---------------------------------------------------------------------------
+
+function reinitialiserBoutons() {
+  document.querySelectorAll('.analysis-choice').forEach(btn => { btn.classList.remove('selected'); btn.disabled = false; btn.setAttribute('aria-pressed','false'); });
+  mettreAJourControlesMorphologiques();
+}
+function preparerInterfaceQuestion() {
+  questionValidated = false;
+  const feedback = document.getElementById('feedback');
+  feedback.innerText = ''; feedback.className = 'feedback';
+  document.getElementById('btnNext').style.display = 'none';
+  document.getElementById('btnValidate').disabled = false;
+  const analyse = currentGameMode === 'analyse';
+  const inputGroup = document.getElementById('declinaisonInputGroup');
+  const input = document.getElementById('userInput');
+  inputGroup.style.display = 'flex';
+  inputGroup.classList.toggle('analysis-validate-row', analyse);
+  input.style.display = analyse ? 'none' : '';
+  input.value = ''; input.disabled = false;
+  document.getElementById('btnValidate').classList.toggle('analysis-validate-button', analyse);
+  document.getElementById('declensionAnalysisControls').style.display = analyse && currentCategorieJeu === 'declinaison' ? 'block' : 'none';
+  document.getElementById('conjugationAnalysisControls').style.display = analyse && currentCategorieJeu === 'conjugaison' ? 'block' : 'none';
+  reinitialiserBoutons();
+}
+function afficherVersionNonImplemente() {
+  preparerInterfaceQuestion();
+  transliterationBaillyEtLien('', 'Mode Version');
+  document.getElementById('wordLemme').removeAttribute('href');
+  document.getElementById('wordMeta').innerText = 'Ce mode n’est pas encore implémenté.';
+  document.getElementById('consigneText').innerText = '';
+  document.getElementById('declinaisonInputGroup').style.display = 'none';
   currentQuestion = null;
 }
-
-function mettreAJourCarteMot(mot) {
-  const wordLemmeEl = document.getElementById("wordLemme");
-  const lemmeBailly = translittererPourBailly(mot.lemme);
-
-  wordLemmeEl.innerText = mot.lemme;
-  wordLemmeEl.href = `https://bailly.app/${encodeURIComponent(lemmeBailly)}`;
-  document.getElementById("wordMeta").innerText = `${mot.traduction} — ${mot.type_affiche}`;
+function tirerMot(lexique, nomFile) {
+  if (!nomFile.length) nomFile.push(...lexique);
+  if (!nomFile.length) return null;
+  return nomFile.splice(randomIndex(nomFile.length), 1)[0];
 }
 
 function genererQuestion() {
+  if (currentCategorieJeu === 'version') { afficherVersionNonImplemente(); return; }
+  if (!categorieDisponible(currentCategorieJeu)) {
+    afficherErreurChargement(currentCategorieJeu === 'conjugaison'
+      ? 'Le fichier verbes_grecs_jeu_final.min.json n’a pas pu être chargé.'
+      : 'Le fichier declinaisons_compilees_accentuees.json n’a pas pu être chargé.');
+    return;
+  }
+  document.getElementById('loadingText').style.display = 'none';
+  document.getElementById('gameArea').style.display = 'block';
   preparerInterfaceQuestion();
 
-  if (motsRestants.length === 0) {
-    afficherFinSession();
-    return;
-  }
-
-  const indexMot = Math.floor(Math.random() * motsRestants.length);
-  const mot = motsRestants.splice(indexMot, 1)[0];
-  const candidats = extraireCandidats(mot);
-
-  if (candidats.length === 0) {
-    genererQuestion();
-    return;
-  }
-
-  if (currentGameMode === "analyse") {
-    genererQuestionAnalyse(mot, candidats);
-  } else {
-    genererQuestionDeclinaison(mot, candidats);
-  }
-}
-
-function genererQuestionDeclinaison(mot, candidats) {
-  const tirage = candidats[Math.floor(Math.random() * candidats.length)];
-
-  currentQuestion = {
-    mode: "declinaison",
-    mot,
-    genreCle: tirage.genreCle,
-    nombre: tirage.nombre,
-    cas: tirage.cas,
-    attendu: tirage.attendu
-  };
-
-  mettreAJourCarteMot(mot);
-
-  let consigne = `Forme attendue : ${NOMS_CAS[tirage.cas]} ${NOMS_NOMBRE[tirage.nombre]}`;
-  if (tirage.genreCle) {
-    consigne += `, genre ${NOMS_GENRE[tirage.genreCle]}`;
-  }
-  document.getElementById("consigneText").innerText = consigne;
-  if (window.matchMedia("(pointer: fine)").matches) {
-    document.getElementById("userInput").focus();
-  }
-}
-
-function genererQuestionAnalyse(mot, candidats) {
-  const tirage = candidats[Math.floor(Math.random() * candidats.length)];
-  const cibleNorm = normaliserComparaisonForme(tirage.attendu);
-  const attendusMap = new Map();
-
-  candidats.forEach(candidat => {
-    const memeForme =
-      normaliserComparaisonForme(candidat.attendu) === cibleNorm;
-
-    /*
-     * Pour un adjectif, on ne retient que les analyses du genre
-     * qui a été tiré. Pour un nom, genreCle vaut normalement null.
-     */
-    const memeGenre = candidat.genreCle === tirage.genreCle;
-
-    if (memeForme && memeGenre) {
-      attendusMap.set(candidat.signature, {
-        nombre: candidat.nombre,
-        cas: candidat.cas,
-        signature: candidat.signature
-      });
+  if (currentCategorieJeu === 'declinaison') {
+    for (let essais = 0; essais < declensionLexicon.length; essais++) {
+      const mot = tirerMot(declensionLexicon, declensionRemaining);
+      const candidats = extraireCandidatsDeclinaison(mot);
+      if (!candidats.length) continue;
+      if (currentGameMode === 'analyse') genererDeclinaisonAnalyse(mot, candidats); else genererDeclinaisonProduction(mot, candidats);
+      return;
     }
-  });
-
-  const attendus = [...attendusMap.values()];
-
-  currentQuestion = {
-    mode: "analyse",
-    mot,
-    genreCle: tirage.genreCle,
-    formeAffichee: tirage.attendu,
-    attendus
-  };
-
-  const wordLemmeEl = document.getElementById("wordLemme");
-  const lemmeBailly = translittererPourBailly(mot.lemme);
-
-  /*
-   * Le texte du lien est la forme fléchie,
-   * mais l'adresse est construite avec le lemme.
-   */
-  wordLemmeEl.innerText = tirage.attendu;
-wordLemmeEl.setAttribute(
-  "href",
-  `https://bailly.app/${encodeURIComponent(lemmeBailly)}`
-);
-wordLemmeEl.setAttribute("target", "_blank");
-wordLemmeEl.setAttribute("rel", "noopener noreferrer");
-
-  let precisionGenre = "";
-
-  if (tirage.genreCle) {
-    precisionGenre = ` — ${NOMS_GENRE[tirage.genreCle]}`;
-  }
-
-  document.getElementById("wordMeta").innerText =
-    `[${mot.traduction} — ${mot.type_affiche}${precisionGenre}]`;
-
-  document.getElementById("consigneText").innerText = "";
-} // fin de genererQuestionAnalyse
-
-const DESINENCES_GRECQUES = [
-  "εωσ", "εων", "οισ", "ουσ", "αισ", "εσιν", "εσι",
-  "ου", "ῳ", "ον", "οσ", "εσ", "ασ", "ων", "οι", "αι",
-  "ην", "αν", "ῃ", "ᾳ", "ησ", "ει", "ιν", "η", "α", "ε", "ι", "υ", "ν", "σ"
-];
-
-function normaliserStem(s) {
-  return stripAccents(s)
-    .replaceAll("η", "ε")
-    .replaceAll("ω", "ο")
-    .replaceAll("θ", "τ");
-}
-
-function analyserReponse(attendu, propose) {
-  if (comparer(attendu, propose)) {
-    return "CORRECT";
-  }
-
-  let proposeGrec = translittererVersGrec(propose.trim(), currentInputMode);
-  let proposeNorm = stripAccents(proposeGrec);
-  let attenduVariantes = variantesNuFacultatif(attendu);
-
-  for (let v of attenduVariantes) {
-    let vNorm = stripAccents(v);
-    let desinence = DESINENCES_GRECQUES.find(d => vNorm.endsWith(d));
-
-    if (desinence && proposeNorm.endsWith(desinence)) {
-      let stemAttendu = vNorm.slice(0, vNorm.length - desinence.length);
-      let stemPropose = proposeNorm.slice(0, proposeNorm.length - desinence.length);
-
-      if (normaliserStem(stemAttendu) === normaliserStem(stemPropose)) {
-        return "ORTHOGRAPHE";
-      }
+  } else {
+    for (let essais = 0; essais < conjugationLexicon.length; essais++) {
+      const verbe = tirerMot(conjugationLexicon, conjugationRemaining);
+      const { analyses, graphies } = extraireAnalysesVerbe(verbe);
+      if (!analyses.length) continue;
+      if (currentGameMode === 'analyse') genererConjugaisonAnalyse(verbe, analyses, graphies); else genererConjugaisonProduction(verbe, analyses);
+      return;
     }
   }
-
-  return "INCORRECT";
-}
-
-function formaterAnalyseAttendue(attendus) {
-  return attendus
-    .slice()
-    .sort((a, b) => {
-      const n = ORDRE_NOMBRES.indexOf(a.nombre) - ORDRE_NOMBRES.indexOf(b.nombre);
-      if (n !== 0) return n;
-      return ORDRE_CAS.indexOf(a.cas) - ORDRE_CAS.indexOf(b.cas);
-    })
-    .map(item => `${NOMS_CAS[item.cas]} ${NOMS_NOMBRE[item.nombre]}`)
-    .join(", ");
-}
-
-function getSelectionsAnalyse() {
-  const nombres = [...document.querySelectorAll('.analysis-choice[data-group="nombre"].selected')]
-    .map(btn => btn.dataset.value);
-  const cas = [...document.querySelectorAll('.analysis-choice[data-group="cas"].selected')]
-    .map(btn => btn.dataset.value);
-
-  return { nombres, cas };
-}
-
-function comparerSets(a, b) {
-  if (a.size !== b.size) return false;
-  for (const valeur of a) {
-    if (!b.has(valeur)) return false;
-  }
-  return true;
-}
-
-function validerReponseDeclinaison() {
-  let inputVal = document.getElementById("userInput").value;
-  if (!inputVal.trim()) return false;
-
-  let feedbackEl = document.getElementById("feedback");
-  let resultat = analyserReponse(currentQuestion.attendu, inputVal);
-  let attenduAffiche = formaterAttenduAffichage(currentQuestion.attendu, currentQuestion.cas, currentQuestion.nombre);
-
-  if (resultat === "CORRECT") {
-    score++;
-    feedbackEl.innerText = "✓ Correct !";
-    feedbackEl.className = "feedback correct";
-  } else if (resultat === "ORTHOGRAPHE") {
-    score++;
-    feedbackEl.innerHTML = `Orthographe (désinence correcte !) Attendu : <span class="ifaogrec">${attenduAffiche}</span>`;
-    feedbackEl.className = "feedback warning";
-  } else {
-    feedbackEl.innerHTML = `✗ Attendu : <span class="ifaogrec">${attenduAffiche}</span>`;
-    feedbackEl.className = "feedback incorrect";
-  }
-
-  document.getElementById("userInput").disabled = true;
-  return true;
-}
-
-function validerReponseAnalyse() {
-  const feedbackEl = document.getElementById("feedback");
-  const selection = getSelectionsAnalyse();
-
-  if (selection.nombres.length === 0 || selection.cas.length === 0) return false;
-
-  const attendusNombres = new Set(currentQuestion.attendus.map(item => item.nombre));
-  const attendusCas = new Set(currentQuestion.attendus.map(item => item.cas));
-  const selectionNombres = new Set(selection.nombres);
-  const selectionCas = new Set(selection.cas);
-  const attenduAffiche = formaterAnalyseAttendue(currentQuestion.attendus);
-
-  const nombresCorrects = comparerSets(selectionNombres, attendusNombres);
-  const casCorrects = comparerSets(selectionCas, attendusCas);
-
-  if (nombresCorrects && casCorrects) {
-    score++;
-    feedbackEl.innerText = "✓ Correct !";
-    feedbackEl.className = "feedback correct";
-  } else {
-    const casManquants = [...attendusCas].filter(c => !selectionCas.has(c));
-    const nombresManquants = [...attendusNombres].filter(n => !selectionNombres.has(n));
-    const casEnTrop = [...selectionCas].filter(c => !attendusCas.has(c));
-    const nombresEnTrop = [...selectionNombres].filter(n => !attendusNombres.has(n));
-    const seulVocatifOublie =
-      nombresManquants.length === 0 &&
-      nombresEnTrop.length === 0 &&
-      casEnTrop.length === 0 &&
-      casManquants.length === 1 &&
-      casManquants[0] === "voc";
-
-    if (seulVocatifOublie) {
-      score += 0.5;
-      feedbackEl.innerHTML = `Incomplet : attendu ${attenduAffiche}`;
-      feedbackEl.className = "feedback warning";
-    } else {
-      feedbackEl.innerHTML = `Incomplet : attendu ${attenduAffiche}`;
-      feedbackEl.className = "feedback incorrect";
-    }
-  }
-
-  document.querySelectorAll(".analysis-choice").forEach(btn => {
-    btn.disabled = true;
-  });
-  return true;
-}
-
-function afficherScore() {
-  document.getElementById("scoreBoard").innerText = `Score : ${score} / ${total}`;
+  afficherErreurChargement('Aucune forme jouable n’a été trouvée dans la catégorie choisie.');
 }
 
 function validerReponse() {
-  if (!currentQuestion) return;
-
-  const valide = currentQuestion.mode === "analyse"
-    ? validerReponseAnalyse()
-    : validerReponseDeclinaison();
-
-  if (!valide) return;
-
-  total++;
-  afficherScore();
-  document.getElementById("btnValidate").disabled = false;
-  document.getElementById("btnNext").style.display = "block";
+  if (!currentQuestion || questionValidated) return false;
+  let valide = false;
+  if (currentQuestion.kind === 'declension-production') valide = validerDeclinaisonProduction();
+  else if (currentQuestion.kind === 'declension-analysis') valide = validerDeclinaisonAnalyse();
+  else if (currentQuestion.kind === 'conjugation-production') valide = validerConjugaisonProduction();
+  else if (currentQuestion.kind === 'conjugation-analysis') valide = validerConjugaisonAnalyse();
+  if (!valide) return false;
+  questionValidated = true; total++; afficherScore();
+  document.getElementById('btnNext').style.display = 'block';
+  return true;
 }
 
+document.getElementById('btnValidate').addEventListener('click', () => questionValidated ? genererQuestion() : validerReponse());
+document.getElementById('btnNext').addEventListener('click', genererQuestion);
+document.addEventListener('keydown', event => {
+  if (event.key === 'Enter') { event.preventDefault(); questionValidated ? genererQuestion() : validerReponse(); }
+  if ((event.code === 'Space' || event.key === ' ') && questionValidated) { event.preventDefault(); genererQuestion(); }
+});
+
 // ---------------------------------------------------------------------------
-// 6. Initialisation & Contrôles Clavier
+// 9. Chargement indépendant des deux bases JSON
 // ---------------------------------------------------------------------------
 
-document.querySelectorAll(".analysis-choice").forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (!currentQuestion || currentQuestion.mode !== "analyse" || btn.disabled) return;
-    btn.classList.toggle("selected");
-  });
-});
-
-document.getElementById("btnValidate").addEventListener("click", () => {
-  const userInput = document.getElementById("userInput");
-
-  if (
-    (currentQuestion?.mode === "declinaison" && userInput.disabled) ||
-    (currentQuestion?.mode === "analyse" && document.getElementById("btnNext").style.display === "block")
-  ) {
-    genererQuestion();
-  } else {
-    validerReponse();
+async function chargerPremierJson(paths) {
+  let derniereErreur = null;
+  for (const path of paths) {
+    try {
+      const response = await fetch(path, { cache: 'force-cache' });
+      if (!response.ok) throw new Error(`${path} : HTTP ${response.status}`);
+      return await response.json();
+    } catch (error) { derniereErreur = error; }
   }
-});
-document.getElementById("btnNext").addEventListener("click", genererQuestion);
+  throw derniereErreur || new Error('Aucun fichier JSON disponible');
+}
 
-document.addEventListener("keydown", (e) => {
-  const userInput = document.getElementById("userInput");
-  if (!userInput) return;
+async function initialiserDonnees() {
+  const loading = document.getElementById('loadingText');
+  loading.innerText = 'Chargement des vocabulaires…';
+  const [declResult, conjResult] = await Promise.allSettled([
+    chargerPremierJson(['declinaisons_compilees_accentuees.json']),
+    chargerPremierJson(['verbes_grecs_jeu_final.min.json', 'verbes_grecs_jeu_final.json'])
+  ]);
 
-  if (e.key === "Enter") {
-    const questionDejaValidee = currentQuestion?.mode === "declinaison"
-      ? userInput.disabled
-      : document.getElementById("btnNext").style.display === "block";
+  if (declResult.status === 'fulfilled') {
+    declensionLexicon = construireLexique(declResult.value);
+    declensionRemaining = [...declensionLexicon];
+  } else console.warn('Déclinaisons non chargées :', declResult.reason);
 
-    if (questionDejaValidee) {
-      genererQuestion();
-    } else {
-      validerReponse();
-    }
+  if (conjResult.status === 'fulfilled') {
+    const verbs = conjResult.value?.verbs;
+    if (!Array.isArray(verbs)) throw new Error('Structure verbale invalide : tableau « verbs » absent');
+    conjugationLexicon = verbs.filter(v => v && v.lemma && v.forms);
+    conjugationRemaining = [...conjugationLexicon];
+  } else console.warn('Conjugaisons non chargées :', conjResult.reason);
+
+  if (!categorieDisponible(currentCategorieJeu)) {
+    if (conjugationLexicon.length) appliquerCategorieJeu('conjugaison');
+    else if (declensionLexicon.length) appliquerCategorieJeu('declinaison');
   }
 
-  if (e.code === "Space" || e.key === " ") {
-    const questionDejaValidee = currentQuestion?.mode === "declinaison"
-      ? userInput.disabled
-      : document.getElementById("btnNext").style.display === "block";
-
-    if (questionDejaValidee) {
-      e.preventDefault();
-      genererQuestion();
-    }
+  if (!declensionLexicon.length && !conjugationLexicon.length) {
+    afficherErreurChargement('Aucun vocabulaire n’a pu être chargé. Lance le site avec un serveur local plutôt qu’en ouvrant directement index.html.');
+    return;
   }
-});
+  loading.style.display = 'none';
+  document.getElementById('gameArea').style.display = 'block';
+  genererQuestion();
+}
 
-// Chargement du JSON
-fetch('declinaisons_compilees_accentuees.json')
-  .then(response => {
-    if (!response.ok) throw new Error("Fichier declinaisons_compilees_accentuees.json introuvable");
-    return response.json();
-  })
-  .then(data => {
-    lexique = construireLexique(data);
-    motsRestants = [...lexique];
-
-    document.getElementById("loadingText").style.display = "none";
-    document.getElementById("gameArea").style.display = "block";
-    genererQuestion();
-  })
-  .catch(err => {
-    document.getElementById("loadingText").innerText = "Erreur de chargement : " + err.message;
-  });
-
+initialiserDonnees().catch(error => afficherErreurChargement(`Erreur de chargement : ${error.message}`));
 </script>
 
 </body>
