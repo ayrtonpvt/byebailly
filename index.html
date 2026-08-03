@@ -1244,27 +1244,21 @@ document.querySelectorAll('.conj-choice').forEach(btn => {
 });
 
 document.querySelectorAll('.declension-analysis-choice').forEach(btn => {
+  btn.setAttribute('aria-pressed', 'false');
   btn.addEventListener('click', () => {
-    if (
-      !currentQuestion ||
-      currentQuestion.kind !== 'declension-analysis' ||
-      btn.disabled
-    ) return;
-
+    if (!currentQuestion || currentQuestion.kind !== 'declension-analysis' || btn.disabled) return;
     const groupe = btn.dataset.group;
-
     if (groupe === 'nombre') {
-      document
-        .querySelectorAll(
-          '.declension-analysis-choice[data-group="nombre"]'
-        )
-        .forEach(other => other.classList.remove('selected'));
-
+      document.querySelectorAll('.declension-analysis-choice[data-group="nombre"]').forEach(other => {
+        other.classList.remove('selected');
+        other.setAttribute('aria-pressed', 'false');
+      });
       btn.classList.add('selected');
+      btn.setAttribute('aria-pressed', 'true');
       return;
     }
-
     btn.classList.toggle('selected');
+    btn.setAttribute('aria-pressed', String(btn.classList.contains('selected')));
   });
 });
 
