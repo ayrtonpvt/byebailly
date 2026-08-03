@@ -60,7 +60,7 @@ body[data-theme="dark"] {
   --accent-hover: #c2590e;
   --accent-text: #ffffff;
   
-  --input-bg: #var(--card-bg);
+  --input-bg: var(--card-bg);
   --input-border: #404040;
   --success: #22c55e;
   --error: #ef4444;
@@ -279,10 +279,6 @@ transform: translate(-50%, -50%);}
   color: var(--accent);
 }
 
-
-
-.settings-panel.active { display: block; }
-
 .setting-group { margin-bottom: 16px; }
 .setting-group:last-child { margin-bottom: 0; }
 
@@ -417,6 +413,8 @@ body[data-theme="dark"] .segmented-control button.active {
   body[data-theme="system"] .segmented-control button.active {
     background-color: #333333;
     color: #CF6710;
+  }
+}
 
 .link-table {
   display: inline-block;
@@ -556,7 +554,7 @@ button.btn-primary:hover {
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.);
+  background: rgba(0, 0, 0, 0);
   backdrop-filter: blur(4px);
   display: none;
   justify-content: center;
@@ -889,25 +887,17 @@ input[type="text"] {
   font-family: 'IFAOGrec', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 /* ==========================================================================
-   Correction Définitive : Arrière-plan #171717 & Boîte #262626 (jsp pq c'est aussi compliqué) 
+   Correction Définitive : Arrière-plan #171717 & Boîte #262626
    ========================================================================== */
 
 /* 1. L'arrière-plan global de la page */
-html[data-theme="dark"] body,
 body[data-theme="dark"] {
-  background-color: #171717 !important;
+  background-color: #171717;
 }
 
 /* 2. La grande boîte extérieure (plus claire) */
-html[data-theme="dark"] .container,
 body[data-theme="dark"] .container {
-  background-color: #262626 !important;
-}
-
-/* 3. Les petites boîtes intérieures */
-html[data-theme="dark"] .settings-panel,
-body[data-theme="dark"] .settings-panel {
-  background-color: #2a2a2a !important;
+  background-color: #262626;
 }
 
 /* Libellés cachés par défaut */
