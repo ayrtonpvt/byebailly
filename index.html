@@ -592,97 +592,113 @@ function translittererVersGrec(texte, mode) {
 }
 
 // ---------------------------------------------------------------------------
-// 3. Déclinaisons : générateurs et lecture du lexique existant
+// 3. Lecture du lexique de déclinaisons
 // ---------------------------------------------------------------------------
 
-function deuxiemeDecl(stem, nomDonne, neutre) {
-  if (neutre) {
-    return {
-      "sg_nom": nomDonne, "sg_voc": nomDonne, "sg_acc": nomDonne, "sg_gen": stem + "ου", "sg_dat": stem + "ῳ",
-      "pl_nom": stem + "α", "pl_voc": stem + "α", "pl_acc": stem + "α", "pl_gen": stem + "ων", "pl_dat": stem + "οις"
-    };
+const LIBELLES_TYPES = {
+  nom: "nom",
+  adjectif: "adjectif",
+  adjectif_pronominal: "adjectif pronominal",
+  adjectif_possessif: "adjectif possessif",
+  adjectif_distributif: "adjectif distributif",
+  adjectif_superlatif: "adjectif superlatif",
+  numeral: "numéral",
+  pronom_personnel: "pronom personnel",
+  pronom_indefini: "pronom indéfini",
+  pronom_relatif: "pronom relatif",
+  participe_adjectival: "participe adjectival"
+};
+
+function extraireArticleNom(entree) {
+  const articles = new Set([
+    "ὁ", "ἡ", "τό", "ό", "το", "τά", "αἱ"
+  ]);
+
+  const morceaux = String(entree || "")
+    .replace(/[,\-–—()]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
+
+  for (let i = morceaux.length - 1; i >= 0; i--) {
+    if (articles.has(morceaux[i])) {
+      return morceaux[i];
+    }
   }
-  return {
-    "sg_nom": nomDonne, "sg_voc": stem + "ε", "sg_acc": stem + "ον", "sg_gen": stem + "ου", "sg_dat": stem + "ῳ",
-    "pl_nom": stem + "οι", "pl_voc": stem + "οι", "pl_acc": stem + "ους", "pl_gen": stem + "ων", "pl_dat": stem + "οις"
-  };
+
+  return null;
 }
 
-function premiereDeclFem(stem, nomDonne, genSgSuffixe, isEtaGen) {
-  let nomNorm = normaliser(nomDonne);
-  let isAlphaNom = nomNorm.endsWith("α");
-  return {
-    "sg_nom": nomDonne, "sg_voc": nomDonne,
-    "sg_acc": stem + (isAlphaNom ? "αν" : "ην"),
-    "sg_gen": stem + genSgSuffixe, "sg_dat": stem + (isEtaGen ? "ῃ" : "ᾳ"),
-    "pl_nom": stem + "αι", "pl_voc": stem + "αι", "pl_acc": stem + "ας",
-    "pl_gen": stem + "ων", "pl_dat": stem + "αις"
-  };
-}
+function formaterTypeAffiche(entry) {
+  const libelle =
+    LIBELLES_TYPES[entry.type] ||
+    String(entry.type || "mot").replaceAll("_", " ");
 
-function premiereDeclMasc(stem, nomDonne) {
-  return {
-    "sg_nom": nomDonne, "sg_voc": stem + "α", "sg_acc": stem + "ην",
-    "sg_gen": stem + "ου", "sg_dat": stem + "ῃ",
-    "pl_nom": stem + "αι", "pl_voc": stem + "αι", "pl_acc": stem + "ας",
-    "pl_gen": stem + "ων", "pl_dat": stem + "αις"
-  };
-}
-
-function troisiemeDeclIsEws(stem, nomDonne) {
-  return {
-    "sg_nom": nomDonne, "sg_voc": stem + "ι", "sg_acc": stem + "ιν", "sg_gen": stem + "εως", "sg_dat": stem + "ει",
-    "pl_nom": stem + "εις", "pl_voc": stem + "εις", "pl_acc": stem + "εις", "pl_gen": stem + "εων", "pl_dat": stem + "εσι(ν)"
-  };
-}
-
-function troisiemeDeclNeutreOsOus(stem, nomDonne) {
-  return {
-    "sg_nom": nomDonne, "sg_voc": nomDonne, "sg_acc": nomDonne, "sg_gen": stem + "ους", "sg_dat": stem + "ει",
-    "pl_nom": stem + "η", "pl_voc": stem + "η", "pl_acc": stem + "η", "pl_gen": stem + "ων", "pl_dat": stem + "εσι(ν)"
-  };
-}
-
-function troisiemeDeclConsonne(stem, nomDonne, neutre) {
-  let stemCourt = stem.length > 0 ? stem.slice(0, -1) : stem;
-  if (neutre) {
-    return {
-      "sg_nom": nomDonne, "sg_voc": nomDonne, "sg_acc": nomDonne, "sg_gen": stem + "ος", "sg_dat": stem + "ι",
-      "pl_nom": stem + "α", "pl_voc": stem + "α", "pl_acc": stem + "α", "pl_gen": stem + "ων", "pl_dat": stemCourt + "σι(ν)"
-    };
+  if (entry.type !== "nom") {
+    return libelle;
   }
-  return {
-    "sg_nom": nomDonne, "sg_voc": stem, "sg_acc": stem + "α", "sg_gen": stem + "ος", "sg_dat": stem + "ι",
-    "pl_nom": stem + "ες", "pl_voc": stem + "ες", "pl_acc": stem + "ας", "pl_gen": stem + "ων", "pl_dat": stemCourt + "σι(ν)"
-  };
+
+  const article = extraireArticleNom(entry.entree);
+
+  return article
+    ? `${libelle} (${article})`
+    : libelle;
 }
 
-function adj212(mascNom, stem) {
-  let dernier = stem.length > 0 ? stem.slice(-1) : "";
-  let dernierNu = stripAccents(dernier);
-  let femEnA = ["ε", "ι", "ρ"].includes(dernierNu);
-  let masc = deuxiemeDecl(stem, mascNom, false);
-  let neut = deuxiemeDecl(stem, stem + "ον", true);
-  let fem = femEnA ? premiereDeclFem(stem, stem + "α", "ας", false) : premiereDeclFem(stem, stem + "η", "ης", true);
-  return { "masc": masc, "fem": fem, "neutre": neut };
+function contientFormeDeclinable(formes) {
+  if (!formes || typeof formes !== "object") {
+    return false;
+  }
+
+  return Object.entries(formes).some(([cle, valeur]) => {
+    if (/^(sg|pl)_(nom|voc|acc|gen|dat)$/.test(cle)) {
+      return (
+        typeof valeur === "string" &&
+        valeur.trim() !== "" &&
+        valeur !== "-"
+      );
+    }
+
+    return (
+      valeur &&
+      typeof valeur === "object" &&
+      contientFormeDeclinable(valeur)
+    );
+  });
 }
 
-function adj3rdHsEs(stem, mascNom) {
-  let commun = {
-    "sg_nom": mascNom, "sg_voc": stem + "ές", "sg_acc": stem + "ῆ", "sg_gen": stem + "οῦς", "sg_dat": stem + "εῖ",
-    "pl_nom": stem + "εῖς", "pl_voc": stem + "εῖς", "pl_acc": stem + "εῖς", "pl_gen": stem + "ῶν", "pl_dat": stem + "έσι(ν)"
-  };
-  let neut = { ...commun };
-  neut["sg_nom"] = stem + "ές"; neut["sg_voc"] = stem + "ές"; neut["sg_acc"] = stem + "ές";
-  neut["pl_nom"] = stem + "ῆ"; neut["pl_voc"] = stem + "ῆ"; neut["pl_acc"] = stem + "ῆ";
-  return { "masc": commun, "fem": commun, "neutre": neut };
-}
+function construireLexique(data) {
+  const entrees =
+    Array.isArray(data)
+      ? data
+      : data?.declinaisons;
 
-function adj3rdConsonne(stem, mascNom) {
-  let mf = troisiemeDeclConsonne(stem, mascNom, false);
-  let neutNom = stem.endsWith("ον") ? stem : stem + "ον";
-  let neut = troisiemeDeclConsonne(stem, neutNom, true);
-  return { "masc": mf, "fem": mf, "neutre": neut };
+  if (!Array.isArray(entrees)) {
+    throw new Error(
+      "Structure JSON invalide : tableau « declinaisons » absent"
+    );
+  }
+
+  return entrees
+    .filter(
+      entry =>
+        entry &&
+        contientFormeDeclinable(entry.formes)
+    )
+    .map(entry => ({
+      id: entry.id,
+      lemme:
+        entry.lemme ||
+        String(entry.entree || "")
+          .split(",")[0]
+          .trim(),
+      entree: entry.entree || "",
+      traduction: entry.traduction || "",
+      forme: entry.formes,
+      formes_variantes:
+        entry.formes_variantes || {},
+      type_affiche:
+        formaterTypeAffiche(entry)
+    }));
 }
 
 // ---------------------------------------------------------------------------
