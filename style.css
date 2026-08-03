@@ -1222,3 +1222,12 @@ body[data-game-category="conjugaison"][data-game-mode="production"] .word-title 
     line-height: 1.05;
   }
 }
+body[data-theme="dark"] .analysis-choice:not(.analysis-validate-button) {
+  color: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  body[data-theme="system"] .analysis-choice:not(.analysis-validate-button) {
+    color: #ffffff;
+  }
+}
