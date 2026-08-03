@@ -61,7 +61,7 @@ body[data-theme="dark"] {
   --accent-text: #ffffff;
   
   --input-bg: #var(--card-bg);
-  --input-border: #2d3748;
+  --input-border: #404040;
   --success: #22c55e;
   --error: #ef4444;
   --segmented-bg: #0b0f17;
