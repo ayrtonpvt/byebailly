@@ -389,6 +389,10 @@ body[data-theme="light"] .segmented-control button.active {
   background-color: #EFEDE5;
   color: #CF6710;
 }
+body[data-theme="dark"] .segmented-control button.active {
+  background-color: #333333;
+  color: #CF6710;
+}
 @media (prefers-color-scheme: light) {
   body[data-theme="system"] .segmented-control {
     background-color: #ffffff;
@@ -409,6 +413,10 @@ body[data-theme="light"] .segmented-control button.active {
     color: #CF6710;
   }
 }
+@media (prefers-color-scheme: dark) {
+  body[data-theme="system"] .segmented-control button.active {
+    background-color: #333333;
+    color: #CF6710;
 
 .link-table {
   display: inline-block;
