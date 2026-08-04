@@ -440,12 +440,12 @@ body[data-theme="light"] .settings-modal-title {
   left: 50%;
   bottom: 0.38rem;
 
-  width: 14px;
-  height: 14px;
+  width: 4px;
+  height: 4px;
 
-  border: 2px solid #555;
+  border: 1px solid #555;
   border-radius: 50%;
-  background: transparent;
+  background: #FFF;
 
   transform: translateX(-50%);
 
