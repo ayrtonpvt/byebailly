@@ -1512,8 +1512,8 @@ function genererVersionProduction(mot) {
   };
 
   transliterationBaillyEtLien(lemmePourLienVersion(mot.Entree), mot.Entree);
-  document.getElementById('wordMeta').innerText = formaterTypeVersion(mot.Type);
-  document.getElementById('consigneText').innerText = 'Choisis la traduction correcte.';
+    document.getElementById('wordMeta').innerText = '';
+	document.getElementById('consigneText').innerText = 'Choisis la traduction correcte.';
 
   // En mode Version, on masque uniquement le champ de saisie :
   // le bouton Valider reste visible sous les quatre propositions.
