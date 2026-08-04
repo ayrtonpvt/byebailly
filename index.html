@@ -1708,6 +1708,17 @@ document.addEventListener('keydown', event => {
   if (event.key === 'Enter') { event.preventDefault(); questionValidated ? genererQuestion() : validerReponse(); }
   if ((event.code === 'Space' || event.key === ' ') && questionValidated) { event.preventDefault(); genererQuestion(); }
 });
+document.addEventListener('keydown', event => {
+  if (document.querySelector('.modal-overlay.active')) return;
+
+  if (currentQuestion?.kind === 'version-qcm' && !questionValidated && /^[1-4]$/.test(event.key)) {
+    event.preventDefault();
+    selectionnerChoixVersion(Number(event.key) - 1);
+    return;
+  }
+  if (event.key === 'Enter') { event.preventDefault(); questionValidated ? genererQuestion() : validerReponse(); }
+  if ((event.code === 'Space' || event.key === ' ') && questionValidated) { event.preventDefault(); genererQuestion(); }
+});
 
 // ---------------------------------------------------------------------------
 // 10. Chargement prioritaire puis préchargement en arrière-plan
