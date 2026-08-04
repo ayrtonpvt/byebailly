@@ -312,38 +312,49 @@
 
 <!-- Modal Paramètres -->
 <div class="modal-overlay" id="modalSettings">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Paramètres</h2>
-      <button class="btn-icon" id="btnCloseSettings">✕</button>
-    </div>
-	  
-<div class="setting-group">
-  <span class="setting-label">Mode de jeu</span>
-  <div class="segmented-control" id="gameCategoryControl">
-    <button data-value="declinaison" class="active">Déclinaison</button>
-    <button data-value="conjugaison">Conjugaison</button>
-    <button data-value="version">Version</button>
-  </div>
-</div>
-	  
-    <div class="setting-group">
-      <span class="setting-label">Thème</span>
-      <div class="segmented-control" id="themeControl">
-        <button data-value="system" class="active">Système</button>
-        <button data-value="light">Clair</button>
-        <button data-value="dark">Foncé</button>
-      </div>
+  <div class="settings-modal-wrapper">
+
+    <div class="settings-modal-title">
+      <span>Paramètres</span>
+
+      <button
+        class="btn-icon settings-close-button"
+        id="btnCloseSettings"
+        aria-label="Fermer"
+      >
+        ✕
+      </button>
     </div>
 
-    <div class="setting-group" style="margin-top: 16px;">
-      <span class="setting-label">Mode de saisie</span>
-      <div class="segmented-control" id="modeControl">
-        <button data-value="translit" class="active">Translittération</button>
-        <button data-value="beta">Bêta code</button>
-      </div>
-      <a class="link-table" id="btnOpenTable"> Table de correspondance</a>
+    <div class="settings-stack">
+      <section class="setting-group" aria-labelledby="settingGameTitle">
+        <h3 class="setting-label" id="settingGameTitle">Mode de jeu</h3>
+        <div class="segmented-control" id="gameCategoryControl">
+          <button type="button" data-value="declinaison" class="active">Déclinaison</button>
+          <button type="button" data-value="conjugaison">Conjugaison</button>
+          <button type="button" data-value="version">Version</button>
+        </div>
+      </section>
+
+      <section class="setting-group" aria-labelledby="settingThemeTitle">
+        <h3 class="setting-label" id="settingThemeTitle">Thème</h3>
+        <div class="segmented-control" id="themeControl">
+          <button type="button" data-value="system" class="active">Système</button>
+          <button type="button" data-value="light">Clair</button>
+          <button type="button" data-value="dark">Foncé</button>
+        </div>
+      </section>
+
+      <section class="setting-group" aria-labelledby="settingInputTitle">
+        <h3 class="setting-label" id="settingInputTitle">Mode de saisie</h3>
+        <div class="segmented-control" id="modeControl">
+          <button type="button" data-value="translit" class="active">Translittération</button>
+          <button type="button" data-value="beta">Bêta code</button>
+        </div>
+        <a class="link-table" id="btnOpenTable">Table de correspondance</a>
+      </section>
     </div>
+
   </div>
 </div>
 
