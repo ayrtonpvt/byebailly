@@ -1477,15 +1477,11 @@ function afficherChoixVersion(choix) {
     bouton.dataset.index = String(index);
     bouton.setAttribute('aria-pressed', 'false');
 
-    const raccourci = document.createElement('span');
-    raccourci.className = 'version-answer-number';
-    raccourci.textContent = String(index + 1);
-
     const texte = document.createElement('span');
     texte.className = 'version-answer-text';
     texte.textContent = option.traduction;
 
-    bouton.append(raccourci, texte);
+    bouton.appendChild(texte);
     bouton.addEventListener('click', () => selectionnerChoixVersion(index));
     grille.appendChild(bouton);
   });
