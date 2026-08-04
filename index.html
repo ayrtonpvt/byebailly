@@ -840,14 +840,65 @@ function validerDeclinaisonProduction() {
 
 function validerDeclinaisonAnalyse() {
   const selection = getDeclensionSelections();
-  if (!selection.nombres.length || !selection.cas.length) return false;
-  const expectedNumbers = new Set(currentQuestion.attendus.map(a => a.nombre));
-  const expectedCases = new Set(currentQuestion.attendus.map(a => a.cas));
-  const ok = comparerSets(new Set(selection.nombres), expectedNumbers) && comparerSets(new Set(selection.cas), expectedCases);
   const feedback = document.getElementById('feedback');
-  if (ok) { score++; feedback.innerText = '✓ Correct !'; feedback.className = 'feedback correct'; }
-  else { feedback.innerText = `✗ Attendu : ${formaterAnalyseDeclinaison(currentQuestion.attendus)}`; feedback.className = 'feedback incorrect'; }
-  document.querySelectorAll('.declension-analysis-choice').forEach(b => b.disabled = true);
+
+  if (selection.nombres.length !== 1 || !selection.cas.length) {
+    feedback.innerText = 'Sélectionne un nombre et tous les cas correspondants.';
+    feedback.className = 'feedback warning';
+    return false;
+  }
+
+  const nombreChoisi = selection.nombres[0];
+
+  // Toutes les analyses correctes pour le nombre choisi.
+  const analysesDuNombre = currentQuestion.attendus.filter(
+    analyse => analyse.nombre === nombreChoisi
+  );
+
+  const casAttendus = new Set(
+    analysesDuNombre.map(analyse => analyse.cas)
+  );
+  const casChoisis = new Set(selection.cas);
+
+  // Il faut choisir tous les cas corrects, et aucun cas incorrect.
+  const correct =
+    analysesDuNombre.length > 0 &&
+    comparerSets(casChoisis, casAttendus);
+
+  const toutesLesAnalyses = currentQuestion.attendus.map(analyse =>
+    formaterAnalyseDeclinaison([analyse])
+  );
+
+  if (correct) {
+    score++;
+
+    const analysesChoisies = analysesDuNombre.map(analyse =>
+      formaterAnalyseDeclinaison([analyse])
+    );
+
+    const autresAnalyses = toutesLesAnalyses.filter(
+      analyse => !analysesChoisies.includes(analyse)
+    );
+
+    feedback.innerHTML = autresAnalyses.length
+      ? `✓ Correct ! <span class="feedback-detail">(Autre réponse possible : ${autresAnalyses.join(' ; ')})</span>`
+      : '✓ Correct !';
+
+    feedback.className = 'feedback correct';
+  } else {
+    feedback.innerHTML =
+      `✗ ${toutesLesAnalyses.length > 1 ? 'Analyses correctes' : 'Analyse correcte'} : ` +
+      toutesLesAnalyses.join(' ; ');
+
+    feedback.className = 'feedback incorrect';
+  }
+
+  document
+    .querySelectorAll('.declension-analysis-choice')
+    .forEach(bouton => {
+      bouton.disabled = true;
+    });
+
   return true;
 }
 
@@ -1164,8 +1215,14 @@ function validerConjugaisonAnalyse() {
 // ---------------------------------------------------------------------------
 
 function reinitialiserBoutons() {
-  document.querySelectorAll('.analysis-choice').forEach(btn => { btn.classList.remove('selected'); btn.disabled = false; btn.setAttribute('aria-pressed','false'); });
+  document.querySelectorAll('.analysis-choice').forEach(btn => {
+    btn.classList.remove('selected');
+    btn.disabled = false;
+    btn.setAttribute('aria-pressed', 'false');
+  });
   mettreAJourControlesMorphologiques();
+}
+
 function afficherEtatBoutonValidation(etat) {
   const bouton = document.getElementById('btnValidate');
   const texteDesktop = bouton.querySelector('.texte-desktop');
@@ -1178,7 +1235,6 @@ function afficherEtatBoutonValidation(etat) {
     texteDesktop.textContent = 'Valider';
     iconeMobile.textContent = '✓';
   }
-}	
 }
 function preparerInterfaceQuestion() {
   questionValidated = false;
@@ -1415,6 +1471,3 @@ initialiserDonnees().catch(error => {
 window.addEventListener("resize", updateTenseLabels);
 updateTenseLabels();
 </script>
-
-</body>
-</html>
