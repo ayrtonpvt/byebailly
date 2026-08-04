@@ -1229,3 +1229,153 @@ body[data-theme="dark"] .analysis-choice:not(.analysis-validate-button) {
     color: #ffffff;
   }
 }
+
+/* ========================================================================== 
+   Mode Version — QCM grec → français
+   ========================================================================== */
+
+.version-answer-grid {
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+button.version-answer-button {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 72px;
+  padding: 12px 14px;
+
+  color: var(--text-main);
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+
+  font-family: inherit;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  text-align: left;
+
+  cursor: pointer;
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.1s ease;
+}
+
+button.version-answer-button:hover:not(:disabled) {
+  border-color: var(--accent);
+  box-shadow: 0 2px 8px rgba(234, 139, 22, 0.18);
+  transform: translateY(-1px);
+}
+
+button.version-answer-button:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+button.version-answer-button.selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(234, 139, 22, 0.16);
+}
+
+.version-answer-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  color: var(--text-muted);
+  background: var(--segmented-bg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.76rem;
+  line-height: 1;
+  transition: color 0.18s ease, background-color 0.18s ease;
+}
+
+.version-answer-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-family: 'Brill', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+button.version-answer-button.selected .version-answer-number {
+  color: var(--accent-text);
+  background-color: var(--accent);
+}
+
+button.version-answer-button.correct-answer {
+  border-color: var(--success);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--success) 18%, transparent);
+}
+
+button.version-answer-button.correct-answer .version-answer-number {
+  color: #ffffff;
+  background-color: var(--success);
+}
+
+button.version-answer-button.incorrect-answer {
+  border-color: var(--error);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--error) 16%, transparent);
+}
+
+button.version-answer-button.incorrect-answer .version-answer-number {
+  color: #ffffff;
+  background-color: var(--error);
+}
+
+button.version-answer-button:disabled {
+  cursor: default;
+  opacity: 1;
+  transform: none;
+}
+
+body[data-game-category="version"] .word-card {
+  text-align: center;
+}
+
+body[data-game-category="version"] .word-title {
+  display: inline-block;
+  max-width: 100%;
+  font-size: 2rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+body[data-game-category="version"] .word-meta {
+  margin-top: 7px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  text-transform: none;
+}
+
+@supports not (color: color-mix(in srgb, white 50%, black)) {
+  button.version-answer-button.correct-answer {
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.16);
+  }
+
+  button.version-answer-button.incorrect-answer {
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.14);
+  }
+}
+
+@media (max-width: 600px) {
+  .version-answer-grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  button.version-answer-button {
+    min-height: 60px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  body[data-game-category="version"] .word-title {
+    font-size: 1.75rem;
+  }
+}
