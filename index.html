@@ -366,9 +366,11 @@ if (!['production', 'analyse'].includes(currentGameMode)) currentGameMode = 'ana
 let declensionLexicon = [];
 let conjugationLexicon = [];
 let versionLexicon = [];
+let themeLexicon = [];
 let declensionRemaining = [];
 let conjugationRemaining = [];
 let versionRemaining = [];
+let themeRemaining = [];
 
 // Conserve le sous-mode utilisé avant l'ouverture de la catégorie Version.
 let modeAvantVersion = currentGameMode;
@@ -393,9 +395,21 @@ function appliquerTheme(theme) {
   });
 }
 
+function estModeTheme() {
+  return currentCategorieJeu === 'version' && currentGameMode === 'analyse';
+}
+
 function mettreAJourPlaceholder() {
   const input = document.getElementById("userInput");
   if (!input) return;
+
+  if (estModeTheme()) {
+    input.placeholder = currentInputMode === "beta"
+      ? "Saisir le mot grec en Bêta code…"
+      : "Saisir le mot grec en translittération…";
+    return;
+  }
+
   const exemple = currentCategorieJeu === 'conjugaison' ? 'luomen' : 'theos';
   input.placeholder = currentInputMode === "beta"
     ? `Saisir en Bêta code (ex. ${exemple})…`
@@ -419,20 +433,36 @@ function libelleModeProduction() {
   return 'Déclinaison';
 }
 
+function libelleModeActuel() {
+  if (currentCategorieJeu === 'version') {
+    return estModeTheme() ? 'Thème' : 'Version';
+  }
+  return currentGameMode === 'analyse' ? 'Analyse' : libelleModeProduction();
+}
+
+function libelleModeInverse() {
+  if (currentCategorieJeu === 'version') {
+    return estModeTheme() ? 'Version' : 'Thème';
+  }
+  return currentGameMode === 'analyse' ? libelleModeProduction() : 'Analyse';
+}
+
 function appliquerModeJeu(mode) {
   currentGameMode = mode === 'analyse' ? 'analyse' : 'production';
-  document.body.setAttribute("data-game-mode", currentGameMode);
+
+  // Le sous-mode Thème ne doit pas hériter des styles propres aux interfaces
+  // d'analyse morphologique.
+  document.body.setAttribute(
+    "data-game-mode",
+    estModeTheme() ? 'theme' : currentGameMode
+  );
   localStorage.setItem("app_game_mode", currentGameMode);
 
   const label = document.getElementById("gameModeLabel");
   const bouton = document.getElementById("btnInverser");
-  label.innerText = currentGameMode === 'analyse' ? 'Analyse' : libelleModeProduction();
-  bouton.setAttribute(
-    'aria-label',
-    currentGameMode === 'analyse'
-      ? `Passer en mode ${libelleModeProduction()}`
-      : 'Passer en mode Analyse'
-  );
+  label.innerText = libelleModeActuel();
+  bouton.setAttribute('aria-label', `Passer en mode ${libelleModeInverse()}`);
+  mettreAJourPlaceholder();
 }
 
 function categorieDisponible(categorie) {
@@ -807,7 +837,16 @@ function transliterationBaillyEtLien(lemme, texte, slugBailly = null) {
   el.target = '_blank';
   el.rel = 'noopener noreferrer';
 }
-function afficherScore() { document.getElementById('scoreBoard').innerText = `Score : ${score} / ${total}`; }
+function formaterNombreScore(valeur) {
+  return Number.isInteger(valeur)
+    ? String(valeur)
+    : String(valeur).replace('.', ',');
+}
+
+function afficherScore() {
+  document.getElementById('scoreBoard').innerText =
+    `Score : ${formaterNombreScore(score)} / ${total}`;
+}
 function afficherErreurChargement(message) {
   document.getElementById('loadingText').style.display = 'block';
   document.getElementById('loadingText').innerText = message;
@@ -1277,7 +1316,7 @@ function validerConjugaisonAnalyse() {
 }
 
 // ---------------------------------------------------------------------------
-// 8. Mode Version : QCM grec → français
+// 8. Modes Version (grec → français) et Thème (français → grec)
 // ---------------------------------------------------------------------------
 
 // Exceptions aux slugs générés automatiquement : homonymes et entrées Bailly numérotées.
@@ -1615,14 +1654,190 @@ function selectionnerChoixVersion(index) {
   feedback.className = 'feedback';
 }
 
-function revelerIndiceVersion() {
-  if (!currentQuestion || currentQuestion.kind !== 'version-qcm') return;
+function afficherTitreSansLien(texte) {
+  const element = document.getElementById('wordLemme');
+  element.textContent = texte;
+  element.removeAttribute('href');
+  element.removeAttribute('target');
+  element.removeAttribute('rel');
+}
 
-  document.getElementById('wordMeta').innerText =
-    formaterTypeVersion(currentQuestion.mot.Type);
+const segmenterGrec = (
+  typeof Intl !== 'undefined' &&
+  typeof Intl.Segmenter === 'function'
+)
+  ? new Intl.Segmenter('el', { granularity: 'grapheme' })
+  : null;
+
+function segmenterGraphemes(texte) {
+  const normalise = String(texte || '').normalize('NFC');
+
+  if (segmenterGrec) {
+    return [...segmenterGrec.segment(normalise)].map(segment => segment.segment);
+  }
+
+  // Repli pour les navigateurs plus anciens : les marques combinatoires
+  // restent attachées à la lettre qui les précède.
+  const groupes = [];
+  for (const caractere of Array.from(normalise.normalize('NFD'))) {
+    if (/\p{M}/u.test(caractere) && groupes.length) {
+      groupes[groupes.length - 1] += caractere;
+    } else {
+      groupes.push(caractere);
+    }
+  }
+  return groupes.map(groupe => groupe.normalize('NFC'));
+}
+
+function decouperIndiceTheme(reponse) {
+  const segments = [];
+  let segmentCourant = null;
+
+  for (const grapheme of segmenterGraphemes(reponse)) {
+    const estMot = /\p{L}/u.test(grapheme);
+
+    if (!segmentCourant || segmentCourant.estMot !== estMot) {
+      segmentCourant = { estMot, graphemes: [] };
+      segments.push(segmentCourant);
+    }
+
+    segmentCourant.graphemes.push(grapheme);
+  }
+
+  return segments;
+}
+
+function nombreEtapesIndiceTheme(segments) {
+  const longueurs = segments
+    .filter(segment => segment.estMot)
+    .map(segment => segment.graphemes.length)
+    .sort((a, b) => b - a);
+
+  const longueurMaximale = longueurs[0] || 0;
+  let nombreEtapes = Math.max(1, longueurMaximale);
+
+  // Lorsque plusieurs mots se suivent et que le plus long ne dépasse le
+  // deuxième que d'un graphème, le dernier clic achève toute la locution.
+  // Cela reproduit notamment :
+  // ο… μ… ἀ… → οὐ… μὴ… ἀλ… → οὐ μὴν ἀλλά
+  if (
+    longueurs.length > 1 &&
+    longueurMaximale - longueurs[1] === 1
+  ) {
+    nombreEtapes = Math.max(1, longueurMaximale - 1);
+  }
+
+  return nombreEtapes;
+}
+
+function formaterIndiceTheme(segments, etape, nombreEtapes) {
+  if (etape >= nombreEtapes) {
+    return segments
+      .map(segment => segment.graphemes.join(''))
+      .join('');
+  }
+
+  return segments
+    .map(segment => {
+      if (!segment.estMot) return segment.graphemes.join('');
+
+      const nombreRevele = Math.min(etape, segment.graphemes.length);
+      return `${segment.graphemes.slice(0, nombreRevele).join('')}…`;
+    })
+    .join('');
+}
+
+function normaliserReponseTheme(texte, depuisSaisie = false) {
+  const source = depuisSaisie
+    ? translittererVersGrec(String(texte || '').trim(), currentInputMode)
+    : String(texte || '').trim().toLocaleLowerCase('el');
+
+  return source
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .replaceAll('ς', 'σ')
+    .replaceAll('ϕ', 'φ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .normalize('NFC');
+}
+
+function normaliserConfusionOmicronOmegaTheme(texteNormalise) {
+  // La tolérance porte sur toutes les occurrences du mot ou de la locution,
+  // et non sur la seule désinence.
+  return texteNormalise.replace(/[οω]/g, 'ο');
+}
+
+function analyserReponseTheme(proposition, reponsesAcceptees) {
+  const propositionNormalisee = normaliserReponseTheme(proposition, true);
+  const reponses = reponsesAcceptees.map(reponse => ({
+    texte: reponse,
+    normalisee: normaliserReponseTheme(reponse)
+  }));
+
+  const exacte = reponses.find(
+    reponse => reponse.normalisee === propositionNormalisee
+  );
+  if (exacte) return { statut: 'exacte', correspondance: exacte.texte };
+
+  const propositionSouple =
+    normaliserConfusionOmicronOmegaTheme(propositionNormalisee);
+
+  const omegaOmicron = reponses.find(reponse =>
+    normaliserConfusionOmicronOmegaTheme(reponse.normalisee) === propositionSouple
+  );
+
+  if (omegaOmicron) {
+    return { statut: 'omega-omicron', correspondance: omegaOmicron.texte };
+  }
+
+  return { statut: 'incorrecte', correspondance: null };
+}
+
+function autresReponsesTheme(reponses, correspondance) {
+  const cleCorrespondance = normaliserReponseTheme(correspondance);
+  return reponses.filter(
+    reponse => normaliserReponseTheme(reponse) !== cleCorrespondance
+  );
+}
+
+function revelerIndiceVersion() {
+  if (!currentQuestion || questionValidated) return;
+
+  if (currentQuestion.kind === 'version-qcm') {
+    document.getElementById('wordMeta').innerText =
+      formaterTypeVersion(currentQuestion.mot.Type);
+
+    document.getElementById('btnVersionIndice').style.display = 'none';
+    return;
+  }
+
+  if (currentQuestion.kind !== 'version-theme') return;
+
+  currentQuestion.hintStep = Math.min(
+    currentQuestion.hintStep + 1,
+    currentQuestion.hintSteps
+  );
+
+  const consigne = document.getElementById('consigneText');
+  consigne.textContent = formaterIndiceTheme(
+    currentQuestion.hintSegments,
+    currentQuestion.hintStep,
+    currentQuestion.hintSteps
+  );
+  consigne.classList.add('ifaogrec');
 
   const boutonIndice = document.getElementById('btnVersionIndice');
-  boutonIndice.style.display = 'none';
+
+  if (currentQuestion.hintStep >= currentQuestion.hintSteps) {
+    boutonIndice.style.display = 'none';
+  } else {
+    boutonIndice.setAttribute(
+      'aria-label',
+      'Révéler un graphème supplémentaire dans chaque mot'
+    );
+    boutonIndice.title = 'Révéler un graphème supplémentaire';
+  }
 }
 
 document
@@ -1646,7 +1861,12 @@ function genererVersionProduction(mot) {
     slugBaillyPourVersion(mot)
   );
   document.getElementById('wordMeta').innerText = '';
-  document.getElementById('btnVersionIndice').style.display = 'inline-flex';
+
+  const boutonIndice = document.getElementById('btnVersionIndice');
+  boutonIndice.style.display = 'inline-flex';
+  boutonIndice.disabled = false;
+  boutonIndice.setAttribute('aria-label', 'Afficher la nature du mot');
+  boutonIndice.title = 'Afficher la nature du mot';
 
   // En mode Version, on masque uniquement le champ de saisie :
   // le bouton Valider reste visible sous les quatre propositions.
@@ -1659,6 +1879,46 @@ function genererVersionProduction(mot) {
   boutonValider.classList.add('version-validate-button');
 
   afficherChoixVersion(choix);
+  return true;
+}
+
+function genererThemeProduction(mot) {
+  const reponsesAcceptees = uniqueStrings(mot?._reponsesTheme);
+  if (!reponsesAcceptees.length) return false;
+
+  const reponsePrincipale = reponsesAcceptees[0];
+  const hintSegments = decouperIndiceTheme(reponsePrincipale);
+  const hintSteps = nombreEtapesIndiceTheme(hintSegments);
+
+  currentQuestion = {
+    kind: 'version-theme',
+    mot,
+    acceptedAnswers: reponsesAcceptees,
+    primaryAnswer: reponsePrincipale,
+    hintSegments,
+    hintSteps,
+    hintStep: 0
+  };
+
+  afficherTitreSansLien(mot.Traduction);
+  document.getElementById('wordMeta').innerText =
+    formaterTypeVersion(mot.Type);
+  document.getElementById('consigneText').innerText = '';
+
+  const boutonIndice = document.getElementById('btnVersionIndice');
+  boutonIndice.style.display = 'inline-flex';
+  boutonIndice.disabled = false;
+  boutonIndice.setAttribute(
+    'aria-label',
+    'Révéler le premier graphème de chaque mot'
+  );
+  boutonIndice.title = 'Révéler le premier graphème';
+
+  const input = document.getElementById('userInput');
+  input.style.display = '';
+  input.disabled = false;
+
+  if (window.matchMedia('(pointer: fine)').matches) input.focus();
   return true;
 }
 
@@ -1695,15 +1955,41 @@ function validerVersionQcm() {
   return true;
 }
 
-function afficherVersionAnalyseNonImplemente() {
-  preparerInterfaceQuestion();
-  transliterationBaillyEtLien('', 'Mode Version — Analyse');
-  document.getElementById('wordLemme').removeAttribute('href');
-  document.getElementById('wordMeta').innerText = 'Le QCM grec → français se trouve dans le sous-mode Version.';
-  document.getElementById('consigneText').innerText = '';
-  document.getElementById('declinaisonInputGroup').style.display = 'none';
-  document.getElementById('versionAnswerGrid').style.display = 'none';
-  currentQuestion = null;
+function validerThemeProduction() {
+  const input = document.getElementById('userInput');
+  if (!input.value.trim()) return false;
+
+  const feedback = document.getElementById('feedback');
+  const analyse = analyserReponseTheme(
+    input.value,
+    currentQuestion.acceptedAnswers
+  );
+
+  if (analyse.statut === 'exacte') {
+    score += 1;
+    const autres = autresReponsesTheme(
+      currentQuestion.acceptedAnswers,
+      analyse.correspondance
+    );
+
+    feedback.textContent = autres.length
+      ? `✓ Correct ! Autre${autres.length > 1 ? 's' : ''} réponse${autres.length > 1 ? 's' : ''} possible${autres.length > 1 ? 's' : ''} : ${autres.join(' ; ')}`
+      : '✓ Correct !';
+    feedback.className = 'feedback correct';
+  } else if (analyse.statut === 'omega-omicron') {
+    score += 0.5;
+    feedback.textContent =
+      `≈ Réponse reconnue, mais confusion ο/ω : +0,5 point. Réponses possibles : ${currentQuestion.acceptedAnswers.join(' ; ')}`;
+    feedback.className = 'feedback warning';
+  } else {
+    feedback.textContent =
+      `✗ Réponses possibles : ${currentQuestion.acceptedAnswers.join(' ; ')}`;
+    feedback.className = 'feedback incorrect';
+  }
+
+  input.disabled = true;
+  document.getElementById('btnVersionIndice').style.display = 'none';
+  return true;
 }
 
 // ---------------------------------------------------------------------------
@@ -1735,28 +2021,68 @@ function afficherEtatBoutonValidation(etat) {
 function preparerInterfaceQuestion() {
   questionValidated = false;
   afficherEtatBoutonValidation('validate');
+
   const feedback = document.getElementById('feedback');
-  feedback.innerText = ''; feedback.className = 'feedback';
-  document.getElementById('consigneText').innerText = '';
+  feedback.innerText = '';
+  feedback.className = 'feedback';
+
+  const consigne = document.getElementById('consigneText');
+  consigne.innerText = '';
+  consigne.classList.remove('ifaogrec');
+
   document.getElementById('btnValidate').disabled = false;
-  const analyse = currentGameMode === 'analyse';
+
+  const analyseMorphologique =
+    currentGameMode === 'analyse' && currentCategorieJeu !== 'version';
+  const theme = estModeTheme();
   const inputGroup = document.getElementById('declinaisonInputGroup');
   const input = document.getElementById('userInput');
   const versionGrid = document.getElementById('versionAnswerGrid');
   const boutonIndiceVersion = document.getElementById('btnVersionIndice');
+
   boutonIndiceVersion.style.display = 'none';
+  boutonIndiceVersion.disabled = false;
+  boutonIndiceVersion.textContent = 'Indice';
+  boutonIndiceVersion.setAttribute('aria-label', 'Afficher un indice');
+  boutonIndiceVersion.title = 'Afficher un indice';
+
   versionGrid.style.display = 'none';
   versionGrid.replaceChildren();
+
   inputGroup.style.display = 'flex';
-  inputGroup.classList.toggle('analysis-validate-row', analyse);
+  inputGroup.classList.toggle(
+    'analysis-validate-row',
+    analyseMorphologique
+  );
   inputGroup.classList.remove('version-validate-row');
-  input.style.display = analyse ? 'none' : '';
-  input.value = ''; input.disabled = false;
-  document.getElementById('btnValidate').classList.toggle('analysis-validate-button', analyse);
-  document.getElementById('btnValidate').classList.remove('version-validate-button');
-  document.getElementById('declensionAnalysisControls').style.display = analyse && currentCategorieJeu === 'declinaison' ? 'block' : 'none';
-  document.getElementById('conjugationAnalysisControls').style.display = analyse && currentCategorieJeu === 'conjugaison' ? 'block' : 'none';
+
+  input.style.display = analyseMorphologique ? 'none' : '';
+  input.value = '';
+  input.disabled = false;
+
+  document.getElementById('btnValidate').classList.toggle(
+    'analysis-validate-button',
+    analyseMorphologique
+  );
+  document.getElementById('btnValidate').classList.remove(
+    'version-validate-button'
+  );
+
+  document.getElementById('declensionAnalysisControls').style.display =
+    analyseMorphologique && currentCategorieJeu === 'declinaison'
+      ? 'block'
+      : 'none';
+  document.getElementById('conjugationAnalysisControls').style.display =
+    analyseMorphologique && currentCategorieJeu === 'conjugaison'
+      ? 'block'
+      : 'none';
+
+  // En Thème, le champ reste visible malgré la valeur interne « analyse »,
+  // utilisée uniquement pour conserver le mécanisme du bouton d'inversion.
+  if (theme) input.style.display = '';
+
   reinitialiserBoutons();
+  mettreAJourPlaceholder();
 }
 function tirerMot(lexique, nomFile) {
   if (!nomFile.length) nomFile.push(...lexique);
@@ -1765,10 +2091,6 @@ function tirerMot(lexique, nomFile) {
 }
 
 function genererQuestion() {
-  if (currentCategorieJeu === 'version' && currentGameMode === 'analyse') {
-    afficherVersionAnalyseNonImplemente();
-    return;
-  }
   if (!categorieDisponible(currentCategorieJeu)) {
     afficherErreurChargement(currentCategorieJeu === 'conjugaison'
       ? 'Le fichier verbes_grecs_jeu_final.min.json n’a pas pu être chargé.'
@@ -1777,6 +2099,7 @@ function genererQuestion() {
         : 'Le fichier declinaisons_compilees_accentuees.json n’a pas pu être chargé.');
     return;
   }
+
   document.getElementById('loadingText').style.display = 'none';
   document.getElementById('gameArea').style.display = 'block';
   preparerInterfaceQuestion();
@@ -1786,7 +2109,11 @@ function genererQuestion() {
       const mot = tirerMot(declensionLexicon, declensionRemaining);
       const candidats = extraireCandidatsDeclinaison(mot);
       if (!candidats.length) continue;
-      if (currentGameMode === 'analyse') genererDeclinaisonAnalyse(mot, candidats); else genererDeclinaisonProduction(mot, candidats);
+      if (currentGameMode === 'analyse') {
+        genererDeclinaisonAnalyse(mot, candidats);
+      } else {
+        genererDeclinaisonProduction(mot, candidats);
+      }
       return;
     }
   } else if (currentCategorieJeu === 'conjugaison') {
@@ -1794,16 +2121,30 @@ function genererQuestion() {
       const verbe = tirerMot(conjugationLexicon, conjugationRemaining);
       const { analyses, graphies } = extraireAnalysesVerbe(verbe);
       if (!analyses.length) continue;
-      if (currentGameMode === 'analyse') genererConjugaisonAnalyse(verbe, analyses, graphies); else genererConjugaisonProduction(verbe, analyses);
+      if (currentGameMode === 'analyse') {
+        genererConjugaisonAnalyse(verbe, analyses, graphies);
+      } else {
+        genererConjugaisonProduction(verbe, analyses);
+      }
       return;
     }
   } else {
-    for (let essais = 0; essais < versionLexicon.length; essais++) {
-      const mot = tirerMot(versionLexicon, versionRemaining);
-      if (genererVersionProduction(mot)) return;
+    const lexique = estModeTheme() ? themeLexicon : versionLexicon;
+    const file = estModeTheme() ? themeRemaining : versionRemaining;
+
+    for (let essais = 0; essais < lexique.length; essais++) {
+      const mot = tirerMot(lexique, file);
+      const generee = estModeTheme()
+        ? genererThemeProduction(mot)
+        : genererVersionProduction(mot);
+
+      if (generee) return;
     }
   }
-  afficherErreurChargement('Aucune forme jouable n’a été trouvée dans la catégorie choisie.');
+
+  afficherErreurChargement(
+    'Aucune forme jouable n’a été trouvée dans la catégorie choisie.'
+  );
 }
 
 function validerReponse() {
@@ -1814,42 +2155,58 @@ function validerReponse() {
   else if (currentQuestion.kind === 'conjugation-production') valide = validerConjugaisonProduction();
   else if (currentQuestion.kind === 'conjugation-analysis') valide = validerConjugaisonAnalyse();
   else if (currentQuestion.kind === 'version-qcm') valide = validerVersionQcm();
+  else if (currentQuestion.kind === 'version-theme') valide = validerThemeProduction();
+
   if (!valide) return false;
+
   questionValidated = true;
-total++;
-afficherScore();
+  total++;
+  afficherScore();
 
-const bouton = document.getElementById('btnValidate');
-bouton.disabled = true;
+  const bouton = document.getElementById('btnValidate');
+  bouton.disabled = true;
 
-setTimeout(() => {
-  afficherEtatBoutonValidation('next');
-  bouton.disabled = false;
-}, 60);
+  setTimeout(() => {
+    afficherEtatBoutonValidation('next');
+    bouton.disabled = false;
+  }, 60);
 
-return true;
+  return true;
 }
 
-document.getElementById('btnValidate').addEventListener('click', () => questionValidated ? genererQuestion() : validerReponse());
-document.addEventListener('keydown', event => {
-  if (currentQuestion?.kind === 'version-qcm' && !questionValidated && /^[1-4]$/.test(event.key)) {
-    event.preventDefault();
-    selectionnerChoixVersion(Number(event.key) - 1);
-    return;
-  }
-  if (event.key === 'Enter') { event.preventDefault(); questionValidated ? genererQuestion() : validerReponse(); }
-  if ((event.code === 'Space' || event.key === ' ') && questionValidated) { event.preventDefault(); genererQuestion(); }
-});
+document
+  .getElementById('btnValidate')
+  .addEventListener(
+    'click',
+    () => questionValidated ? genererQuestion() : validerReponse()
+  );
+
 document.addEventListener('keydown', event => {
   if (document.querySelector('.modal-overlay.active')) return;
 
-  if (currentQuestion?.kind === 'version-qcm' && !questionValidated && /^[1-4]$/.test(event.key)) {
+  if (
+    currentQuestion?.kind === 'version-qcm' &&
+    !questionValidated &&
+    /^[1-4]$/.test(event.key)
+  ) {
     event.preventDefault();
     selectionnerChoixVersion(Number(event.key) - 1);
     return;
   }
-  if (event.key === 'Enter') { event.preventDefault(); questionValidated ? genererQuestion() : validerReponse(); }
-  if ((event.code === 'Space' || event.key === ' ') && questionValidated) { event.preventDefault(); genererQuestion(); }
+
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    questionValidated ? genererQuestion() : validerReponse();
+    return;
+  }
+
+  if (
+    (event.code === 'Space' || event.key === ' ') &&
+    questionValidated
+  ) {
+    event.preventDefault();
+    genererQuestion();
+  }
 });
 
 // ---------------------------------------------------------------------------
@@ -1918,7 +2275,7 @@ async function chargerVersion() {
   if (versionLoadingPromise) return versionLoadingPromise;
 
   versionLoadingPromise = chargerPremierJson([
-    'mots_version.json'
+    'mots_version.json',
   ])
     .then(data => {
       if (!Array.isArray(data)) {
@@ -1935,14 +2292,28 @@ async function chargerVersion() {
         )
         .map(entree => ({
           ...entree,
-          _comparaisonVersion: analyserEntreeVersion(entree.Entree)
+          _comparaisonVersion: analyserEntreeVersion(entree.Entree),
+          _reponsesTheme: uniqueStrings(
+            entree?.Theme?.ReponsesAcceptees
+          )
         }));
 
       if (versionLexicon.length < 4) {
         throw new Error('Le vocabulaire de version doit contenir au moins quatre entrées valides');
       }
 
+      themeLexicon = versionLexicon.filter(
+        entree => entree._reponsesTheme.length
+      );
+
+      if (!themeLexicon.length) {
+        throw new Error(
+          'Aucune réponse de Thème trouvée dans Theme.ReponsesAcceptees'
+        );
+      }
+
       versionRemaining = [...versionLexicon];
+      themeRemaining = [...themeLexicon];
       return versionLexicon;
     })
     .finally(() => {
