@@ -1240,6 +1240,15 @@ body[data-theme="dark"] .analysis-choice:not(.analysis-validate-button) {
   gap: 10px;
   margin: 0 0 16px;
 }
+.version-validate-row {
+  width: 100%;
+  justify-content: center;
+}
+button.btn-primary.version-validate-button {
+  width: auto;
+  min-width: 160px;
+  margin: 0 auto;
+}
 
 button.version-answer-button {
   position: relative;
