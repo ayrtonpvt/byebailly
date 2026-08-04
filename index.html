@@ -495,20 +495,21 @@ function appliquerCategorieJeu(categorie) {
 }
 
 function ouvrirModal(id) {
-    document.getElementById(id).classList.add('active');
+  document.getElementById(id).classList.add('active');
 
-    if (id === 'modalSettings') {
-        document.getElementById('gameCard')
-            .classList.add('word-card-hidden');
-    }
+  if (id === 'modalSettings') {
+    document.querySelector('.container')
+      .classList.add('container-hidden');
+  }
 }
-function fermerModal(id) {
-    document.getElementById(id).classList.remove('active');
 
-    if (id === 'modalSettings') {
-        document.getElementById('gameCard')
-            .classList.remove('word-card-hidden');
-    }
+function fermerModal(id) {
+  document.getElementById(id).classList.remove('active');
+
+  if (id === 'modalSettings') {
+    document.querySelector('.container')
+      .classList.remove('container-hidden');
+  }
 }
 
 document.getElementById('btnToggleSettings').addEventListener('click', () => ouvrirModal('modalSettings'));
@@ -585,15 +586,22 @@ document.getElementById('btnInverser').addEventListener('click', () => {
 
 document.querySelectorAll('.modal-overlay').forEach(modal => {
   modal.addEventListener('click', event => {
-    if (event.target === modal) modal.classList.remove('active');
+    if (event.target === modal) {
+      fermerModal(modal.id);
+    }
   });
 });
 
 document.addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
+
   for (const id of ['modalTable', 'modalSettings', 'modalAbout']) {
     const modal = document.getElementById(id);
-    if (modal.classList.contains('active')) { modal.classList.remove('active'); break; }
+
+    if (modal.classList.contains('active')) {
+      fermerModal(id);
+      break;
+    }
   }
 });
 
