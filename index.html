@@ -1282,9 +1282,34 @@ function validerConjugaisonAnalyse() {
 function normaliserTraductionVersion(traduction) {
   return String(traduction || '')
     .normalize('NFKC')
+    .replace(/[’]/g, "'")
+    .replace(/[«»“”"]/g, '')
     .trim()
+    .replace(/^[.!?…:]+|[.!?…:]+$/g, '')
     .replace(/\s+/g, ' ')
     .toLocaleLowerCase('fr');
+}
+
+// Une traduction du JSON peut contenir plusieurs sens séparés par une
+// virgule, une barre oblique ou un point-virgule. Chaque sens devient une
+// clé indépendante : « donc » entre ainsi en conflit avec
+// « donc, en conséquence, cela étant ».
+function extraireSensVersion(traduction) {
+  const dejaVus = new Set();
+
+  return String(traduction || '')
+    .split(/\s*(?:\/|,|;|\n)\s*/)
+    .map(normaliserTraductionVersion)
+    .filter(sens => {
+      if (!sens || dejaVus.has(sens)) return false;
+      dejaVus.add(sens);
+      return true;
+    });
+}
+
+function traductionCompatibleVersion(traduction, sensInterdits) {
+  const sens = extraireSensVersion(traduction);
+  return sens.length > 0 && sens.every(element => !sensInterdits.has(element));
 }
 
 function analyserEntreeVersion(entree) {
@@ -1398,23 +1423,35 @@ function melangerTableau(tableau) {
   return copie;
 }
 
-function choisirSansDoublonTraduction(candidats, traductionsInterdites, nombre) {
+function choisirSansDoublonTraduction(candidats, sensInterdits, nombre) {
   const retenus = [];
+
   for (const candidat of candidats) {
-    const cle = normaliserTraductionVersion(candidat.Traduction);
-    if (!cle || traductionsInterdites.has(cle)) continue;
+    const sensCandidat = extraireSensVersion(candidat.Traduction);
+
+    // Le candidat est refusé dès qu'un de ses sens apparaît déjà dans la
+    // bonne réponse ou dans un autre choix retenu.
+    if (
+      !sensCandidat.length ||
+      sensCandidat.some(sens => sensInterdits.has(sens))
+    ) {
+      continue;
+    }
+
     retenus.push(candidat);
-    traductionsInterdites.add(cle);
+    sensCandidat.forEach(sens => sensInterdits.add(sens));
+
     if (retenus.length === nombre) break;
   }
+
   return retenus;
 }
 
 function construireChoixVersion(question) {
-  const traductionCorrecte = normaliserTraductionVersion(question.Traduction);
+  const sensCorrects = new Set(extraireSensVersion(question.Traduction));
   const candidatsEligibles = versionLexicon.filter(candidat =>
     candidat !== question &&
-    normaliserTraductionVersion(candidat.Traduction) !== traductionCorrecte
+    traductionCompatibleVersion(candidat.Traduction, sensCorrects)
   );
 
   const classes = candidatsEligibles
@@ -1423,7 +1460,7 @@ function construireChoixVersion(question) {
 
   // Deux pièges sont tirés au hasard parmi les dix entrées les plus proches.
   const topDix = classes.slice(0, 10).map(item => item.candidat);
-  const traductionsUtilisees = new Set([traductionCorrecte]);
+  const traductionsUtilisees = new Set(sensCorrects);
 
   // Quand le top 10 le permet, au moins un piège conserve le même type
   // grammatical que la question. Le second reste libre dans le top 10.
@@ -1456,14 +1493,14 @@ function construireChoixVersion(question) {
   let aleatoires = melangerTableau(
     candidatsEligibles.filter(candidat =>
       !idsTopDix.has(candidat.ID) &&
-      !traductionsUtilisees.has(normaliserTraductionVersion(candidat.Traduction))
+      traductionCompatibleVersion(candidat.Traduction, traductionsUtilisees)
     )
   );
 
   if (!aleatoires.length) {
     aleatoires = melangerTableau(
       candidatsEligibles.filter(candidat =>
-        !traductionsUtilisees.has(normaliserTraductionVersion(candidat.Traduction))
+        traductionCompatibleVersion(candidat.Traduction, traductionsUtilisees)
       )
     );
   }
@@ -1646,6 +1683,7 @@ function preparerInterfaceQuestion() {
   afficherEtatBoutonValidation('validate');
   const feedback = document.getElementById('feedback');
   feedback.innerText = ''; feedback.className = 'feedback';
+  document.getElementById('consigneText').innerText = '';
   document.getElementById('btnValidate').disabled = false;
   const analyse = currentGameMode === 'analyse';
   const inputGroup = document.getElementById('declinaisonInputGroup');
