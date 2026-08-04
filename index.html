@@ -149,6 +149,8 @@
         </div>
       </div>
 
+      <div class="version-answer-grid" id="versionAnswerGrid" aria-label="Choix de traduction" style="display: none;"></div>
+
       <div class="input-group" id="declinaisonInputGroup">
         <input type="text" id="userInput" placeholder="Saisir la réponse..." autocomplete="off">
         <button class="btn-primary" id="btnValidate">
@@ -335,12 +337,18 @@ if (!['production', 'analyse'].includes(currentGameMode)) currentGameMode = 'ana
 
 let declensionLexicon = [];
 let conjugationLexicon = [];
+let versionLexicon = [];
 let declensionRemaining = [];
 let conjugationRemaining = [];
+let versionRemaining = [];
+
+// Conserve le sous-mode utilisé avant l'ouverture de la catégorie Version.
+let modeAvantVersion = currentGameMode;
 
 // Une seule requête par base, même si plusieurs actions demandent le même fichier.
 let declensionLoadingPromise = null;
 let conjugationLoadingPromise = null;
+let versionLoadingPromise = null;
 
 let currentQuestion = null;
 let questionValidated = false;
@@ -402,7 +410,8 @@ function appliquerModeJeu(mode) {
 function categorieDisponible(categorie) {
   if (categorie === 'declinaison') return declensionLexicon.length > 0;
   if (categorie === 'conjugaison') return conjugationLexicon.length > 0;
-  return categorie === 'version';
+  if (categorie === 'version') return versionLexicon.length > 0;
+  return false;
 }
 
 function appliquerCategorieJeu(categorie) {
@@ -454,6 +463,21 @@ document.querySelectorAll('#gameCategoryControl button').forEach(btn => {
         await chargerConjugaisons();
       }
 
+      if (nouvelleCategorie === 'version' && !versionLexicon.length) {
+        gameArea.style.display = 'none';
+        loading.style.display = 'block';
+        loading.innerText = 'Chargement du vocabulaire de version…';
+        await chargerVersion();
+      }
+
+      const categoriePrecedente = currentCategorieJeu;
+      if (nouvelleCategorie === 'version' && categoriePrecedente !== 'version') {
+        modeAvantVersion = currentGameMode;
+        currentGameMode = 'production';
+      } else if (categoriePrecedente === 'version' && nouvelleCategorie !== 'version') {
+        currentGameMode = modeAvantVersion;
+      }
+
       appliquerCategorieJeu(nouvelleCategorie);
       fermerModal('modalSettings');
       loading.style.display = 'none';
@@ -464,7 +488,9 @@ document.querySelectorAll('#gameCategoryControl button').forEach(btn => {
       loading.style.display = 'block';
       loading.innerText = nouvelleCategorie === 'conjugaison'
         ? 'Le fichier des conjugaisons n’a pas pu être chargé.'
-        : 'Le fichier des déclinaisons n’a pas pu être chargé.';
+        : nouvelleCategorie === 'version'
+          ? 'Le fichier mots_version.json n’a pas pu être chargé.'
+          : 'Le fichier des déclinaisons n’a pas pu être chargé.';
     }
   });
 });
@@ -1222,7 +1248,337 @@ function validerConjugaisonAnalyse() {
 }
 
 // ---------------------------------------------------------------------------
-// 8. Génération, validation et navigation
+// 8. Mode Version : QCM grec → français
+// ---------------------------------------------------------------------------
+
+function normaliserTraductionVersion(traduction) {
+  return String(traduction || '')
+    .normalize('NFKC')
+    .trim()
+    .replace(/\s+/g, ' ')
+    .toLocaleLowerCase('fr');
+}
+
+function analyserEntreeVersion(entree) {
+  const sansDiacritiques = String(entree || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase('el')
+    .replaceAll('ς', 'σ')
+    .replaceAll('ϕ', 'φ');
+
+  // Les indications françaises de cas sont volontairement écartées :
+  // pour « διά + génitif », la proximité graphique porte sur « διά ».
+  const groupesGrecs = sansDiacritiques.match(/[α-ωϝϛϟϡ]+/g) || [];
+  const principal = groupesGrecs[0] || sansDiacritiques.replace(/[^a-z]+/g, '');
+  return {
+    principal,
+    complet: groupesGrecs.join('') || principal
+  };
+}
+
+function distanceLevenshtein(a, b) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+
+  let precedente = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const courante = [i];
+    for (let j = 1; j <= b.length; j++) {
+      const cout = a[i - 1] === b[j - 1] ? 0 : 1;
+      courante[j] = Math.min(
+        courante[j - 1] + 1,
+        precedente[j] + 1,
+        precedente[j - 1] + cout
+      );
+    }
+    precedente = courante;
+  }
+  return precedente[b.length];
+}
+
+function similariteEdition(a, b) {
+  const longueur = Math.max(a.length, b.length, 1);
+  return 1 - distanceLevenshtein(a, b) / longueur;
+}
+
+function similariteLettres(a, b) {
+  if (!a.length || !b.length) return 0;
+  const compteA = new Map();
+  const compteB = new Map();
+  for (const lettre of a) compteA.set(lettre, (compteA.get(lettre) || 0) + 1);
+  for (const lettre of b) compteB.set(lettre, (compteB.get(lettre) || 0) + 1);
+  let communes = 0;
+  for (const [lettre, nombre] of compteA) {
+    communes += Math.min(nombre, compteB.get(lettre) || 0);
+  }
+  return communes / Math.max(a.length, b.length);
+}
+
+function bigrammes(mot) {
+  if (mot.length < 2) return mot ? [mot] : [];
+  const resultat = [];
+  for (let i = 0; i < mot.length - 1; i++) resultat.push(mot.slice(i, i + 2));
+  return resultat;
+}
+
+function similariteBigrammes(a, b) {
+  const aBigrams = bigrammes(a);
+  const bBigrams = bigrammes(b);
+  if (!aBigrams.length || !bBigrams.length) return 0;
+  const disponibles = [...bBigrams];
+  let communs = 0;
+  for (const groupe of aBigrams) {
+    const index = disponibles.indexOf(groupe);
+    if (index !== -1) {
+      communs++;
+      disponibles.splice(index, 1);
+    }
+  }
+  return (2 * communs) / (aBigrams.length + bBigrams.length);
+}
+
+function similaritePrefixe(a, b) {
+  const limite = Math.min(a.length, b.length);
+  let commun = 0;
+  while (commun < limite && a[commun] === b[commun]) commun++;
+  return commun / Math.max(a.length, b.length, 1);
+}
+
+function scoreProximiteVersion(question, candidat) {
+  const a = question._comparaisonVersion.principal;
+  const b = candidat._comparaisonVersion.principal;
+  const scoreGraphique =
+    0.42 * similariteEdition(a, b) +
+    0.24 * similariteBigrammes(a, b) +
+    0.22 * similariteLettres(a, b) +
+    0.12 * similaritePrefixe(a, b);
+
+  // Bonus limité : le type grammatical favorise un piège pertinent sans
+  // écraser la ressemblance graphique réelle.
+  const bonusType = question.Type === candidat.Type ? 0.12 : 0;
+  return scoreGraphique + bonusType;
+}
+
+function melangerTableau(tableau) {
+  const copie = [...tableau];
+  for (let i = copie.length - 1; i > 0; i--) {
+    const j = randomIndex(i + 1);
+    [copie[i], copie[j]] = [copie[j], copie[i]];
+  }
+  return copie;
+}
+
+function choisirSansDoublonTraduction(candidats, traductionsInterdites, nombre) {
+  const retenus = [];
+  for (const candidat of candidats) {
+    const cle = normaliserTraductionVersion(candidat.Traduction);
+    if (!cle || traductionsInterdites.has(cle)) continue;
+    retenus.push(candidat);
+    traductionsInterdites.add(cle);
+    if (retenus.length === nombre) break;
+  }
+  return retenus;
+}
+
+function construireChoixVersion(question) {
+  const traductionCorrecte = normaliserTraductionVersion(question.Traduction);
+  const candidatsEligibles = versionLexicon.filter(candidat =>
+    candidat !== question &&
+    normaliserTraductionVersion(candidat.Traduction) !== traductionCorrecte
+  );
+
+  const classes = candidatsEligibles
+    .map(candidat => ({ candidat, score: scoreProximiteVersion(question, candidat) }))
+    .sort((a, b) => b.score - a.score);
+
+  // Deux pièges sont tirés au hasard parmi les dix entrées les plus proches.
+  const topDix = classes.slice(0, 10).map(item => item.candidat);
+  const traductionsUtilisees = new Set([traductionCorrecte]);
+
+  // Quand le top 10 le permet, au moins un piège conserve le même type
+  // grammatical que la question. Le second reste libre dans le top 10.
+  let proches = choisirSansDoublonTraduction(
+    melangerTableau(topDix.filter(candidat => candidat.Type === question.Type)),
+    traductionsUtilisees,
+    1
+  );
+  const idsDejaRetenus = new Set(proches.map(candidat => candidat.ID));
+  proches = proches.concat(
+    choisirSansDoublonTraduction(
+      melangerTableau(topDix.filter(candidat => !idsDejaRetenus.has(candidat.ID))),
+      traductionsUtilisees,
+      2 - proches.length
+    )
+  );
+
+  // Sécurité pour les rares groupes où les dix premières entrées partagent
+  // trop de traductions identiques.
+  if (proches.length < 2) {
+    const complement = classes.slice(10).map(item => item.candidat);
+    proches = proches.concat(
+      choisirSansDoublonTraduction(complement, traductionsUtilisees, 2 - proches.length)
+    );
+  }
+
+  // Le quatrième choix est réellement aléatoire et, si possible, extérieur
+  // au top 10 afin qu'il ne soit pas un troisième piège de proximité.
+  const idsTopDix = new Set(topDix.map(candidat => candidat.ID));
+  let aleatoires = melangerTableau(
+    candidatsEligibles.filter(candidat =>
+      !idsTopDix.has(candidat.ID) &&
+      !traductionsUtilisees.has(normaliserTraductionVersion(candidat.Traduction))
+    )
+  );
+
+  if (!aleatoires.length) {
+    aleatoires = melangerTableau(
+      candidatsEligibles.filter(candidat =>
+        !traductionsUtilisees.has(normaliserTraductionVersion(candidat.Traduction))
+      )
+    );
+  }
+
+  const aleatoire = aleatoires[0];
+  if (!aleatoire || proches.length < 2) return null;
+
+  const choix = [
+    { traduction: question.Traduction, correcte: true, source: question },
+    ...proches.map(source => ({ traduction: source.Traduction, correcte: false, source })),
+    { traduction: aleatoire.Traduction, correcte: false, source: aleatoire }
+  ];
+
+  return melangerTableau(choix);
+}
+
+function formaterTypeVersion(type) {
+  return String(type || '')
+    .replaceAll('_', ' ')
+    .replace(/^./, lettre => lettre.toLocaleUpperCase('fr'));
+}
+
+function lemmePourLienVersion(entree) {
+  // Le lien Bailly conserve les esprits et les accents de la première forme,
+  // même si ceux-ci sont retirés pour le calcul de proximité.
+  const premiereFormeGrecque = String(entree || '').match(/[\u0370-\u03FF\u1F00-\u1FFF]+/);
+  return premiereFormeGrecque?.[0] || String(entree || '').trim();
+}
+
+function afficherChoixVersion(choix) {
+  const grille = document.getElementById('versionAnswerGrid');
+  grille.replaceChildren();
+  grille.style.display = 'grid';
+
+  choix.forEach((option, index) => {
+    const bouton = document.createElement('button');
+    bouton.type = 'button';
+    bouton.className = 'version-answer-button';
+    bouton.dataset.index = String(index);
+    bouton.setAttribute('aria-pressed', 'false');
+
+    const raccourci = document.createElement('span');
+    raccourci.className = 'version-answer-number';
+    raccourci.textContent = String(index + 1);
+
+    const texte = document.createElement('span');
+    texte.className = 'version-answer-text';
+    texte.textContent = option.traduction;
+
+    bouton.append(raccourci, texte);
+    bouton.addEventListener('click', () => selectionnerChoixVersion(index));
+    grille.appendChild(bouton);
+  });
+}
+
+function selectionnerChoixVersion(index) {
+  if (!currentQuestion || currentQuestion.kind !== 'version-qcm' || questionValidated) return;
+  currentQuestion.selectedIndex = index;
+  document.querySelectorAll('.version-answer-button').forEach((bouton, boutonIndex) => {
+    const selectionne = boutonIndex === index;
+    bouton.classList.toggle('selected', selectionne);
+    bouton.setAttribute('aria-pressed', String(selectionne));
+  });
+  const feedback = document.getElementById('feedback');
+  feedback.textContent = '';
+  feedback.className = 'feedback';
+}
+
+function genererVersionProduction(mot) {
+  const choix = construireChoixVersion(mot);
+  if (!choix) return false;
+
+  currentQuestion = {
+    kind: 'version-qcm',
+    mot,
+    choix,
+    selectedIndex: null
+  };
+
+  transliterationBaillyEtLien(lemmePourLienVersion(mot.Entree), mot.Entree);
+  document.getElementById('wordMeta').innerText = formaterTypeVersion(mot.Type);
+  document.getElementById('consigneText').innerText = 'Choisis la traduction correcte.';
+
+  // En mode Version, on masque uniquement le champ de saisie :
+  // le bouton Valider reste visible sous les quatre propositions.
+  const inputGroup = document.getElementById('declinaisonInputGroup');
+  const input = document.getElementById('userInput');
+  const boutonValider = document.getElementById('btnValidate');
+  inputGroup.style.display = 'flex';
+  inputGroup.classList.add('version-validate-row');
+  input.style.display = 'none';
+  boutonValider.classList.add('version-validate-button');
+
+  afficherChoixVersion(choix);
+  return true;
+}
+
+function validerVersionQcm() {
+  if (currentQuestion.selectedIndex === null) {
+    const feedback = document.getElementById('feedback');
+    feedback.textContent = 'Choisis d’abord une traduction.';
+    feedback.className = 'feedback warning';
+    return false;
+  }
+
+  const optionChoisie = currentQuestion.choix[currentQuestion.selectedIndex];
+  const feedback = document.getElementById('feedback');
+  const boutons = [...document.querySelectorAll('.version-answer-button')];
+
+  boutons.forEach((bouton, index) => {
+    const option = currentQuestion.choix[index];
+    bouton.disabled = true;
+    bouton.classList.toggle('correct-answer', option.correcte);
+    bouton.classList.toggle(
+      'incorrect-answer',
+      index === currentQuestion.selectedIndex && !option.correcte
+    );
+  });
+
+  if (optionChoisie.correcte) {
+    score++;
+    feedback.textContent = '✓ Correct !';
+    feedback.className = 'feedback correct';
+  } else {
+    feedback.textContent = `✗ Réponse attendue : ${currentQuestion.mot.Traduction}`;
+    feedback.className = 'feedback incorrect';
+  }
+  return true;
+}
+
+function afficherVersionAnalyseNonImplemente() {
+  preparerInterfaceQuestion();
+  transliterationBaillyEtLien('', 'Mode Version — Analyse');
+  document.getElementById('wordLemme').removeAttribute('href');
+  document.getElementById('wordMeta').innerText = 'Le QCM grec → français se trouve dans le sous-mode Version.';
+  document.getElementById('consigneText').innerText = 'Utilise le bouton central pour revenir au QCM.';
+  document.getElementById('declinaisonInputGroup').style.display = 'none';
+  document.getElementById('versionAnswerGrid').style.display = 'none';
+  currentQuestion = null;
+}
+
+// ---------------------------------------------------------------------------
+// 9. Génération, validation et navigation
 // ---------------------------------------------------------------------------
 
 function reinitialiserBoutons() {
@@ -1256,23 +1612,19 @@ function preparerInterfaceQuestion() {
   const analyse = currentGameMode === 'analyse';
   const inputGroup = document.getElementById('declinaisonInputGroup');
   const input = document.getElementById('userInput');
+  const versionGrid = document.getElementById('versionAnswerGrid');
+  versionGrid.style.display = 'none';
+  versionGrid.replaceChildren();
   inputGroup.style.display = 'flex';
   inputGroup.classList.toggle('analysis-validate-row', analyse);
+  inputGroup.classList.remove('version-validate-row');
   input.style.display = analyse ? 'none' : '';
   input.value = ''; input.disabled = false;
   document.getElementById('btnValidate').classList.toggle('analysis-validate-button', analyse);
+  document.getElementById('btnValidate').classList.remove('version-validate-button');
   document.getElementById('declensionAnalysisControls').style.display = analyse && currentCategorieJeu === 'declinaison' ? 'block' : 'none';
   document.getElementById('conjugationAnalysisControls').style.display = analyse && currentCategorieJeu === 'conjugaison' ? 'block' : 'none';
   reinitialiserBoutons();
-}
-function afficherVersionNonImplemente() {
-  preparerInterfaceQuestion();
-  transliterationBaillyEtLien('', 'Mode Version');
-  document.getElementById('wordLemme').removeAttribute('href');
-  document.getElementById('wordMeta').innerText = 'Ce mode n’est pas encore implémenté.';
-  document.getElementById('consigneText').innerText = '';
-  document.getElementById('declinaisonInputGroup').style.display = 'none';
-  currentQuestion = null;
 }
 function tirerMot(lexique, nomFile) {
   if (!nomFile.length) nomFile.push(...lexique);
@@ -1281,11 +1633,16 @@ function tirerMot(lexique, nomFile) {
 }
 
 function genererQuestion() {
-  if (currentCategorieJeu === 'version') { afficherVersionNonImplemente(); return; }
+  if (currentCategorieJeu === 'version' && currentGameMode === 'analyse') {
+    afficherVersionAnalyseNonImplemente();
+    return;
+  }
   if (!categorieDisponible(currentCategorieJeu)) {
     afficherErreurChargement(currentCategorieJeu === 'conjugaison'
       ? 'Le fichier verbes_grecs_jeu_final.min.json n’a pas pu être chargé.'
-      : 'Le fichier declinaisons_compilees_accentuees.json n’a pas pu être chargé.');
+      : currentCategorieJeu === 'version'
+        ? 'Le fichier mots_version.json n’a pas pu être chargé.'
+        : 'Le fichier declinaisons_compilees_accentuees.json n’a pas pu être chargé.');
     return;
   }
   document.getElementById('loadingText').style.display = 'none';
@@ -1300,13 +1657,18 @@ function genererQuestion() {
       if (currentGameMode === 'analyse') genererDeclinaisonAnalyse(mot, candidats); else genererDeclinaisonProduction(mot, candidats);
       return;
     }
-  } else {
+  } else if (currentCategorieJeu === 'conjugaison') {
     for (let essais = 0; essais < conjugationLexicon.length; essais++) {
       const verbe = tirerMot(conjugationLexicon, conjugationRemaining);
       const { analyses, graphies } = extraireAnalysesVerbe(verbe);
       if (!analyses.length) continue;
       if (currentGameMode === 'analyse') genererConjugaisonAnalyse(verbe, analyses, graphies); else genererConjugaisonProduction(verbe, analyses);
       return;
+    }
+  } else {
+    for (let essais = 0; essais < versionLexicon.length; essais++) {
+      const mot = tirerMot(versionLexicon, versionRemaining);
+      if (genererVersionProduction(mot)) return;
     }
   }
   afficherErreurChargement('Aucune forme jouable n’a été trouvée dans la catégorie choisie.');
@@ -1319,6 +1681,7 @@ function validerReponse() {
   else if (currentQuestion.kind === 'declension-analysis') valide = validerDeclinaisonAnalyse();
   else if (currentQuestion.kind === 'conjugation-production') valide = validerConjugaisonProduction();
   else if (currentQuestion.kind === 'conjugation-analysis') valide = validerConjugaisonAnalyse();
+  else if (currentQuestion.kind === 'version-qcm') valide = validerVersionQcm();
   if (!valide) return false;
   questionValidated = true;
 total++;
@@ -1337,12 +1700,17 @@ return true;
 
 document.getElementById('btnValidate').addEventListener('click', () => questionValidated ? genererQuestion() : validerReponse());
 document.addEventListener('keydown', event => {
+  if (currentQuestion?.kind === 'version-qcm' && !questionValidated && /^[1-4]$/.test(event.key)) {
+    event.preventDefault();
+    selectionnerChoixVersion(Number(event.key) - 1);
+    return;
+  }
   if (event.key === 'Enter') { event.preventDefault(); questionValidated ? genererQuestion() : validerReponse(); }
   if ((event.code === 'Space' || event.key === ' ') && questionValidated) { event.preventDefault(); genererQuestion(); }
 });
 
 // ---------------------------------------------------------------------------
-// 9. Chargement prioritaire puis préchargement en arrière-plan
+// 10. Chargement prioritaire puis préchargement en arrière-plan
 // ---------------------------------------------------------------------------
 
 async function chargerPremierJson(paths) {
@@ -1400,6 +1768,45 @@ async function chargerConjugaisons() {
     });
 
   return conjugationLoadingPromise;
+}
+
+async function chargerVersion() {
+  if (versionLexicon.length) return versionLexicon;
+  if (versionLoadingPromise) return versionLoadingPromise;
+
+  versionLoadingPromise = chargerPremierJson([
+    'mots_version.json'
+  ])
+    .then(data => {
+      if (!Array.isArray(data)) {
+        throw new Error('Structure de mots_version.json invalide : tableau attendu');
+      }
+
+      versionLexicon = data
+        .filter(entree =>
+          entree &&
+          typeof entree.ID === 'string' &&
+          typeof entree.Entree === 'string' && entree.Entree.trim() &&
+          typeof entree.Type === 'string' && entree.Type.trim() &&
+          typeof entree.Traduction === 'string' && entree.Traduction.trim()
+        )
+        .map(entree => ({
+          ...entree,
+          _comparaisonVersion: analyserEntreeVersion(entree.Entree)
+        }));
+
+      if (versionLexicon.length < 4) {
+        throw new Error('Le vocabulaire de version doit contenir au moins quatre entrées valides');
+      }
+
+      versionRemaining = [...versionLexicon];
+      return versionLexicon;
+    })
+    .finally(() => {
+      versionLoadingPromise = null;
+    });
+
+  return versionLoadingPromise;
 }
 
 function connexionInterditPrechargement() {
