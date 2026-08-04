@@ -440,18 +440,28 @@ body[data-theme="light"] .settings-modal-title {
   left: 50%;
   bottom: 0.38rem;
 
-  width: 7px;
-  height: 7px;
+  width: 14px;
+  height: 14px;
 
+  border: 2px solid #555;
   border-radius: 50%;
   background: transparent;
 
   transform: translateX(-50%);
-  transition: background-color .15s ease;
+
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .segmented-control button.active::after {
-  background: var(--accent);
+  border-color: var(--accent);
+  background-color: var(--accent);
+
+  box-shadow:
+    0 0 0 3px var(--input-bg),
+    0 0 0 5px var(--accent);
 }
 
 body[data-theme="light"] .segmented-control {
