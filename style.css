@@ -550,6 +550,11 @@ body[data-theme="dark"] .segmented-control button.active {
   border-radius: 12px;
   margin-bottom: 20px;
 }
+.word-card-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease;
+}
 
 .word-title {
   font-size: 1.6rem;
