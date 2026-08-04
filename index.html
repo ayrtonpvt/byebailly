@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ByeBailly — Jeu grec-français en ligne</title>
-  <meta name="description" content="Jeu de morphologie grecque. Dites au revoir au Bailly avec ByeBailly !">
+  <title>ByeBailly —Jeu grec-français en ligne</title>
+  <meta name="description" content="Jeu de morphologie grecque. Dites aurevoir au Bailly avec ByeBailly!">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
@@ -69,7 +69,7 @@
 </div>
     <div class="header-actions">
       <!-- Bouton Paramètres -->
-      <button type="button" class="btn-icon" id="btnToggleSettings" title="Paramètres">
+      <button class="btn-icon" id="btnToggleSettings" title="Paramètres">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"></path>
         </svg>
@@ -77,7 +77,7 @@
       </button>
 
       <!-- Bouton À propos -->
-      <button type="button" class="btn-icon" id="btnToggleAbout" title="À propos">
+      <button class="btn-icon" id="btnToggleAbout" title="À propos">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"></path>
         </svg>
@@ -89,7 +89,7 @@
 
   <!-- 2. La boîte centrale -->
   <main class="container">
-    <div class="score-board" id="scoreBoard" role="status" aria-live="polite" aria-atomic="true">Score : 0 / 0</div>
+    <div class="score-board" id="scoreBoard">Score : 0 / 0</div>
 
     <div id="gameArea" style="display: none;">
       <div class="word-card">
@@ -180,14 +180,14 @@
       <div class="version-answer-grid" id="versionAnswerGrid" aria-label="Choix de traduction" style="display: none;"></div>
 
       <div class="input-group" id="declinaisonInputGroup">
-        <input type="text" id="userInput" placeholder="Saisir la réponse..." autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Réponse en grec translittéré ou en Bêta code">
-        <button type="button" class="btn-primary" id="btnValidate">
+        <input type="text" id="userInput" placeholder="Saisir la réponse..." autocomplete="off">
+        <button class="btn-primary" id="btnValidate">
           <span class="texte-desktop">Valider</span>
           <span class="icone-mobile">✓</span>
         </button>
       </div>
 
-      <div class="feedback" id="feedback" role="status" aria-live="polite" aria-atomic="true"></div>
+      <div class="feedback" id="feedback"></div>
     </div>
 
     <div id="loadingText" style="text-align:center; color: var(--text-muted);">Chargement du vocabulaire...</div>
@@ -196,11 +196,11 @@
 <!-- 3. Toutes les Modales (Placées en bas, hors du main, mais DANS le body) -->
 
 <!-- Modal À propos -->
-<div class="modal-overlay" id="modalAbout" aria-hidden="true">
-  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" tabindex="-1">
+<div class="modal-overlay" id="modalAbout">
+  <div class="modal-content">
     <div class="modal-header">
-      <h2 id="aboutTitle">À propos</h2>
-      <button type="button" class="btn-icon" id="btnCloseAbout" aria-label="Fermer la fenêtre À propos">✕</button>
+      <h2>À propos</h2>
+      <button class="btn-icon" id="btnCloseAbout">✕</button>
     </div>
     <div class="about-body">
       <div class="about-highlight">
@@ -214,13 +214,13 @@
 </div>
 
 <!-- Modal Table de Translittération / Beta Code -->
-<div class="modal-overlay" id="modalTable" aria-hidden="true">
-  <div class="translit-modal-wrapper" role="dialog" aria-modal="true" aria-labelledby="translitTitle" tabindex="-1">
+<div class="modal-overlay" id="modalTable">
+  <div class="translit-modal-wrapper">
 
     <div class="translit-modal-title">
-      <span id="translitTitle">Table de correspondance</span>
+      <span>Table de correspondance</span>
 
-      <button type="button"
+      <button
         class="btn-icon translit-close-button"
         id="btnCloseTable"
         aria-label="Fermer"
@@ -311,38 +311,38 @@
 
 
 <!-- Modal Paramètres -->
-<div class="modal-overlay" id="modalSettings" aria-hidden="true">
-  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" tabindex="-1">
+<div class="modal-overlay" id="modalSettings">
+  <div class="modal-content">
     <div class="modal-header">
-      <h2 id="settingsTitle">Paramètres</h2>
-      <button type="button" class="btn-icon" id="btnCloseSettings" aria-label="Fermer les paramètres">✕</button>
+      <h2>Paramètres</h2>
+      <button class="btn-icon" id="btnCloseSettings">✕</button>
     </div>
 	  
 <div class="setting-group">
   <span class="setting-label">Mode de jeu</span>
-  <div class="segmented-control" id="gameCategoryControl" role="group" aria-label="Catégorie de jeu">
-    <button type="button" data-value="declinaison" class="active">Déclinaison</button>
-    <button type="button" data-value="conjugaison">Conjugaison</button>
-    <button type="button" data-value="version">Version</button>
+  <div class="segmented-control" id="gameCategoryControl">
+    <button data-value="declinaison" class="active">Déclinaison</button>
+    <button data-value="conjugaison">Conjugaison</button>
+    <button data-value="version">Version</button>
   </div>
 </div>
 	  
     <div class="setting-group">
       <span class="setting-label">Thème</span>
-      <div class="segmented-control" id="themeControl" role="group" aria-label="Thème">
-        <button type="button" data-value="system" class="active">Système</button>
-        <button type="button" data-value="light">Clair</button>
-        <button type="button" data-value="dark">Foncé</button>
+      <div class="segmented-control" id="themeControl">
+        <button data-value="system" class="active">Système</button>
+        <button data-value="light">Clair</button>
+        <button data-value="dark">Foncé</button>
       </div>
     </div>
 
     <div class="setting-group" style="margin-top: 16px;">
       <span class="setting-label">Mode de saisie</span>
-      <div class="segmented-control" id="modeControl" role="group" aria-label="Mode de saisie">
-        <button type="button" data-value="translit" class="active">Translittération</button>
-        <button type="button" data-value="beta">Bêta code</button>
+      <div class="segmented-control" id="modeControl">
+        <button data-value="translit" class="active">Translittération</button>
+        <button data-value="beta">Bêta code</button>
       </div>
-      <a class="link-table" id="btnOpenTable" href="#modalTable">Table de correspondance</a>
+      <a class="link-table" id="btnOpenTable"> Table de correspondance</a>
     </div>
   </div>
 </div>
@@ -353,23 +353,15 @@
 // 1. État global, paramètres et modales
 // ---------------------------------------------------------------------------
 
-const THEMES_VALIDES = new Set(['system', 'light', 'dark']);
-const MODES_SAISIE_VALIDES = new Set(['translit', 'beta']);
-const MODES_JEU_VALIDES = new Set(['production', 'analyse']);
-
-let currentTheme = localStorage.getItem('app_theme') || 'system';
-if (!THEMES_VALIDES.has(currentTheme)) currentTheme = 'system';
-
-let currentInputMode = localStorage.getItem('app_input_mode') || 'translit';
-if (!MODES_SAISIE_VALIDES.has(currentInputMode)) currentInputMode = 'translit';
-
+let currentTheme = localStorage.getItem("app_theme") || "system";
+let currentInputMode = localStorage.getItem("app_input_mode") || "translit";
 // La page démarre toujours en déclinaison afin que le premier écran reste léger.
-let currentCategorieJeu = 'declinaison';
-let currentGameMode = localStorage.getItem('app_game_mode') || 'analyse';
-if (currentGameMode === 'declinaison' || currentGameMode === 'conjugaison') {
-  currentGameMode = 'production';
+let currentCategorieJeu = "declinaison";
+let currentGameMode = localStorage.getItem("app_game_mode") || "analyse";
+if (currentGameMode === "declinaison" || currentGameMode === "conjugaison") {
+  currentGameMode = "production";
 }
-if (!MODES_JEU_VALIDES.has(currentGameMode)) currentGameMode = 'analyse';
+if (!['production', 'analyse'].includes(currentGameMode)) currentGameMode = 'analyse';
 
 let declensionLexicon = [];
 let conjugationLexicon = [];
@@ -385,7 +377,6 @@ let modeAvantVersion = currentGameMode;
 let declensionLoadingPromise = null;
 let conjugationLoadingPromise = null;
 let versionLoadingPromise = null;
-let categoryChangeRequestId = 0;
 
 let currentQuestion = null;
 let questionValidated = false;
@@ -397,10 +388,8 @@ function appliquerTheme(theme) {
   currentTheme = theme;
   document.body.setAttribute("data-theme", theme);
   localStorage.setItem("app_theme", theme);
-  document.querySelectorAll('#themeControl button').forEach(btn => {
-    const actif = btn.dataset.value === theme;
-    btn.classList.toggle('active', actif);
-    btn.setAttribute('aria-pressed', String(actif));
+  document.querySelectorAll("#themeControl button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.value === theme);
   });
 }
 
@@ -418,10 +407,8 @@ function mettreAJourPlaceholder() {
 function appliquerModeSaisie(mode) {
   currentInputMode = mode;
   localStorage.setItem("app_input_mode", mode);
-  document.querySelectorAll('#modeControl button').forEach(btn => {
-    const actif = btn.dataset.value === mode;
-    btn.classList.toggle('active', actif);
-    btn.setAttribute('aria-pressed', String(actif));
+  document.querySelectorAll("#modeControl button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.value === mode);
   });
   mettreAJourPlaceholder();
 }
@@ -434,26 +421,17 @@ function libelleModeProduction() {
 
 function appliquerModeJeu(mode) {
   currentGameMode = mode === 'analyse' ? 'analyse' : 'production';
-  document.body.setAttribute('data-game-mode', currentGameMode);
-  if (currentCategorieJeu !== 'version') {
-    localStorage.setItem('app_game_mode', currentGameMode);
-  }
+  document.body.setAttribute("data-game-mode", currentGameMode);
+  localStorage.setItem("app_game_mode", currentGameMode);
 
-  const label = document.getElementById('gameModeLabel');
-  const bouton = document.getElementById('btnInverser');
-  const versionUniquement = currentCategorieJeu === 'version';
-  bouton.disabled = versionUniquement;
-  bouton.title = versionUniquement
-    ? 'Le mode Version est uniquement disponible en QCM'
-    : 'Changer de mode';
-  label.textContent = currentGameMode === 'analyse' ? 'Analyse' : libelleModeProduction();
+  const label = document.getElementById("gameModeLabel");
+  const bouton = document.getElementById("btnInverser");
+  label.innerText = currentGameMode === 'analyse' ? 'Analyse' : libelleModeProduction();
   bouton.setAttribute(
     'aria-label',
-    versionUniquement
-      ? 'Mode Version : questionnaire à choix multiple'
-      : currentGameMode === 'analyse'
-        ? `Passer en mode ${libelleModeProduction()}`
-        : 'Passer en mode Analyse'
+    currentGameMode === 'analyse'
+      ? `Passer en mode ${libelleModeProduction()}`
+      : 'Passer en mode Analyse'
   );
 }
 
@@ -466,51 +444,23 @@ function categorieDisponible(categorie) {
 
 function appliquerCategorieJeu(categorie) {
   currentCategorieJeu = categorie;
+  localStorage.setItem("app_categorie_jeu", categorie);
   document.body.setAttribute('data-game-category', categorie);
-  document.querySelectorAll('#gameCategoryControl button').forEach(btn => {
-    const actif = btn.dataset.value === categorie;
-    btn.classList.toggle('active', actif);
-    btn.setAttribute('aria-pressed', String(actif));
+  document.querySelectorAll("#gameCategoryControl button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.value === categorie);
   });
   appliquerModeJeu(currentGameMode);
   mettreAJourPlaceholder();
 }
 
-const originesFocusModales = new Map();
-
-function ouvrirModal(id) {
-  const modal = document.getElementById(id);
-  if (!modal) return;
-
-  originesFocusModales.set(id, document.activeElement);
-  modal.classList.add('active');
-  modal.setAttribute('aria-hidden', 'false');
-
-  const cibleFocus = modal.querySelector('[aria-label^="Fermer"]')
-    || modal.querySelector('[role="dialog"]');
-  window.requestAnimationFrame(() => cibleFocus?.focus());
-}
-
-function fermerModal(id) {
-  const modal = document.getElementById(id);
-  if (!modal) return;
-
-  modal.classList.remove('active');
-  modal.setAttribute('aria-hidden', 'true');
-
-  const origine = originesFocusModales.get(id);
-  originesFocusModales.delete(id);
-  if (origine instanceof HTMLElement && origine.isConnected) origine.focus();
-}
+function ouvrirModal(id) { document.getElementById(id).classList.add('active'); }
+function fermerModal(id) { document.getElementById(id).classList.remove('active'); }
 
 document.getElementById('btnToggleSettings').addEventListener('click', () => ouvrirModal('modalSettings'));
 document.getElementById('btnCloseSettings').addEventListener('click', () => fermerModal('modalSettings'));
 document.getElementById('btnToggleAbout').addEventListener('click', () => ouvrirModal('modalAbout'));
 document.getElementById('btnCloseAbout').addEventListener('click', () => fermerModal('modalAbout'));
-document.getElementById('btnOpenTable').addEventListener('click', event => {
-  event.preventDefault();
-  ouvrirModal('modalTable');
-});
+document.getElementById('btnOpenTable').addEventListener('click', () => ouvrirModal('modalTable'));
 document.getElementById('btnCloseTable').addEventListener('click', () => fermerModal('modalTable'));
 
 document.querySelectorAll('#themeControl button').forEach(btn => {
@@ -521,7 +471,6 @@ document.querySelectorAll('#modeControl button').forEach(btn => {
 });
 document.querySelectorAll('#gameCategoryControl button').forEach(btn => {
   btn.addEventListener('click', async () => {
-    const requestId = ++categoryChangeRequestId;
     const nouvelleCategorie = btn.dataset.value;
     const loading = document.getElementById('loadingText');
     const gameArea = document.getElementById('gameArea');
@@ -549,8 +498,6 @@ document.querySelectorAll('#gameCategoryControl button').forEach(btn => {
         await chargerVersion();
       }
 
-      if (requestId !== categoryChangeRequestId) return;
-
       const categoriePrecedente = currentCategorieJeu;
       if (nouvelleCategorie === 'version' && categoriePrecedente !== 'version') {
         modeAvantVersion = currentGameMode;
@@ -565,7 +512,6 @@ document.querySelectorAll('#gameCategoryControl button').forEach(btn => {
       gameArea.style.display = 'block';
       genererQuestion();
     } catch (error) {
-      if (requestId !== categoryChangeRequestId) return;
       console.error(`Chargement impossible pour ${nouvelleCategorie} :`, error);
       loading.style.display = 'block';
       loading.innerText = nouvelleCategorie === 'conjugaison'
@@ -584,7 +530,7 @@ document.getElementById('btnInverser').addEventListener('click', () => {
 
 document.querySelectorAll('.modal-overlay').forEach(modal => {
   modal.addEventListener('click', event => {
-    if (event.target === modal) fermerModal(modal.id);
+    if (event.target === modal) modal.classList.remove('active');
   });
 });
 
@@ -592,7 +538,7 @@ document.addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
   for (const id of ['modalTable', 'modalSettings', 'modalAbout']) {
     const modal = document.getElementById(id);
-    if (modal.classList.contains('active')) { fermerModal(id); break; }
+    if (modal.classList.contains('active')) { modal.classList.remove('active'); break; }
   }
 });
 
@@ -611,6 +557,12 @@ function stripAccents(s) {
   return d.normalize("NFC");
 }
 
+function normaliser(s) {
+  let d = s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  d = d.replaceAll("ϕ", "φ");
+  return d.normalize("NFC");
+}
+
 function translittererVersGrec(texte, mode) {
   texte = texte.toLowerCase();
 
@@ -621,14 +573,14 @@ function translittererVersGrec(texte, mode) {
       "n": "ν", "c": "ξ", "o": "ο", "p": "π", "r": "ρ", "s": "σ",
       "t": "τ", "u": "υ", "f": "φ", "x": "χ", "y": "ψ", "w": "ω"
     };
-    for (const [lat, gr] of Object.entries(betaMap)) {
+    for (let [lat, gr] of Object.entries(betaMap)) {
       texte = texte.replaceAll(lat, gr);
     }
     return texte;
   }
 
   const digrammes = { "th": "θ", "ph": "φ", "ch": "χ", "ps": "ψ" };
-  for (const [lat, gr] of Object.entries(digrammes)) {
+  for (let [lat, gr] of Object.entries(digrammes)) {
     texte = texte.replaceAll(lat, gr);
   }
   const lettres = {
@@ -637,7 +589,7 @@ function translittererVersGrec(texte, mode) {
     "m": "μ", "n": "ν", "x": "ξ", "o": "ο", "p": "π", "r": "ρ",
     "s": "σ", "t": "τ", "u": "υ", "y": "υ", "f": "φ", "w": "ω", "ô": "ω"
   };
-  for (const [lat, gr] of Object.entries(lettres)) {
+  for (let [lat, gr] of Object.entries(lettres)) {
     texte = texte.replaceAll(lat, gr);
   }
   return texte;
@@ -645,51 +597,51 @@ function translittererVersGrec(texte, mode) {
 
 function translittererPourBailly(motGrec) {
   const correspondances = {
-    "α": "a",
-    "β": "b",
-    "γ": "g",
-    "δ": "d",
-    "ε": "e",
-    "ζ": "z",
-    "η": "ê",
-    "θ": "th",
-    "ι": "i",
-    "κ": "k",
-    "λ": "l",
-    "μ": "m",
-    "ν": "n",
-    "ξ": "x",
-    "ο": "o",
-    "π": "p",
-    "ρ": "r",
-    "σ": "s",
-    "ς": "s",
-    "τ": "t",
-    "υ": "u",
-    "φ": "ph",
-    "χ": "ch",
-    "ψ": "ps",
-    "ω": "ô"
+    "α": "a", "β": "b", "γ": "g", "δ": "d", "ε": "e", "ζ": "z",
+    "η": "ê", "θ": "th", "ι": "i", "κ": "k", "λ": "l", "μ": "m",
+    "ν": "n", "ξ": "x", "ο": "o", "π": "p", "ρ": "r", "σ": "s",
+    "ς": "s", "τ": "t", "υ": "u", "φ": "ph", "ϕ": "ph", "χ": "ch",
+    "ψ": "ps", "ω": "ô"
   };
+  const diphtongues = new Set(["αι", "ει", "οι", "υι", "αυ", "ευ", "ηυ", "ου"]);
+  const groupes = [];
 
-  return Array.from(String(motGrec || "").toLowerCase())
-    .map(caractere => {
-      const decompose = caractere.normalize("NFD");
-      const lettreGrecque = decompose
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace("ϕ", "φ")
-        .normalize("NFC");
+  for (const caractere of String(motGrec || "").toLocaleLowerCase("el").normalize("NFD")) {
+    if (/\p{M}/u.test(caractere)) {
+      if (groupes.length) groupes[groupes.length - 1].signes += caractere;
+    } else {
+      groupes.push({ lettre: caractere.replace("ϕ", "φ"), signes: "" });
+    }
+  }
 
-      const translit = correspondances[lettreGrecque] ?? lettreGrecque;
-      const aEspritRude = decompose.includes("\u0314");
+  const resultat = [];
+  let indexEspritRude = -1;
 
-      if (aEspritRude) {
-        return translit + "h";
-      }
+  groupes.forEach((groupe, index) => {
+    const suivante = groupes[index + 1]?.lettre || "";
+    let translitteration =
+      groupe.lettre === "γ" && ["γ", "κ", "ξ", "χ"].includes(suivante)
+        ? "n"
+        : (correspondances[groupe.lettre] ?? groupe.lettre);
 
-      return translit;
-    })
-    .join("");
+    if (groupe.signes.includes("\u0314")) {
+      if (groupe.lettre === "ρ") translitteration = "rh";
+      else indexEspritRude = index;
+    }
+
+    resultat.push(translitteration);
+  });
+
+  if (indexEspritRude !== -1) {
+    let insertion = indexEspritRude;
+    if (indexEspritRude > 0) {
+      const paire = groupes[indexEspritRude - 1].lettre + groupes[indexEspritRude].lettre;
+      if (diphtongues.has(paire)) insertion = indexEspritRude - 1;
+    }
+    resultat[insertion] = `h${resultat[insertion]}`;
+  }
+
+  return resultat.join("");
 }
 
 // ---------------------------------------------------------------------------
@@ -847,36 +799,15 @@ function comparer(attendu, propose) {
   return variantesNuFacultatif(attendu).some(v => stripAccents(v) === proposeNorm);
 }
 function comparerPlusieurs(attendus, propose) { return attendus.some(attendu => comparer(attendu, propose)); }
-function transliterationBaillyEtLien(lemme, texte) {
+function transliterationBaillyEtLien(lemme, texte, slugBailly = null) {
   const el = document.getElementById('wordLemme');
   el.innerText = texte;
-  el.href = `https://bailly.app/${encodeURIComponent(translittererPourBailly(lemme))}`;
+  const slug = slugBailly || translittererPourBailly(lemme);
+  el.href = `https://bailly.app/${encodeURIComponent(slug)}`;
   el.target = '_blank';
   el.rel = 'noopener noreferrer';
 }
 function afficherScore() { document.getElementById('scoreBoard').innerText = `Score : ${score} / ${total}`; }
-function afficherFeedback(classe, message, detail = '') {
-  const feedback = document.getElementById('feedback');
-  feedback.replaceChildren(document.createTextNode(message));
-
-  if (detail) {
-    const span = document.createElement('span');
-    span.className = 'feedback-detail';
-    span.textContent = detail;
-    feedback.append(' ', span);
-  }
-
-  feedback.className = `feedback ${classe}`;
-}
-
-function afficherAttenduGrec(prefixe, formes) {
-  const feedback = document.getElementById('feedback');
-  const grec = document.createElement('span');
-  grec.className = 'ifaogrec';
-  grec.textContent = formes.join(' / ');
-  feedback.replaceChildren(document.createTextNode(prefixe), grec);
-  feedback.className = 'feedback incorrect';
-}
 function afficherErreurChargement(message) {
   document.getElementById('loadingText').style.display = 'block';
   document.getElementById('loadingText').innerText = message;
@@ -955,7 +886,8 @@ function validerDeclinaisonProduction() {
   if (comparer(currentQuestion.attendu, input.value)) {
     score++; feedback.innerText = '✓ Correct !'; feedback.className = 'feedback correct';
   } else {
-    afficherAttenduGrec('✗ Attendu : ', [currentQuestion.attendu]);
+    feedback.innerHTML = `✗ Attendu : <span class="ifaogrec">${currentQuestion.attendu}</span>`;
+    feedback.className = 'feedback incorrect';
   }
   input.disabled = true;
   return true;
@@ -1003,13 +935,11 @@ function validerDeclinaisonAnalyse() {
       analyse => !analysesChoisies.includes(analyse)
     );
 
-    afficherFeedback(
-      'correct',
-      '✓ Correct !',
-      autresAnalyses.length
-        ? `(Autre réponse possible : ${autresAnalyses.join(' ; ')})`
-        : ''
-    );
+    feedback.innerHTML = autresAnalyses.length
+      ? `✓ Correct ! <span class="feedback-detail">(Autre réponse possible : ${autresAnalyses.join(' ; ')})</span>`
+      : '✓ Correct !';
+
+    feedback.className = 'feedback correct';
   } else {
     const nombresPossibles = new Set(
       currentQuestion.attendus.map(analyse => analyse.nombre)
@@ -1019,16 +949,14 @@ function validerDeclinaisonAnalyse() {
     // incompatibles dans l'interface existent, car elles appartiennent à
     // des nombres différents.
     if (nombresPossibles.size > 1) {
-      afficherFeedback(
-        'incorrect',
-        `✗ Analyses correctes : ${toutesLesAnalyses.join(' ; ')}`
-      );
+      feedback.innerHTML =
+        `✗ Analyses correctes : ${toutesLesAnalyses.join(' ; ')}`;
     } else {
-      afficherFeedback(
-        'incorrect',
-        `✗ Attendu : ${formaterAnalyseDeclinaison(currentQuestion.attendus)}`
-      );
+      feedback.innerHTML =
+        `✗ Attendu : ${formaterAnalyseDeclinaison(currentQuestion.attendus)}`;
     }
+
+    feedback.className = 'feedback incorrect';
   }
 
   document
@@ -1314,7 +1242,8 @@ function validerConjugaisonProduction() {
   if (comparerPlusieurs(currentQuestion.expectedForms, input.value)) {
     score++; feedback.innerText = '✓ Correct !'; feedback.className = 'feedback correct';
   } else {
-    afficherAttenduGrec('✗ Attendu : ', currentQuestion.expectedForms);
+    feedback.innerHTML = `✗ Attendu : <span class="ifaogrec">${currentQuestion.expectedForms.join(' / ')}</span>`;
+    feedback.className = 'feedback incorrect';
   }
   input.disabled = true;
   return true;
@@ -1323,33 +1252,25 @@ function validerConjugaisonProduction() {
 function validerConjugaisonAnalyse() {
   const selection = selectionsConjugaison();
   if (!selectionComplete(selection)) {
-    const feedback = document.getElementById('feedback');
-    feedback.innerText = 'Sélectionne toutes les caractéristiques nécessaires.';
-    feedback.className = 'feedback warning';
-    return false;
-  }
-
-  const correspondances = currentQuestion.acceptedAnalyses.filter(a =>
-    analyseCorrespond(selection, a)
-  );
+  const feedback = document.getElementById('feedback');
+  feedback.innerText = 'Sélectionne toutes les caractéristiques nécessaires.';
+  feedback.className = 'feedback warning';
+  return false;
+}
+  const correspondances = currentQuestion.acceptedAnalyses.filter(a => analyseCorrespond(selection, a));
   const feedback = document.getElementById('feedback');
   const attendues = formatAnalysesUniques(currentQuestion.acceptedAnalyses);
   if (correspondances.length) {
     score++;
     const reponseChoisie = formatAnalyse(correspondances[0]);
     const autres = attendues.filter(a => a !== reponseChoisie);
-    afficherFeedback(
-      'correct',
-      '✓ Correct !',
-      autres.length
-        ? `(Autres analyses correctes : ${autres.join(' ; ')})`
-        : ''
-    );
+    feedback.innerHTML = autres.length
+      ? `✓ Correct ! <span class="feedback-detail">(Autres analyses correctes : ${autres.join(' ; ')})</span>`
+      : '✓ Correct !';
+    feedback.className = 'feedback correct';
   } else {
-    afficherFeedback(
-      'incorrect',
-      `✗ Analyse${attendues.length > 1 ? 's' : ''} attendue${attendues.length > 1 ? 's' : ''} : ${attendues.join(' ; ')}`
-    );
+    feedback.innerHTML = `✗ Analyse${attendues.length > 1 ? 's' : ''} attendue${attendues.length > 1 ? 's' : ''} : ${attendues.join(' ; ')}`;
+    feedback.className = 'feedback incorrect';
   }
   document.querySelectorAll('.conj-choice').forEach(b => b.disabled = true);
   return true;
@@ -1358,6 +1279,50 @@ function validerConjugaisonAnalyse() {
 // ---------------------------------------------------------------------------
 // 8. Mode Version : QCM grec → français
 // ---------------------------------------------------------------------------
+
+// Exceptions aux slugs générés automatiquement : homonymes et entrées Bailly numérotées.
+const BAILLY_SLUG_OVERRIDES_VERSION = Object.freeze({
+  "E0009": "alla_(1)",
+  "E0016": "hama_(1)",
+  "E0017": "hama_(1)",
+  "E0030": "ara_(1)",
+  "E0031": "ara_(2)",
+  "E0058": "ei_(1)",
+  "E0094": "epi_(1)",
+  "E0095": "epi_(1)",
+  "E0096": "epi_(1)",
+  "E0106": "ê_(1)",
+  "E0107": "ê_(2)",
+  "E0108": "ê_(2)",
+  "E0162": "nun_(1)",
+  "E0163": "nun_(2)",
+  "E0164": "nun_(1)",
+  "E0167": "hoi_(3)",
+  "E0199": "hote_(1)",
+  "E0202": "alla_(1)",
+  "E0211": "oukoun_(2)",
+  "E0212": "oukoun_(1)",
+  "E0243": "peri_(1)",
+  "E0244": "peri_(1)",
+  "E0245": "peri_(1)",
+  "E0246": "pê_(2)",
+  "E0247": "pê_(1)",
+  "E0257": "pote_(2)",
+  "E0258": "pote_(1)",
+  "E0259": "pou_(2)",
+  "E0260": "pou_(1)",
+  "E0275": "pôs_(1)",
+  "E0276": "pôs_(2)",
+  "E0293": "tis_(1)",
+  "E0294": "tis_(2)",
+  "E0320": "hôs_(2)",
+  "E0321": "hôs_(2)",
+  "E0322": "hôs_(2)",
+  "E0323": "hôs_(2)",
+  "E0324": "hôs_(2)",
+  "E0325": "hôs_(2)"
+});
+
 
 function normaliserTraductionVersion(traduction) {
   return String(traduction || '')
@@ -1610,6 +1575,11 @@ function lemmePourLienVersion(entree) {
   return premiereFormeGrecque?.[0] || String(entree || '').trim();
 }
 
+function slugBaillyPourVersion(mot) {
+  const lemme = lemmePourLienVersion(mot?.Entree);
+  return BAILLY_SLUG_OVERRIDES_VERSION[mot?.ID] || translittererPourBailly(lemme);
+}
+
 function afficherChoixVersion(choix) {
   const grille = document.getElementById('versionAnswerGrid');
   grille.replaceChildren();
@@ -1670,7 +1640,11 @@ function genererVersionProduction(mot) {
     selectedIndex: null
   };
 
-  transliterationBaillyEtLien(lemmePourLienVersion(mot.Entree), mot.Entree);
+  transliterationBaillyEtLien(
+    lemmePourLienVersion(mot.Entree),
+    mot.Entree,
+    slugBaillyPourVersion(mot)
+  );
   document.getElementById('wordMeta').innerText = '';
   document.getElementById('btnVersionIndice').style.display = 'inline-flex';
 
@@ -1842,55 +1816,40 @@ function validerReponse() {
   else if (currentQuestion.kind === 'version-qcm') valide = validerVersionQcm();
   if (!valide) return false;
   questionValidated = true;
-  total++;
-  afficherScore();
+total++;
+afficherScore();
 
-  const bouton = document.getElementById('btnValidate');
-  bouton.disabled = true;
+const bouton = document.getElementById('btnValidate');
+bouton.disabled = true;
 
-  setTimeout(() => {
-    afficherEtatBoutonValidation('next');
-    bouton.disabled = false;
-  }, 60);
+setTimeout(() => {
+  afficherEtatBoutonValidation('next');
+  bouton.disabled = false;
+}, 60);
 
-  return true;
+return true;
 }
 
-document.getElementById('btnValidate').addEventListener('click', () => {
-  if (questionValidated) genererQuestion();
-  else validerReponse();
-});
-
+document.getElementById('btnValidate').addEventListener('click', () => questionValidated ? genererQuestion() : validerReponse());
 document.addEventListener('keydown', event => {
-  if (event.repeat || document.querySelector('.modal-overlay.active')) return;
-
-  const cible = event.target;
-  const controleInteractif = cible instanceof Element
-    ? cible.closest('button, a, select, textarea, input:not(#userInput), [contenteditable="true"]')
-    : null;
-  if (controleInteractif) return;
-
-  if (
-    currentQuestion?.kind === 'version-qcm' &&
-    !questionValidated &&
-    /^[1-4]$/.test(event.key)
-  ) {
+  if (currentQuestion?.kind === 'version-qcm' && !questionValidated && /^[1-4]$/.test(event.key)) {
     event.preventDefault();
     selectionnerChoixVersion(Number(event.key) - 1);
     return;
   }
+  if (event.key === 'Enter') { event.preventDefault(); questionValidated ? genererQuestion() : validerReponse(); }
+  if ((event.code === 'Space' || event.key === ' ') && questionValidated) { event.preventDefault(); genererQuestion(); }
+});
+document.addEventListener('keydown', event => {
+  if (document.querySelector('.modal-overlay.active')) return;
 
-  if (event.key === 'Enter') {
+  if (currentQuestion?.kind === 'version-qcm' && !questionValidated && /^[1-4]$/.test(event.key)) {
     event.preventDefault();
-    if (questionValidated) genererQuestion();
-    else validerReponse();
+    selectionnerChoixVersion(Number(event.key) - 1);
     return;
   }
-
-  if ((event.code === 'Space' || event.key === ' ') && questionValidated) {
-    event.preventDefault();
-    genererQuestion();
-  }
+  if (event.key === 'Enter') { event.preventDefault(); questionValidated ? genererQuestion() : validerReponse(); }
+  if ((event.code === 'Space' || event.key === ' ') && questionValidated) { event.preventDefault(); genererQuestion(); }
 });
 
 // ---------------------------------------------------------------------------
@@ -2060,7 +2019,7 @@ initialiserDonnees().catch(error => {
   afficherErreurChargement(`Erreur de chargement : ${error.message}`);
 });
 
-function updateTenseLabels() {
+	function updateTenseLabels() {
   const btn = document.querySelector(
     '.conj-choice[data-group="tense"][data-value="imperfect"]'
   );
