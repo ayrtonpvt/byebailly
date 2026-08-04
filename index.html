@@ -8,6 +8,28 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .version-hint-button {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      margin: 0.65rem auto 0;
+      padding: 0.42rem 0.9rem;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      opacity: 0.75;
+    }
+
+    .version-hint-button:hover,
+    .version-hint-button:focus-visible {
+      opacity: 1;
+    }
+  </style>
 </head>
 <body data-theme="system">
 
@@ -79,6 +101,12 @@
   rel="noopener noreferrer"
 >-</a>
         <div class="word-meta" id="wordMeta">-</div>
+        <button
+          type="button"
+          class="version-hint-button"
+          id="btnVersionIndice"
+          aria-label="Afficher la nature du mot"
+        >Indice</button>
       </div>
 
       <div class="consigne" id="consigneText">-</div>
@@ -1500,6 +1528,20 @@ function selectionnerChoixVersion(index) {
   feedback.className = 'feedback';
 }
 
+function revelerIndiceVersion() {
+  if (!currentQuestion || currentQuestion.kind !== 'version-qcm') return;
+
+  document.getElementById('wordMeta').innerText =
+    formaterTypeVersion(currentQuestion.mot.Type);
+
+  const boutonIndice = document.getElementById('btnVersionIndice');
+  boutonIndice.style.display = 'none';
+}
+
+document
+  .getElementById('btnVersionIndice')
+  .addEventListener('click', revelerIndiceVersion);
+
 function genererVersionProduction(mot) {
   const choix = construireChoixVersion(mot);
   if (!choix) return false;
@@ -1512,7 +1554,8 @@ function genererVersionProduction(mot) {
   };
 
   transliterationBaillyEtLien(lemmePourLienVersion(mot.Entree), mot.Entree);
-  document.getElementById('wordMeta').innerText = formaterTypeVersion(mot.Type);
+  document.getElementById('wordMeta').innerText = '';
+  document.getElementById('btnVersionIndice').style.display = 'inline-flex';
   document.getElementById('consigneText').innerText = 'Choisis la traduction correcte.';
 
   // En mode Version, on masque uniquement le champ de saisie :
@@ -1609,6 +1652,8 @@ function preparerInterfaceQuestion() {
   const inputGroup = document.getElementById('declinaisonInputGroup');
   const input = document.getElementById('userInput');
   const versionGrid = document.getElementById('versionAnswerGrid');
+  const boutonIndiceVersion = document.getElementById('btnVersionIndice');
+  boutonIndiceVersion.style.display = 'none';
   versionGrid.style.display = 'none';
   versionGrid.replaceChildren();
   inputGroup.style.display = 'flex';
