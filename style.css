@@ -170,7 +170,15 @@ body[data-theme="dark"]::before {
   position: relative;
   z-index: 2;
 }
+.container-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 
+  transition:
+    opacity 0.18s ease,
+    visibility 0s linear 0.18s;
+}
 .top-bar {
   position: fixed;
   top: 0;
@@ -550,11 +558,7 @@ body[data-theme="dark"] .segmented-control button.active {
   border-radius: 12px;
   margin-bottom: 20px;
 }
-.word-card-hidden {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .18s ease;
-}
+
 
 .word-title {
   font-size: 1.6rem;
