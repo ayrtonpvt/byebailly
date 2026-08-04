@@ -886,9 +886,20 @@ function validerDeclinaisonAnalyse() {
 
     feedback.className = 'feedback correct';
   } else {
-    feedback.innerHTML =
-      `✗ ${toutesLesAnalyses.length > 1 ? 'Analyses correctes' : 'Analyse correcte'} : ` +
-      toutesLesAnalyses.join(' ; ');
+    const nombresPossibles = new Set(
+      currentQuestion.attendus.map(analyse => analyse.nombre)
+    );
+
+    // « Analyses correctes » n'est affiché que lorsque plusieurs réponses
+    // incompatibles dans l'interface existent, car elles appartiennent à
+    // des nombres différents.
+    if (nombresPossibles.size > 1) {
+      feedback.innerHTML =
+        `✗ Analyses correctes : ${toutesLesAnalyses.join(' ; ')}`;
+    } else {
+      feedback.innerHTML =
+        `✗ Attendu : ${formaterAnalyseDeclinaison(currentQuestion.attendus)}`;
+    }
 
     feedback.className = 'feedback incorrect';
   }
@@ -1471,3 +1482,6 @@ initialiserDonnees().catch(error => {
 window.addEventListener("resize", updateTenseLabels);
 updateTenseLabels();
 </script>
+
+</body>
+</html>
