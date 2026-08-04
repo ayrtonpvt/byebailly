@@ -158,7 +158,6 @@
       </div>
 
       <div class="feedback" id="feedback"></div>
-      <button class="btn-next" id="btnNext">Question suivante </button>
     </div>
 
     <div id="loadingText" style="text-align:center; color: var(--text-muted);">Chargement du vocabulaire...</div>
@@ -1167,12 +1166,25 @@ function validerConjugaisonAnalyse() {
 function reinitialiserBoutons() {
   document.querySelectorAll('.analysis-choice').forEach(btn => { btn.classList.remove('selected'); btn.disabled = false; btn.setAttribute('aria-pressed','false'); });
   mettreAJourControlesMorphologiques();
+function afficherEtatBoutonValidation(etat) {
+  const bouton = document.getElementById('btnValidate');
+  const texteDesktop = bouton.querySelector('.texte-desktop');
+  const iconeMobile = bouton.querySelector('.icone-mobile');
+
+  if (etat === 'next') {
+    texteDesktop.textContent = 'Question suivante';
+    iconeMobile.textContent = '→';
+  } else {
+    texteDesktop.textContent = 'Valider';
+    iconeMobile.textContent = '✓';
+  }
+}	
 }
 function preparerInterfaceQuestion() {
   questionValidated = false;
+  afficherEtatBoutonValidation('validate');
   const feedback = document.getElementById('feedback');
   feedback.innerText = ''; feedback.className = 'feedback';
-  document.getElementById('btnNext').style.display = 'none';
   document.getElementById('btnValidate').disabled = false;
   const analyse = currentGameMode === 'analyse';
   const inputGroup = document.getElementById('declinaisonInputGroup');
@@ -1241,13 +1253,22 @@ function validerReponse() {
   else if (currentQuestion.kind === 'conjugation-production') valide = validerConjugaisonProduction();
   else if (currentQuestion.kind === 'conjugation-analysis') valide = validerConjugaisonAnalyse();
   if (!valide) return false;
-  questionValidated = true; total++; afficherScore();
-  document.getElementById('btnNext').style.display = 'block';
-  return true;
+  questionValidated = true;
+total++;
+afficherScore();
+
+const bouton = document.getElementById('btnValidate');
+bouton.disabled = true;
+
+setTimeout(() => {
+  afficherEtatBoutonValidation('next');
+  bouton.disabled = false;
+}, 60);
+
+return true;
 }
 
 document.getElementById('btnValidate').addEventListener('click', () => questionValidated ? genererQuestion() : validerReponse());
-document.getElementById('btnNext').addEventListener('click', genererQuestion);
 document.addEventListener('keydown', event => {
   if (event.key === 'Enter') { event.preventDefault(); questionValidated ? genererQuestion() : validerReponse(); }
   if ((event.code === 'Space' || event.key === ' ') && questionValidated) { event.preventDefault(); genererQuestion(); }
