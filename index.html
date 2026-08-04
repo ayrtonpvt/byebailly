@@ -1829,9 +1829,29 @@ function revelerIndiceVersion() {
 
   const boutonIndice = document.getElementById('btnVersionIndice');
 
-  if (currentQuestion.hintStep >= currentQuestion.hintSteps) {
-    boutonIndice.style.display = 'none';
-  } else {
+ if (currentQuestion.hintStep >= currentQuestion.hintSteps) {
+  boutonIndice.style.display = 'none';
+
+  const input = document.getElementById('userInput');
+  const feedback = document.getElementById('feedback');
+
+  input.disabled = true;
+
+  feedback.textContent =
+    `✗ Réponses possibles : ${currentQuestion.acceptedAnswers.join(' ; ')}`;
+  feedback.className = 'feedback incorrect';
+
+  questionValidated = true;
+  total++;
+  afficherScore();
+
+  const boutonValidation = document.getElementById('btnValidate');
+  boutonValidation.disabled = true;
+
+  setTimeout(() => {
+    afficherEtatBoutonValidation('next');
+  }, 350);
+} else {
     boutonIndice.setAttribute(
       'aria-label',
       'Révéler un graphème supplémentaire dans chaque mot'
