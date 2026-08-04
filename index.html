@@ -494,8 +494,22 @@ function appliquerCategorieJeu(categorie) {
   mettreAJourPlaceholder();
 }
 
-function ouvrirModal(id) { document.getElementById(id).classList.add('active'); }
-function fermerModal(id) { document.getElementById(id).classList.remove('active'); }
+function ouvrirModal(id) {
+    document.getElementById(id).classList.add('active');
+
+    if (id === 'modalSettings') {
+        document.getElementById('gameCard')
+            .classList.add('word-card-hidden');
+    }
+}
+function fermerModal(id) {
+    document.getElementById(id).classList.remove('active');
+
+    if (id === 'modalSettings') {
+        document.getElementById('gameCard')
+            .classList.remove('word-card-hidden');
+    }
+}
 
 document.getElementById('btnToggleSettings').addEventListener('click', () => ouvrirModal('modalSettings'));
 document.getElementById('btnCloseSettings').addEventListener('click', () => fermerModal('modalSettings'));
