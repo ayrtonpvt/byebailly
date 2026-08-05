@@ -29,6 +29,367 @@
     .version-hint-button:focus-visible {
       opacity: 1;
     }
+
+
+    /* ======================================================================
+       Interface des statistiques
+       ====================================================================== */
+    .stats-modal-wrapper {
+      max-width: 640px;
+    }
+
+    .stats-stack {
+      gap: 0.75rem;
+    }
+
+    .stats-view-control {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .stats-view-control button {
+      white-space: nowrap;
+    }
+
+    .stats-tab-short {
+      display: none;
+    }
+
+    .stats-panel {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .stats-group {
+      min-width: 0;
+    }
+
+    .stats-group-title-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .stats-group-title-row .setting-label {
+      margin: 0;
+    }
+
+    .stats-group-note {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      line-height: 1.2;
+      text-align: right;
+    }
+
+    .stats-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.625rem;
+    }
+
+    .stats-summary-grid.stats-summary-grid-compact {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .stats-metric {
+      min-width: 0;
+      padding: 0.8rem 0.65rem;
+      border: 1px solid var(--input-border);
+      border-radius: 0.5rem;
+      background: var(--input-bg);
+      text-align: center;
+    }
+
+    .stats-metric-value {
+      display: block;
+      overflow: hidden;
+      color: var(--text-main);
+      font-size: 1.15rem;
+      line-height: 1.25;
+      font-weight: 600;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .stats-metric-value.is-accent {
+      color: var(--accent);
+    }
+
+    .stats-metric-label {
+      display: block;
+      margin-top: 0.25rem;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      line-height: 1.25;
+    }
+
+    .stats-mode-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.625rem;
+    }
+
+    .stats-mode-card {
+      min-width: 0;
+      padding: 0.8rem;
+      border: 1px solid var(--input-border);
+      border-radius: 0.5rem;
+      background: var(--input-bg);
+    }
+
+    .stats-mode-name {
+      display: block;
+      margin-bottom: 0.4rem;
+      color: var(--text-main);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .stats-mode-score {
+      display: block;
+      color: var(--accent);
+      font-size: 1.1rem;
+      line-height: 1.2;
+      font-weight: 600;
+    }
+
+    .stats-mode-detail {
+      display: block;
+      margin-top: 0.25rem;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      line-height: 1.35;
+    }
+
+    .stats-detail-list,
+    .stats-result-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .stats-detail-row {
+      min-width: 0;
+    }
+
+    .stats-detail-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .stats-detail-label {
+      min-width: 0;
+      color: var(--text-main);
+      font-size: 0.82rem;
+      line-height: 1.25;
+      font-weight: 500;
+      overflow-wrap: anywhere;
+    }
+
+    .stats-detail-value {
+      flex: 0 0 auto;
+      color: var(--text-main);
+      font-size: 0.78rem;
+      line-height: 1.25;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stats-progress-track {
+      width: 100%;
+      height: 6px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: var(--segmented-bg);
+    }
+
+    .stats-progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent);
+      transition: width 0.25s ease;
+    }
+
+    .stats-detail-foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 0.28rem;
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      line-height: 1.25;
+    }
+
+    .stats-result-exact .stats-progress-fill {
+      background: var(--success);
+    }
+
+    .stats-result-orthographe .stats-progress-fill {
+      background: var(--accent);
+    }
+
+    .stats-result-partiel .stats-progress-fill {
+      background: #eab308;
+    }
+
+    .stats-result-incorrect .stats-progress-fill,
+    .stats-result-revelee .stats-progress-fill {
+      background: var(--error);
+    }
+
+    .stats-activity-summary {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+
+    .stats-activity-chart {
+      display: grid;
+      grid-template-columns: repeat(14, minmax(0, 1fr));
+      align-items: end;
+      gap: 0.3rem;
+      min-height: 88px;
+      padding-top: 0.3rem;
+    }
+
+    .stats-day {
+      display: flex;
+      min-width: 0;
+      height: 88px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.3rem;
+    }
+
+    .stats-day-bar-wrap {
+      display: flex;
+      width: 100%;
+      height: 64px;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .stats-day-bar {
+      width: min(100%, 14px);
+      min-height: 3px;
+      border-radius: 999px 999px 3px 3px;
+      background: var(--accent);
+      opacity: 0.85;
+    }
+
+    .stats-day.is-empty .stats-day-bar {
+      height: 3px !important;
+      background: var(--input-border);
+      opacity: 0.6;
+    }
+
+    .stats-day-label {
+      color: var(--text-muted);
+      font-size: 0.6rem;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stats-empty {
+      padding: 1.6rem 1rem;
+      text-align: center;
+    }
+
+    .stats-empty-icon {
+      display: flex;
+      width: 44px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.75rem;
+      border: 1px solid var(--input-border);
+      border-radius: 50%;
+      color: var(--accent);
+      background: var(--input-bg);
+    }
+
+    .stats-empty-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .stats-empty-title {
+      margin: 0;
+      color: var(--text-main);
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .stats-empty-text {
+      max-width: 360px;
+      margin: 0.45rem auto 0;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    .stats-updated-at {
+      margin: 0.1rem 0 0;
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      line-height: 1.3;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .stats-modal-wrapper {
+        max-width: 100%;
+      }
+
+      .stats-summary-grid,
+      .stats-summary-grid.stats-summary-grid-compact {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .stats-metric {
+        padding: 0.72rem 0.5rem;
+      }
+
+      .stats-activity-chart {
+        gap: 0.2rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .stats-tab-full {
+        display: none;
+      }
+
+      .stats-tab-short {
+        display: inline;
+      }
+
+      .stats-view-control button {
+        padding-right: 0.3rem;
+        padding-left: 0.3rem;
+      }
+
+      .stats-mode-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-detail-head,
+      .stats-detail-foot,
+      .stats-activity-summary {
+        gap: 0.4rem;
+      }
+    }
+
   </style>
 </head>
 <body data-theme="system">
@@ -68,6 +429,15 @@
   </span>
 </div>
     <div class="header-actions">
+
+      <!-- Bouton Statistiques -->
+      <button class="btn-icon" id="btnToggleStats" title="Statistiques" aria-label="Ouvrir les statistiques">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" fill="currentColor" aria-hidden="true">
+          <path d="M271,262h-49.238V158.694c0-4.971-4.029-9-9-9h-30.664c-4.971,0-9,4.029-9,9V262h-17.901V115.338c0-4.971-4.029-9-9-9h-30.664c-4.971,0-9,4.029-9,9V262H88.633V71.553c0-4.971-4.029-9-9-9H48.969c-4.971,0-9,4.029-9,9V262H18V9c0-4.971-4.029-9-9-9S0,4.029,0,9v262c0,4.971,4.029,9,9,9h262c4.971,0,9-4.029,9-9S275.971,262,271,262z M191.098,167.694h12.664V262h-12.664V167.694z M124.534,124.338h12.664V262h-12.664V124.338z M57.969,80.553h12.664V262H57.969V80.553z"/>
+        </svg>
+        <span class="header-action-label">Statistiques</span>
+      </button>
+
       <!-- Bouton Paramètres -->
       <button class="btn-icon" id="btnToggleSettings" title="Paramètres">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -358,6 +728,58 @@
   </div>
 </div>
 
+
+
+<!-- Modal Statistiques -->
+<div
+  class="modal-overlay"
+  id="modalStats"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="statsModalTitle"
+  aria-hidden="true"
+>
+  <div class="settings-modal-wrapper stats-modal-wrapper">
+
+    <div class="settings-modal-title stats-modal-title">
+      <span id="statsModalTitle">Statistiques</span>
+
+      <button
+        class="btn-icon settings-close-button stats-close-button"
+        id="btnCloseStats"
+        aria-label="Fermer les statistiques"
+        title="Fermer"
+      >
+        ✕
+      </button>
+    </div>
+
+    <div class="settings-stack stats-stack">
+      <section class="setting-group" aria-label="Vue statistique">
+        <div class="segmented-control stats-view-control" id="statsViewControl">
+          <button type="button" data-view="global" class="active" aria-pressed="true">
+            <span class="stats-tab-full">Global</span><span class="stats-tab-short">Global</span>
+          </button>
+          <button type="button" data-view="declinaison" aria-pressed="false">
+            <span class="stats-tab-full">Déclinaison</span><span class="stats-tab-short">Décl.</span>
+          </button>
+          <button type="button" data-view="conjugaison" aria-pressed="false">
+            <span class="stats-tab-full">Conjugaison</span><span class="stats-tab-short">Conj.</span>
+          </button>
+          <button type="button" data-view="version" aria-pressed="false">
+            <span class="stats-tab-full">Version</span><span class="stats-tab-short">Version</span>
+          </button>
+        </div>
+      </section>
+
+      <div class="stats-panel" id="statsContent" aria-live="polite"></div>
+      <p class="stats-updated-at" id="statsUpdatedAt"></p>
+    </div>
+
+  </div>
+</div>
+
+
 <!-- 4. Le Script complet (Bien isolé) -->
 <script>
 // ---------------------------------------------------------------------------
@@ -396,6 +818,800 @@ let questionValidated = false;
 let score = 0;
 let total = 0;
 const conjugationCandidateCache = new WeakMap();
+
+const STATS_STORAGE_KEY = 'byebailly_stats';
+const DEVICE_STORAGE_KEY = 'byebailly_device_id';
+const STATS_SCHEMA_VERSION = 1;
+const STATS_HISTORY_DAYS = 90;
+
+function arrondirDixieme(valeur) {
+  return Math.round((Number(valeur) + Number.EPSILON) * 10) / 10;
+}
+
+function creerCompteurStats() {
+  return {
+    points: 0,
+    pointsPossibles: 0,
+    tentatives: 0,
+    assistees: 0,
+    resultats: {
+      exact: 0,
+      orthographe: 0,
+      partiel: 0,
+      incorrect: 0,
+      revelee: 0
+    }
+  };
+}
+
+function creerStatsVides() {
+  return {
+    schemaVersion: STATS_SCHEMA_VERSION,
+    updatedAt: null,
+    global: {
+      ...creerCompteurStats(),
+      streak: { actuel: 0, meilleur: 0 }
+    },
+    parCategorie: {
+      declinaison: {
+        analyse: creerCompteurStats(),
+        production: creerCompteurStats()
+      },
+      conjugaison: {
+        analyse: creerCompteurStats(),
+        production: creerCompteurStats()
+      },
+      version: {
+        qcm: creerCompteurStats(),
+        theme: creerCompteurStats()
+      }
+    },
+    parDimension: {
+      typeDeclinaison: {},
+      cas: {},
+      nombre: {},
+      mode: {},
+      temps: {},
+      voix: {}
+    },
+    parJour: {}
+  };
+}
+
+function nombreStats(valeur) {
+  const nombre = Number(valeur);
+  return Number.isFinite(nombre) ? nombre : 0;
+}
+
+function normaliserCompteurStats(source) {
+  const compteur = creerCompteurStats();
+  if (!source || typeof source !== 'object') return compteur;
+
+  compteur.points = nombreStats(source.points);
+  compteur.pointsPossibles = nombreStats(source.pointsPossibles);
+  compteur.tentatives = nombreStats(source.tentatives);
+  compteur.assistees = nombreStats(source.assistees);
+
+  for (const statut of Object.keys(compteur.resultats)) {
+    compteur.resultats[statut] = nombreStats(source.resultats?.[statut]);
+  }
+
+  return compteur;
+}
+
+function normaliserTableCompteurs(source) {
+  const resultat = {};
+  if (!source || typeof source !== 'object') return resultat;
+
+  for (const [cle, compteur] of Object.entries(source)) {
+    resultat[cle] = normaliserCompteurStats(compteur);
+  }
+
+  return resultat;
+}
+
+function normaliserStatsV1(source) {
+  const stats = creerStatsVides();
+  stats.updatedAt = typeof source.updatedAt === 'string' ? source.updatedAt : null;
+  stats.global = {
+    ...normaliserCompteurStats(source.global),
+    streak: {
+      actuel: nombreStats(source.global?.streak?.actuel),
+      meilleur: nombreStats(source.global?.streak?.meilleur)
+    }
+  };
+
+  for (const [categorie, modes] of Object.entries(stats.parCategorie)) {
+    for (const mode of Object.keys(modes)) {
+      stats.parCategorie[categorie][mode] = normaliserCompteurStats(
+        source.parCategorie?.[categorie]?.[mode]
+      );
+    }
+  }
+
+  for (const dimension of Object.keys(stats.parDimension)) {
+    stats.parDimension[dimension] = normaliserTableCompteurs(
+      source.parDimension?.[dimension]
+    );
+  }
+
+  stats.parJour = normaliserTableCompteurs(source.parJour);
+  return stats;
+}
+
+function migrerStats(anciennesDonnees) {
+  if (!anciennesDonnees || typeof anciennesDonnees !== 'object') {
+    return creerStatsVides();
+  }
+
+  const version = Number(
+    anciennesDonnees.schemaVersion ?? anciennesDonnees.version
+  );
+
+  if (version === 1) return normaliserStatsV1(anciennesDonnees);
+
+  console.warn('Version de statistiques inconnue : réinitialisation locale.', version);
+  return creerStatsVides();
+}
+
+function genererIdentifiantLocal() {
+  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+  return `device-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function chargerOuCreerDeviceId() {
+  try {
+    const existant = localStorage.getItem(DEVICE_STORAGE_KEY);
+    if (existant) return existant;
+
+    const nouveau = genererIdentifiantLocal();
+    localStorage.setItem(DEVICE_STORAGE_KEY, nouveau);
+    return nouveau;
+  } catch (error) {
+    console.warn('Identifiant local non persistant :', error);
+    return genererIdentifiantLocal();
+  }
+}
+
+function ajouterEvenementAuCompteur(compteur, evenement) {
+  compteur.points = arrondirDixieme(compteur.points + evenement.points);
+  compteur.pointsPossibles = arrondirDixieme(
+    compteur.pointsPossibles + evenement.pointsPossibles
+  );
+  compteur.tentatives += 1;
+  if (evenement.assisted) compteur.assistees += 1;
+
+  if (Object.prototype.hasOwnProperty.call(compteur.resultats, evenement.statut)) {
+    compteur.resultats[evenement.statut] += 1;
+  }
+}
+
+function categorieEtModeStats(kind) {
+  const correspondances = {
+    'declension-production': ['declinaison', 'production'],
+    'declension-analysis': ['declinaison', 'analyse'],
+    'conjugation-production': ['conjugaison', 'production'],
+    'conjugation-analysis': ['conjugaison', 'analyse'],
+    'version-qcm': ['version', 'qcm'],
+    'version-theme': ['version', 'theme']
+  };
+  return correspondances[kind] || null;
+}
+
+function resultatContinueStreak(resultat) {
+  return resultat.statut === 'exact' || resultat.statut === 'orthographe';
+}
+
+function cleJourLocal(date = new Date()) {
+  const annee = date.getFullYear();
+  const mois = String(date.getMonth() + 1).padStart(2, '0');
+  const jour = String(date.getDate()).padStart(2, '0');
+  return `${annee}-${mois}-${jour}`;
+}
+
+function elaguerHistoriqueJournalier(parJour) {
+  const jours = Object.keys(parJour).sort();
+  const excedent = jours.length - STATS_HISTORY_DAYS;
+  if (excedent <= 0) return;
+  jours.slice(0, excedent).forEach(jour => delete parJour[jour]);
+}
+
+const StatsStore = {
+  _stats: creerStatsVides(),
+  _deviceId: null,
+
+  charger() {
+    try {
+      const brut = localStorage.getItem(STATS_STORAGE_KEY);
+      return brut ? migrerStats(JSON.parse(brut)) : creerStatsVides();
+    } catch (error) {
+      console.warn('Statistiques locales illisibles : réinitialisation.', error);
+      return creerStatsVides();
+    }
+  },
+
+  sauvegarder(stats = this._stats) {
+    this._stats = stats;
+    try {
+      localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(stats));
+      return true;
+    } catch (error) {
+      console.warn('Statistiques non sauvegardées :', error);
+      return false;
+    }
+  },
+
+  initialiser() {
+    this._deviceId = chargerOuCreerDeviceId();
+    this._stats = this.charger();
+    return this._stats;
+  },
+
+  obtenir() {
+    return this._stats;
+  },
+
+  enregistrerReponse(evenement) {
+    const stats = this._stats || this.initialiser();
+    const date = evenement.date ? new Date(evenement.date) : new Date();
+    const dateValide = Number.isNaN(date.getTime()) ? new Date() : date;
+    const resultat = {
+      ...evenement,
+      deviceId: this._deviceId,
+      date: dateValide.toISOString()
+    };
+
+    ajouterEvenementAuCompteur(stats.global, resultat);
+
+    if (resultatContinueStreak(resultat)) {
+      stats.global.streak.actuel += 1;
+      stats.global.streak.meilleur = Math.max(
+        stats.global.streak.meilleur,
+        stats.global.streak.actuel
+      );
+    } else {
+      stats.global.streak.actuel = 0;
+    }
+
+    const emplacement = categorieEtModeStats(resultat.kind);
+    if (emplacement) {
+      const [categorie, mode] = emplacement;
+      ajouterEvenementAuCompteur(stats.parCategorie[categorie][mode], resultat);
+    }
+
+    for (const dimension of Object.keys(stats.parDimension)) {
+      const valeur = resultat.dimensions?.[dimension];
+      const valeurs = Array.isArray(valeur) ? valeur : [valeur];
+
+      for (const cle of new Set(valeurs.filter(Boolean).map(String))) {
+        stats.parDimension[dimension][cle] ||= creerCompteurStats();
+        ajouterEvenementAuCompteur(
+          stats.parDimension[dimension][cle],
+          resultat
+        );
+      }
+    }
+
+    const jour = cleJourLocal(dateValide);
+    stats.parJour[jour] ||= creerCompteurStats();
+    ajouterEvenementAuCompteur(stats.parJour[jour], resultat);
+    elaguerHistoriqueJournalier(stats.parJour);
+
+    stats.updatedAt = resultat.date;
+    this.sauvegarder(stats);
+    return stats;
+  }
+};
+
+StatsStore.initialiser();
+window.StatsStore = StatsStore;
+
+// ---------------------------------------------------------------------------
+// 1 bis. Rendu de l'interface des statistiques
+// ---------------------------------------------------------------------------
+
+let currentStatsView = 'global';
+
+const STATS_RESULT_LABELS = {
+  exact: 'Exactes',
+  orthographe: 'Orthographe tolérée',
+  partiel: 'Partielles',
+  incorrect: 'Incorrectes',
+  revelee: 'Révélées'
+};
+
+const STATS_DIMENSION_CONFIG = {
+  typeDeclinaison: {
+    titre: 'Type de déclinaison',
+    ordre: [
+      'nom_1', 'nom_2', 'nom_3',
+      'adjectif_1', 'adjectif_2', 'adjectif_3',
+      'autre'
+    ],
+    labels: {
+      nom_1: 'Noms — 1re déclinaison',
+      nom_2: 'Noms — 2e déclinaison',
+      nom_3: 'Noms — 3e déclinaison',
+      adjectif_1: 'Adjectifs — 1re classe',
+      adjectif_2: 'Adjectifs — 2e classe',
+      adjectif_3: 'Adjectifs — 3e classe',
+      autre: 'Autres formes'
+    }
+  },
+  cas: {
+    titre: 'Cas',
+    ordre: ['nom', 'voc', 'acc', 'gen', 'dat'],
+    labels: {
+      nom: 'Nominatif', voc: 'Vocatif', acc: 'Accusatif',
+      gen: 'Génitif', dat: 'Datif'
+    }
+  },
+  nombre: {
+    titre: 'Nombre',
+    ordre: ['sg', 'pl'],
+    labels: { sg: 'Singulier', pl: 'Pluriel' }
+  },
+  mode: {
+    titre: 'Mode verbal',
+    ordre: ['indicative', 'participle', 'infinitive'],
+    labels: {
+      indicative: 'Indicatif', participle: 'Participe', infinitive: 'Infinitif'
+    }
+  },
+  temps: {
+    titre: 'Temps',
+    ordre: ['present', 'imperfect', 'future', 'aorist'],
+    labels: {
+      present: 'Présent', imperfect: 'Imparfait', future: 'Futur', aorist: 'Aoriste'
+    }
+  },
+  voix: {
+    titre: 'Voix',
+    ordre: ['active', 'middle', 'middle_passive', 'passive'],
+    labels: {
+      active: 'Active',
+      middle: 'Moyenne',
+      middle_passive: 'Moyenne / passive',
+      passive: 'Passive'
+    }
+  }
+};
+
+function creerElementStats(tag, classe = '', texte = null) {
+  const element = document.createElement(tag);
+  if (classe) element.className = classe;
+  if (texte !== null) element.textContent = texte;
+  return element;
+}
+
+function formaterNombreStatsInterface(valeur) {
+  const nombre = arrondirDixieme(nombreStats(valeur));
+  return Number.isInteger(nombre)
+    ? String(nombre)
+    : String(nombre).replace('.', ',');
+}
+
+function pourcentageStats(compteur) {
+  const possible = nombreStats(compteur?.pointsPossibles);
+  if (possible <= 0) return 0;
+  return Math.max(
+    0,
+    Math.min(100, Math.round((nombreStats(compteur?.points) / possible) * 100))
+  );
+}
+
+function fusionnerCompteursStats(compteurs) {
+  const fusion = creerCompteurStats();
+
+  for (const compteur of compteurs.filter(Boolean)) {
+    fusion.points = arrondirDixieme(fusion.points + nombreStats(compteur.points));
+    fusion.pointsPossibles = arrondirDixieme(
+      fusion.pointsPossibles + nombreStats(compteur.pointsPossibles)
+    );
+    fusion.tentatives += nombreStats(compteur.tentatives);
+    fusion.assistees += nombreStats(compteur.assistees);
+
+    for (const statut of Object.keys(fusion.resultats)) {
+      fusion.resultats[statut] += nombreStats(compteur.resultats?.[statut]);
+    }
+  }
+
+  return fusion;
+}
+
+function compteurCategorieStats(stats, categorie) {
+  return fusionnerCompteursStats(
+    Object.values(stats.parCategorie?.[categorie] || {})
+  );
+}
+
+function creerGroupeStats(titre, note = '') {
+  const section = creerElementStats('section', 'setting-group stats-group');
+  const entete = creerElementStats('div', 'stats-group-title-row');
+  const heading = creerElementStats('h3', 'setting-label', titre);
+  entete.appendChild(heading);
+
+  if (note) {
+    entete.appendChild(creerElementStats('span', 'stats-group-note', note));
+  }
+
+  section.appendChild(entete);
+  return section;
+}
+
+function ajouterMetriqueStats(grille, valeur, libelle, accent = false) {
+  const bloc = creerElementStats('div', 'stats-metric');
+  const valeurElement = creerElementStats(
+    'span',
+    `stats-metric-value${accent ? ' is-accent' : ''}`,
+    valeur
+  );
+  bloc.append(
+    valeurElement,
+    creerElementStats('span', 'stats-metric-label', libelle)
+  );
+  grille.appendChild(bloc);
+}
+
+function creerResumeStats(compteur, options = {}) {
+  const {
+    titre = "Vue d'ensemble",
+    streak = null,
+    compact = false
+  } = options;
+  const section = creerGroupeStats(titre);
+  const grille = creerElementStats(
+    'div',
+    `stats-summary-grid${compact ? ' stats-summary-grid-compact' : ''}`
+  );
+
+  ajouterMetriqueStats(
+    grille,
+    `${pourcentageStats(compteur)} %`,
+    'Réussite',
+    true
+  );
+  ajouterMetriqueStats(
+    grille,
+    `${formaterNombreStatsInterface(compteur.points)} / ${formaterNombreStatsInterface(compteur.pointsPossibles)}`,
+    'Points'
+  );
+  ajouterMetriqueStats(
+    grille,
+    formaterNombreStatsInterface(compteur.tentatives),
+    'Tentatives'
+  );
+  ajouterMetriqueStats(
+    grille,
+    formaterNombreStatsInterface(compteur.assistees),
+    'Avec indice'
+  );
+
+  if (streak) {
+    ajouterMetriqueStats(
+      grille,
+      formaterNombreStatsInterface(streak.actuel),
+      'Série actuelle'
+    );
+    ajouterMetriqueStats(
+      grille,
+      formaterNombreStatsInterface(streak.meilleur),
+      'Meilleure série'
+    );
+  }
+
+  section.appendChild(grille);
+  return section;
+}
+
+function creerLigneDetailStats(libelle, compteur, options = {}) {
+  const { classe = '', ratio = null, piedGauche = null } = options;
+  const ligne = creerElementStats(
+    'div',
+    `stats-detail-row${classe ? ` ${classe}` : ''}`
+  );
+  const pourcentage = ratio === null
+    ? pourcentageStats(compteur)
+    : Math.max(0, Math.min(100, Math.round(ratio)));
+
+  const entete = creerElementStats('div', 'stats-detail-head');
+  entete.append(
+    creerElementStats('span', 'stats-detail-label', libelle),
+    creerElementStats('span', 'stats-detail-value', `${pourcentage} %`)
+  );
+
+  const piste = creerElementStats('div', 'stats-progress-track');
+  const remplissage = creerElementStats('div', 'stats-progress-fill');
+  remplissage.style.width = `${pourcentage}%`;
+  piste.appendChild(remplissage);
+
+  const pied = creerElementStats('div', 'stats-detail-foot');
+  pied.append(
+    creerElementStats(
+      'span',
+      '',
+      piedGauche ?? `${formaterNombreStatsInterface(compteur.points)} / ${formaterNombreStatsInterface(compteur.pointsPossibles)} point${compteur.pointsPossibles > 1 ? 's' : ''}`
+    ),
+    creerElementStats(
+      'span',
+      '',
+      `${formaterNombreStatsInterface(compteur.tentatives)} tentative${compteur.tentatives > 1 ? 's' : ''}`
+    )
+  );
+
+  ligne.append(entete, piste, pied);
+  return ligne;
+}
+
+function creerRepartitionStats(compteur) {
+  const section = creerGroupeStats('Répartition des réponses');
+  const liste = creerElementStats('div', 'stats-result-list');
+  const totalTentatives = Math.max(0, nombreStats(compteur.tentatives));
+
+  for (const statut of Object.keys(STATS_RESULT_LABELS)) {
+    const nombre = nombreStats(compteur.resultats?.[statut]);
+    const ratio = totalTentatives > 0 ? (nombre / totalTentatives) * 100 : 0;
+    liste.appendChild(
+      creerLigneDetailStats(
+        STATS_RESULT_LABELS[statut],
+        { points: nombre, pointsPossibles: totalTentatives, tentatives: nombre },
+        {
+          classe: `stats-result-${statut}`,
+          ratio,
+          piedGauche: `${formaterNombreStatsInterface(nombre)} réponse${nombre > 1 ? 's' : ''}`
+        }
+      )
+    );
+  }
+
+  section.appendChild(liste);
+  return section;
+}
+
+function creerModesStats(titre, modes) {
+  const section = creerGroupeStats(titre);
+  const grille = creerElementStats('div', 'stats-mode-grid');
+
+  for (const { libelle, compteur } of modes) {
+    const carte = creerElementStats('div', 'stats-mode-card');
+    carte.append(
+      creerElementStats('span', 'stats-mode-name', libelle),
+      creerElementStats('span', 'stats-mode-score', `${pourcentageStats(compteur)} %`),
+      creerElementStats(
+        'span',
+        'stats-mode-detail',
+        `${formaterNombreStatsInterface(compteur.points)} / ${formaterNombreStatsInterface(compteur.pointsPossibles)} · ${formaterNombreStatsInterface(compteur.tentatives)} tentative${compteur.tentatives > 1 ? 's' : ''}`
+      )
+    );
+    grille.appendChild(carte);
+  }
+
+  section.appendChild(grille);
+  return section;
+}
+
+function clesDimensionStats(table, configuration) {
+  const ordre = configuration.ordre || [];
+  const presentes = Object.keys(table || {});
+  const extras = presentes
+    .filter(cle => !ordre.includes(cle))
+    .sort((a, b) => a.localeCompare(b, 'fr'));
+  return [...ordre, ...extras];
+}
+
+function creerDimensionStats(stats, nomDimension) {
+  const configuration = STATS_DIMENSION_CONFIG[nomDimension];
+  const table = stats.parDimension?.[nomDimension] || {};
+  const section = creerGroupeStats(configuration.titre);
+  const liste = creerElementStats('div', 'stats-detail-list');
+
+  for (const cle of clesDimensionStats(table, configuration)) {
+    const compteur = table[cle] || creerCompteurStats();
+    const libelle = configuration.labels?.[cle] || cle.replaceAll('_', ' ');
+    liste.appendChild(creerLigneDetailStats(libelle, compteur));
+  }
+
+  section.appendChild(liste);
+  return section;
+}
+
+function joursRecentsStats(nombreJours = 14) {
+  const jours = [];
+  const maintenant = new Date();
+  maintenant.setHours(12, 0, 0, 0);
+
+  for (let decalage = nombreJours - 1; decalage >= 0; decalage--) {
+    const date = new Date(maintenant);
+    date.setDate(maintenant.getDate() - decalage);
+    jours.push({ date, cle: cleJourLocal(date) });
+  }
+
+  return jours;
+}
+
+function creerActiviteStats(stats) {
+  const jours = joursRecentsStats(14);
+  const compteurs = jours.map(({ cle }) => stats.parJour?.[cle] || creerCompteurStats());
+  const totalRecent = fusionnerCompteursStats(compteurs);
+  const section = creerGroupeStats('Activité récente', '14 derniers jours');
+
+  const resume = creerElementStats('div', 'stats-activity-summary');
+  resume.append(
+    creerElementStats(
+      'span',
+      '',
+      `${formaterNombreStatsInterface(totalRecent.tentatives)} tentative${totalRecent.tentatives > 1 ? 's' : ''}`
+    ),
+    creerElementStats('span', '', `${pourcentageStats(totalRecent)} % de réussite`)
+  );
+
+  const graphique = creerElementStats('div', 'stats-activity-chart');
+
+  jours.forEach(({ date, cle }) => {
+    const compteur = stats.parJour?.[cle] || creerCompteurStats();
+    const pourcentage = pourcentageStats(compteur);
+    const jour = creerElementStats(
+      'div',
+      `stats-day${compteur.tentatives ? '' : ' is-empty'}`
+    );
+    const enveloppe = creerElementStats('div', 'stats-day-bar-wrap');
+    const barre = creerElementStats('div', 'stats-day-bar');
+    barre.style.height = `${Math.max(3, Math.round((pourcentage / 100) * 64))}px`;
+    barre.title = compteur.tentatives
+      ? `${date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })} : ${formaterNombreStatsInterface(compteur.points)} / ${formaterNombreStatsInterface(compteur.pointsPossibles)} (${pourcentage} %)`
+      : `${date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })} : aucune tentative`;
+    enveloppe.appendChild(barre);
+    jour.append(
+      enveloppe,
+      creerElementStats('span', 'stats-day-label', String(date.getDate()))
+    );
+    graphique.appendChild(jour);
+  });
+
+  section.append(resume, graphique);
+  return section;
+}
+
+function creerEtatVideStats(titre, texte) {
+  const section = creerElementStats('section', 'setting-group stats-group stats-empty');
+  const icone = creerElementStats('div', 'stats-empty-icon');
+  icone.innerHTML = '<svg viewBox="0 0 280 280" aria-hidden="true"><path d="M271,262h-49.238V158.694c0-4.971-4.029-9-9-9h-30.664c-4.971,0-9,4.029-9,9V262h-17.901V115.338c0-4.971-4.029-9-9-9h-30.664c-4.971,0-9,4.029-9,9V262H88.633V71.553c0-4.971-4.029-9-9-9H48.969c-4.971,0-9,4.029-9,9V262H18V9c0-4.971-4.029-9-9-9S0,4.029,0,9v262c0,4.971,4.029,9,9,9h262c4.971,0,9-4.029,9-9S275.971,262,271,262z M191.098,167.694h12.664V262h-12.664V167.694z M124.534,124.338h12.664V262h-12.664V124.338z M57.969,80.553h12.664V262H57.969V80.553z"/></svg>';
+  section.append(
+    icone,
+    creerElementStats('h3', 'stats-empty-title', titre),
+    creerElementStats('p', 'stats-empty-text', texte)
+  );
+  return section;
+}
+
+function rendreStatsGlobales(conteneur, stats) {
+  if (!stats.global.tentatives) {
+    conteneur.appendChild(
+      creerEtatVideStats(
+        'Aucune statistique pour le moment',
+        'Les résultats apparaîtront ici dès que tu auras validé une première réponse.'
+      )
+    );
+    return;
+  }
+
+  conteneur.append(
+    creerResumeStats(stats.global, {
+      titre: "Vue d'ensemble",
+      streak: stats.global.streak
+    }),
+    creerRepartitionStats(stats.global),
+    creerActiviteStats(stats)
+  );
+}
+
+function rendreStatsDeclinaison(conteneur, stats) {
+  const compteur = compteurCategorieStats(stats, 'declinaison');
+  if (!compteur.tentatives) {
+    conteneur.appendChild(
+      creerEtatVideStats(
+        'Pas encore de données en déclinaison',
+        'Joue quelques questions de production ou d’analyse pour faire apparaître les résultats par déclinaison, cas et nombre.'
+      )
+    );
+    return;
+  }
+
+  conteneur.append(
+    creerResumeStats(compteur, { titre: 'Déclinaison', compact: true }),
+    creerModesStats('Modes d’exercice', [
+      { libelle: 'Analyse', compteur: stats.parCategorie.declinaison.analyse },
+      { libelle: 'Production', compteur: stats.parCategorie.declinaison.production }
+    ]),
+    creerDimensionStats(stats, 'typeDeclinaison'),
+    creerDimensionStats(stats, 'cas'),
+    creerDimensionStats(stats, 'nombre')
+  );
+}
+
+function rendreStatsConjugaison(conteneur, stats) {
+  const compteur = compteurCategorieStats(stats, 'conjugaison');
+  if (!compteur.tentatives) {
+    conteneur.appendChild(
+      creerEtatVideStats(
+        'Pas encore de données en conjugaison',
+        'Joue quelques questions de production ou d’analyse pour faire apparaître les résultats par mode, temps et voix.'
+      )
+    );
+    return;
+  }
+
+  conteneur.append(
+    creerResumeStats(compteur, { titre: 'Conjugaison', compact: true }),
+    creerModesStats('Modes d’exercice', [
+      { libelle: 'Analyse', compteur: stats.parCategorie.conjugaison.analyse },
+      { libelle: 'Production', compteur: stats.parCategorie.conjugaison.production }
+    ]),
+    creerDimensionStats(stats, 'mode'),
+    creerDimensionStats(stats, 'temps'),
+    creerDimensionStats(stats, 'voix')
+  );
+}
+
+function rendreStatsVersion(conteneur, stats) {
+  const compteur = compteurCategorieStats(stats, 'version');
+  if (!compteur.tentatives) {
+    conteneur.appendChild(
+      creerEtatVideStats(
+        'Pas encore de données en version',
+        'Joue quelques questions de Version ou de Thème pour comparer tes résultats dans les deux sens de traduction.'
+      )
+    );
+    return;
+  }
+
+  conteneur.append(
+    creerResumeStats(compteur, { titre: 'Version et thème', compact: true }),
+    creerModesStats('Sens de traduction', [
+      { libelle: 'Version · grec → français', compteur: stats.parCategorie.version.qcm },
+      { libelle: 'Thème · français → grec', compteur: stats.parCategorie.version.theme }
+    ]),
+    creerRepartitionStats(compteur)
+  );
+}
+
+function afficherStatistiques() {
+  const stats = StatsStore.obtenir() || creerStatsVides();
+  const contenu = document.getElementById('statsContent');
+  const dateMiseAJour = document.getElementById('statsUpdatedAt');
+  if (!contenu) return;
+
+  document.querySelectorAll('#statsViewControl button').forEach(bouton => {
+    const active = bouton.dataset.view === currentStatsView;
+    bouton.classList.toggle('active', active);
+    bouton.setAttribute('aria-pressed', String(active));
+  });
+
+  contenu.replaceChildren();
+
+  if (currentStatsView === 'declinaison') {
+    rendreStatsDeclinaison(contenu, stats);
+  } else if (currentStatsView === 'conjugaison') {
+    rendreStatsConjugaison(contenu, stats);
+  } else if (currentStatsView === 'version') {
+    rendreStatsVersion(contenu, stats);
+  } else {
+    rendreStatsGlobales(contenu, stats);
+  }
+
+  if (stats.updatedAt) {
+    const date = new Date(stats.updatedAt);
+    dateMiseAJour.textContent = Number.isNaN(date.getTime())
+      ? ''
+      : `Dernière mise à jour : ${date.toLocaleString('fr-FR', {
+          day: 'numeric', month: 'long', year: 'numeric',
+          hour: '2-digit', minute: '2-digit'
+        })}`;
+  } else {
+    dateMiseAJour.textContent = '';
+  }
+}
+
 
 function appliquerTheme(theme) {
   currentTheme = theme;
@@ -496,30 +1712,56 @@ function appliquerCategorieJeu(categorie) {
   mettreAJourPlaceholder();
 }
 
-function ouvrirModal(id) {
-  document.getElementById(id).classList.add('active');
+const MODALES_MASQUANT_JEU = new Set(['modalSettings', 'modalStats']);
 
-  if (id === 'modalSettings') {
+function ouvrirModal(id) {
+  const modal = document.getElementById(id);
+  if (!modal) return;
+
+  if (id === 'modalStats') afficherStatistiques();
+
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+
+  if (MODALES_MASQUANT_JEU.has(id)) {
     document.querySelector('.container')
       .classList.add('container-hidden');
   }
 }
 
 function fermerModal(id) {
-  document.getElementById(id).classList.remove('active');
+  const modal = document.getElementById(id);
+  if (!modal) return;
 
-  if (id === 'modalSettings') {
-    document.querySelector('.container')
-      .classList.remove('container-hidden');
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+
+  if (MODALES_MASQUANT_JEU.has(id)) {
+    const autreModaleMasquanteActive = [...MODALES_MASQUANT_JEU]
+      .some(autreId => autreId !== id && document.getElementById(autreId)?.classList.contains('active'));
+
+    if (!autreModaleMasquanteActive) {
+      document.querySelector('.container')
+        .classList.remove('container-hidden');
+    }
   }
 }
 
+document.getElementById('btnToggleStats').addEventListener('click', () => ouvrirModal('modalStats'));
+document.getElementById('btnCloseStats').addEventListener('click', () => fermerModal('modalStats'));
 document.getElementById('btnToggleSettings').addEventListener('click', () => ouvrirModal('modalSettings'));
 document.getElementById('btnCloseSettings').addEventListener('click', () => fermerModal('modalSettings'));
 document.getElementById('btnToggleAbout').addEventListener('click', () => ouvrirModal('modalAbout'));
 document.getElementById('btnCloseAbout').addEventListener('click', () => fermerModal('modalAbout'));
 document.getElementById('btnOpenTable').addEventListener('click', () => ouvrirModal('modalTable'));
 document.getElementById('btnCloseTable').addEventListener('click', () => fermerModal('modalTable'));
+
+document.querySelectorAll('#statsViewControl button').forEach(bouton => {
+  bouton.addEventListener('click', () => {
+    currentStatsView = bouton.dataset.view || 'global';
+    afficherStatistiques();
+  });
+});
 
 document.querySelectorAll('#themeControl button').forEach(btn => {
   btn.addEventListener('click', () => appliquerTheme(btn.dataset.value));
@@ -608,7 +1850,7 @@ document.querySelectorAll('.modal-overlay').forEach(modal => {
 document.addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
 
-  for (const id of ['modalTable', 'modalSettings', 'modalAbout']) {
+  for (const id of ['modalTable', 'modalStats', 'modalSettings', 'modalAbout']) {
     const modal = document.getElementById(id);
 
     if (modal.classList.contains('active')) {
@@ -822,6 +2064,9 @@ function construireLexique(data) {
           .trim(),
       entree: entry.entree || "",
       traduction: entry.traduction || "",
+      declinaison: entry.declinaison ?? null,
+      classe_adjectif: entry.classe_adjectif ?? null,
+      paradigme: entry.paradigme || null,
       forme: entry.formes,
       formes_variantes:
         entry.formes_variantes || {},
@@ -869,12 +2114,88 @@ function normaliserComparaisonForme(forme) {
 function cleGraphieExacte(forme) {
   return String(forme || '').trim().replaceAll('ϕ', 'φ').normalize('NFC');
 }
-function comparer(attendu, propose) {
-  const proposeGrec = translittererVersGrec(propose.trim(), currentInputMode);
-  const proposeNorm = stripAccents(proposeGrec);
-  return variantesNuFacultatif(attendu).some(v => stripAccents(v) === proposeNorm);
+function normaliserConfusionOmicronOmegaForme(forme) {
+  return String(forme || '').replace(/[οω]/g, 'ο');
 }
-function comparerPlusieurs(attendus, propose) { return attendus.some(attendu => comparer(attendu, propose)); }
+
+function comparerFormesAvecStatut(attendus, propose) {
+  const proposeGrec = translittererVersGrec(propose.trim(), currentInputMode);
+  const proposeNorm = normaliserComparaisonForme(proposeGrec);
+  const candidats = uniqueStrings(attendus).flatMap(attendu =>
+    variantesNuFacultatif(attendu).map(variante => ({
+      attendu,
+      normalisee: normaliserComparaisonForme(variante)
+    }))
+  );
+
+  const exacte = candidats.find(candidat => candidat.normalisee === proposeNorm);
+  if (exacte) return { statut: 'exact', attendu: exacte.attendu };
+
+  const proposeSouple = normaliserConfusionOmicronOmegaForme(proposeNorm);
+  const orthographe = candidats.find(candidat =>
+    normaliserConfusionOmicronOmegaForme(candidat.normalisee) === proposeSouple
+  );
+
+  if (orthographe) {
+    return { statut: 'orthographe', attendu: orthographe.attendu };
+  }
+
+  return { statut: 'incorrect', attendu: null };
+}
+
+function normaliserNumeroDeclinaison(valeur) {
+  const numero = Number(valeur);
+  return [1, 2, 3].includes(numero) ? String(numero) : null;
+}
+
+function obtenirTypeDeclinaisonStats(mot) {
+  const declinaison = normaliserNumeroDeclinaison(mot?.declinaison);
+  if (declinaison) return `nom_${declinaison}`;
+
+  const classeAdjectif = normaliserNumeroDeclinaison(mot?.classe_adjectif);
+  if (classeAdjectif) return `adjectif_${classeAdjectif}`;
+
+  return 'autre';
+}
+
+function dimensionsDeclinaison(mot, cas, nombre) {
+  return {
+    typeDeclinaison: obtenirTypeDeclinaisonStats(mot),
+    cas: uniqueStrings(Array.isArray(cas) ? cas : [cas]),
+    nombre
+  };
+}
+
+function dimensionsConjugaison(analyse) {
+  return {
+    mode: analyse?.mode || null,
+    temps: analyse?.tense || null,
+    voix: analyse?.voice ? voixInterface(analyse.voice) : null
+  };
+}
+
+function creerResultatReponse({
+  statut,
+  motif = null,
+  points,
+  pointsPossibles = 1,
+  assisted = false,
+  indicesUtilises = 0,
+  lettresRevelees = 0,
+  dimensions = {}
+}) {
+  return {
+    statut,
+    motif,
+    points: arrondirDixieme(points),
+    pointsPossibles,
+    assisted: Boolean(assisted),
+    indicesUtilises: Math.max(0, Number(indicesUtilises) || 0),
+    lettresRevelees: Math.max(0, Number(lettresRevelees) || 0),
+    dimensions
+  };
+}
+
 function transliterationBaillyEtLien(lemme, texte, slugBailly = null) {
   const el = document.getElementById('wordLemme');
   el.innerText = texte;
@@ -945,7 +2266,14 @@ function genererDeclinaisonAnalyse(mot, candidats) {
       map.set(c.signature, { nombre: c.nombre, cas: c.cas, signature: c.signature });
     }
   });
-  currentQuestion = { kind: 'declension-analysis', mot, genreCle: tirage.genreCle, formeAffichee: tirage.attendu, attendus: [...map.values()] };
+  currentQuestion = {
+    kind: 'declension-analysis',
+    mot,
+    genreCle: tirage.genreCle,
+    formeAffichee: tirage.attendu,
+    targetAnalysis: { nombre: tirage.nombre, cas: tirage.cas },
+    attendus: [...map.values()]
+  };
   transliterationBaillyEtLien(mot.lemme, tirage.attendu);
   const precisionGenre = tirage.genreCle ? ` — ${NOMS_GENRE[tirage.genreCle]}` : '';
   document.getElementById('wordMeta').innerText = `[${mot.lemme} — ${mot.traduction} — ${mot.type_affiche}${precisionGenre}]`;
@@ -966,16 +2294,38 @@ function formaterAnalyseDeclinaison(attendus) {
 
 function validerDeclinaisonProduction() {
   const input = document.getElementById('userInput');
-  if (!input.value.trim()) return false;
+  if (!input.value.trim()) return null;
+
   const feedback = document.getElementById('feedback');
-  if (comparer(currentQuestion.attendu, input.value)) {
-    score++; feedback.innerText = '✓ Correct !'; feedback.className = 'feedback correct';
+  const comparaison = comparerFormesAvecStatut(
+    [currentQuestion.attendu],
+    input.value
+  );
+
+  if (comparaison.statut === 'exact') {
+    feedback.innerText = '✓ Correct !';
+    feedback.className = 'feedback correct';
+  } else if (comparaison.statut === 'orthographe') {
+    feedback.innerHTML =
+      `≈ Forme reconnue malgré une confusion ο/ω : <span class="ifaogrec">${currentQuestion.attendu}</span> (+1 point)`;
+    feedback.className = 'feedback warning';
   } else {
-    feedback.innerHTML = `✗ Attendu : <span class="ifaogrec">${currentQuestion.attendu}</span>`;
+    feedback.innerHTML =
+      `✗ Attendu : <span class="ifaogrec">${currentQuestion.attendu}</span>`;
     feedback.className = 'feedback incorrect';
   }
+
   input.disabled = true;
-  return true;
+
+  return creerResultatReponse({
+    statut: comparaison.statut,
+    points: comparaison.statut === 'incorrect' ? 0 : 1,
+    dimensions: dimensionsDeclinaison(
+      currentQuestion.mot,
+      currentQuestion.cas,
+      currentQuestion.nombre
+    )
+  });
 }
 
 function validerDeclinaisonAnalyse() {
@@ -985,37 +2335,39 @@ function validerDeclinaisonAnalyse() {
   if (selection.nombres.length !== 1 || !selection.cas.length) {
     feedback.innerText = 'Sélectionne un nombre et tous les cas correspondants.';
     feedback.className = 'feedback warning';
-    return false;
+    return null;
   }
 
   const nombreChoisi = selection.nombres[0];
-
-  // Toutes les analyses correctes pour le nombre choisi.
   const analysesDuNombre = currentQuestion.attendus.filter(
     analyse => analyse.nombre === nombreChoisi
   );
-
-  const casAttendus = new Set(
-    analysesDuNombre.map(analyse => analyse.cas)
-  );
+  const casAttendus = new Set(analysesDuNombre.map(analyse => analyse.cas));
   const casChoisis = new Set(selection.cas);
+  const casManquants = [...casAttendus].filter(cas => !casChoisis.has(cas));
+  const casEnTrop = [...casChoisis].filter(cas => !casAttendus.has(cas));
 
-  // Il faut choisir tous les cas corrects, et aucun cas incorrect.
   const correct =
     analysesDuNombre.length > 0 &&
-    comparerSets(casChoisis, casAttendus);
+    casManquants.length === 0 &&
+    casEnTrop.length === 0;
+
+  const vocatifOublie =
+    analysesDuNombre.length > 0 &&
+    casEnTrop.length === 0 &&
+    casManquants.length === 1 &&
+    casManquants[0] === 'voc';
 
   const toutesLesAnalyses = currentQuestion.attendus.map(analyse =>
     formaterAnalyseDeclinaison([analyse])
   );
 
-  if (correct) {
-    score++;
+  let resultat;
 
+  if (correct) {
     const analysesChoisies = analysesDuNombre.map(analyse =>
       formaterAnalyseDeclinaison([analyse])
     );
-
     const autresAnalyses = toutesLesAnalyses.filter(
       analyse => !analysesChoisies.includes(analyse)
     );
@@ -1023,16 +2375,37 @@ function validerDeclinaisonAnalyse() {
     feedback.innerHTML = autresAnalyses.length
       ? `✓ Correct ! <span class="feedback-detail">(Autre réponse possible : ${autresAnalyses.join(' ; ')})</span>`
       : '✓ Correct !';
-
     feedback.className = 'feedback correct';
+
+    resultat = creerResultatReponse({
+      statut: 'exact',
+      points: 1,
+      dimensions: dimensionsDeclinaison(
+        currentQuestion.mot,
+        [...casAttendus],
+        nombreChoisi
+      )
+    });
+  } else if (vocatifOublie) {
+    feedback.innerHTML =
+      `≈ Réponse presque complète : le vocatif a été oublié. Attendu : ${formaterAnalyseDeclinaison(analysesDuNombre)} (+0,5 point)`;
+    feedback.className = 'feedback warning';
+
+    resultat = creerResultatReponse({
+      statut: 'partiel',
+      motif: 'vocatif_oublie',
+      points: 0.5,
+      dimensions: dimensionsDeclinaison(
+        currentQuestion.mot,
+        [...casAttendus],
+        nombreChoisi
+      )
+    });
   } else {
     const nombresPossibles = new Set(
       currentQuestion.attendus.map(analyse => analyse.nombre)
     );
 
-    // « Analyses correctes » n'est affiché que lorsque plusieurs réponses
-    // incompatibles dans l'interface existent, car elles appartiennent à
-    // des nombres différents.
     if (nombresPossibles.size > 1) {
       feedback.innerHTML =
         `✗ Analyses correctes : ${toutesLesAnalyses.join(' ; ')}`;
@@ -1040,8 +2413,17 @@ function validerDeclinaisonAnalyse() {
       feedback.innerHTML =
         `✗ Attendu : ${formaterAnalyseDeclinaison(currentQuestion.attendus)}`;
     }
-
     feedback.className = 'feedback incorrect';
+
+    resultat = creerResultatReponse({
+      statut: 'incorrect',
+      points: 0,
+      dimensions: dimensionsDeclinaison(
+        currentQuestion.mot,
+        [currentQuestion.targetAnalysis.cas],
+        currentQuestion.targetAnalysis.nombre
+      )
+    });
   }
 
   document
@@ -1050,7 +2432,7 @@ function validerDeclinaisonAnalyse() {
       bouton.disabled = true;
     });
 
-  return true;
+  return resultat;
 }
 
 // ---------------------------------------------------------------------------
@@ -1217,6 +2599,7 @@ function genererConjugaisonAnalyse(verbe, analyses, graphies) {
     kind: 'conjugation-analysis',
     verb: verbe,
     displayedForm: forme,
+    targetAnalysis: tirage,
     acceptedAnalyses: alternatives
   };
 
@@ -1322,43 +2705,86 @@ function analyseCorrespond(selection, analyse) {
 
 function validerConjugaisonProduction() {
   const input = document.getElementById('userInput');
-  if (!input.value.trim()) return false;
+  if (!input.value.trim()) return null;
+
   const feedback = document.getElementById('feedback');
-  if (comparerPlusieurs(currentQuestion.expectedForms, input.value)) {
-    score++; feedback.innerText = '✓ Correct !'; feedback.className = 'feedback correct';
+  const comparaison = comparerFormesAvecStatut(
+    currentQuestion.expectedForms,
+    input.value
+  );
+
+  if (comparaison.statut === 'exact') {
+    feedback.innerText = '✓ Correct !';
+    feedback.className = 'feedback correct';
+  } else if (comparaison.statut === 'orthographe') {
+    feedback.innerHTML =
+      `≈ Forme reconnue malgré une confusion ο/ω : <span class="ifaogrec">${currentQuestion.expectedForms.join(' / ')}</span> (+0,5 point)`;
+    feedback.className = 'feedback warning';
   } else {
-    feedback.innerHTML = `✗ Attendu : <span class="ifaogrec">${currentQuestion.expectedForms.join(' / ')}</span>`;
+    feedback.innerHTML =
+      `✗ Attendu : <span class="ifaogrec">${currentQuestion.expectedForms.join(' / ')}</span>`;
     feedback.className = 'feedback incorrect';
   }
+
   input.disabled = true;
-  return true;
+
+  return creerResultatReponse({
+    statut: comparaison.statut,
+    points: comparaison.statut === 'exact'
+      ? 1
+      : comparaison.statut === 'orthographe'
+        ? 0.5
+        : 0,
+    dimensions: dimensionsConjugaison(currentQuestion.analysis)
+  });
 }
 
 function validerConjugaisonAnalyse() {
   const selection = selectionsConjugaison();
   if (!selectionComplete(selection)) {
-  const feedback = document.getElementById('feedback');
-  feedback.innerText = 'Sélectionne toutes les caractéristiques nécessaires.';
-  feedback.className = 'feedback warning';
-  return false;
-}
-  const correspondances = currentQuestion.acceptedAnalyses.filter(a => analyseCorrespond(selection, a));
+    const feedback = document.getElementById('feedback');
+    feedback.innerText = 'Sélectionne toutes les caractéristiques nécessaires.';
+    feedback.className = 'feedback warning';
+    return null;
+  }
+
+  const correspondances = currentQuestion.acceptedAnalyses.filter(
+    analyse => analyseCorrespond(selection, analyse)
+  );
   const feedback = document.getElementById('feedback');
   const attendues = formatAnalysesUniques(currentQuestion.acceptedAnalyses);
+  let resultat;
+
   if (correspondances.length) {
-    score++;
     const reponseChoisie = formatAnalyse(correspondances[0]);
-    const autres = attendues.filter(a => a !== reponseChoisie);
+    const autres = attendues.filter(analyse => analyse !== reponseChoisie);
     feedback.innerHTML = autres.length
       ? `✓ Correct ! <span class="feedback-detail">(Autres analyses correctes : ${autres.join(' ; ')})</span>`
       : '✓ Correct !';
     feedback.className = 'feedback correct';
+
+    resultat = creerResultatReponse({
+      statut: 'exact',
+      points: 1,
+      dimensions: dimensionsConjugaison(correspondances[0])
+    });
   } else {
-    feedback.innerHTML = `✗ Analyse${attendues.length > 1 ? 's' : ''} attendue${attendues.length > 1 ? 's' : ''} : ${attendues.join(' ; ')}`;
+    feedback.innerHTML =
+      `✗ Analyse${attendues.length > 1 ? 's' : ''} attendue${attendues.length > 1 ? 's' : ''} : ${attendues.join(' ; ')}`;
     feedback.className = 'feedback incorrect';
+
+    resultat = creerResultatReponse({
+      statut: 'incorrect',
+      points: 0,
+      dimensions: dimensionsConjugaison(currentQuestion.targetAnalysis)
+    });
   }
-  document.querySelectorAll('.conj-choice').forEach(b => b.disabled = true);
-  return true;
+
+  document.querySelectorAll('.conj-choice').forEach(bouton => {
+    bouton.disabled = true;
+  });
+
+  return resultat;
 }
 
 // ---------------------------------------------------------------------------
@@ -1793,6 +3219,17 @@ function formaterIndiceTheme(segments, etape, nombreEtapes) {
     .join('');
 }
 
+function compterLettresReveleesTheme(segments, etape, nombreEtapes) {
+  return segments
+    .filter(segment => segment.estMot)
+    .reduce((totalRevele, segment) => {
+      const revelees = etape >= nombreEtapes
+        ? segment.graphemes.length
+        : Math.min(etape, segment.graphemes.length);
+      return totalRevele + revelees;
+    }, 0);
+}
+
 function normaliserReponseTheme(texte, depuisSaisie = false) {
   const source = depuisSaisie
     ? translittererVersGrec(String(texte || '').trim(), currentInputMode)
@@ -1824,7 +3261,7 @@ function analyserReponseTheme(proposition, reponsesAcceptees) {
   const exacte = reponses.find(
     reponse => reponse.normalisee === propositionNormalisee
   );
-  if (exacte) return { statut: 'exacte', correspondance: exacte.texte };
+  if (exacte) return { statut: 'exact', correspondance: exacte.texte };
 
   const propositionSouple =
     normaliserConfusionOmicronOmegaTheme(propositionNormalisee);
@@ -1834,10 +3271,10 @@ function analyserReponseTheme(proposition, reponsesAcceptees) {
   );
 
   if (omegaOmicron) {
-    return { statut: 'omega-omicron', correspondance: omegaOmicron.texte };
+    return { statut: 'orthographe', correspondance: omegaOmicron.texte };
   }
 
-  return { statut: 'incorrecte', correspondance: null };
+  return { statut: 'incorrect', correspondance: null };
 }
 
 function autresReponsesTheme(reponses, correspondance) {
@@ -1854,6 +3291,7 @@ function revelerIndiceVersion() {
     document.getElementById('wordMeta').innerText =
       formaterTypeVersion(currentQuestion.mot.Type);
 
+    currentQuestion.indicesUtilises = 1;
     document.getElementById('btnVersionIndice').style.display = 'none';
     return;
   }
@@ -1862,6 +3300,12 @@ function revelerIndiceVersion() {
 
   currentQuestion.hintStep = Math.min(
     currentQuestion.hintStep + 1,
+    currentQuestion.hintSteps
+  );
+  currentQuestion.indicesUtilises = currentQuestion.hintStep;
+  currentQuestion.lettresRevelees = compterLettresReveleesTheme(
+    currentQuestion.hintSegments,
+    currentQuestion.hintStep,
     currentQuestion.hintSteps
   );
 
@@ -1875,30 +3319,29 @@ function revelerIndiceVersion() {
 
   const boutonIndice = document.getElementById('btnVersionIndice');
 
- if (currentQuestion.hintStep >= currentQuestion.hintSteps) {
-  boutonIndice.style.display = 'none';
+  if (currentQuestion.hintStep >= currentQuestion.hintSteps) {
+    boutonIndice.style.display = 'none';
 
-  const input = document.getElementById('userInput');
-  const feedback = document.getElementById('feedback');
+    const input = document.getElementById('userInput');
+    const feedback = document.getElementById('feedback');
+    input.disabled = true;
 
-  input.disabled = true;
+    feedback.textContent =
+      `✗ Réponses possibles : ${currentQuestion.acceptedAnswers.join(' ; ')}`;
+    feedback.className = 'feedback incorrect';
 
-  feedback.textContent =
-    `✗ Réponses possibles : ${currentQuestion.acceptedAnswers.join(' ; ')}`;
-  feedback.className = 'feedback incorrect';
-
-  questionValidated = true;
-  total++;
-  afficherScore();
-
-  const boutonValidation = document.getElementById('btnValidate');
-  boutonValidation.disabled = true;
-
-  setTimeout(() => {
-    afficherEtatBoutonValidation('next');
-	boutonValidation.disabled = false;
-  }, 350);
-} else {
+    finaliserReponse(
+      creerResultatReponse({
+        statut: 'revelee',
+        points: 0,
+        assisted: true,
+        indicesUtilises: currentQuestion.indicesUtilises,
+        lettresRevelees: currentQuestion.lettresRevelees,
+        dimensions: {}
+      }),
+      { delaiBouton: 350 }
+    );
+  } else {
     boutonIndice.setAttribute(
       'aria-label',
       'Révéler un graphème supplémentaire dans chaque mot'
@@ -1919,7 +3362,8 @@ function genererVersionProduction(mot) {
     kind: 'version-qcm',
     mot,
     choix,
-    selectedIndex: null
+    selectedIndex: null,
+    indicesUtilises: 0
   };
 
   transliterationBaillyEtLien(
@@ -1964,7 +3408,9 @@ function genererThemeProduction(mot) {
     primaryAnswer: reponsePrincipale,
     hintSegments,
     hintSteps,
-    hintStep: 0
+    hintStep: 0,
+    indicesUtilises: 0,
+    lettresRevelees: 0
   };
 
   afficherTitreSansLien(mot.Traduction);
@@ -1994,12 +3440,13 @@ function validerVersionQcm() {
     const feedback = document.getElementById('feedback');
     feedback.textContent = 'Choisis d’abord une traduction.';
     feedback.className = 'feedback warning';
-    return false;
+    return null;
   }
 
   const optionChoisie = currentQuestion.choix[currentQuestion.selectedIndex];
   const feedback = document.getElementById('feedback');
   const boutons = [...document.querySelectorAll('.version-answer-button')];
+  const assisted = currentQuestion.indicesUtilises > 0;
 
   boutons.forEach((bouton, index) => {
     const option = currentQuestion.choix[index];
@@ -2011,42 +3458,59 @@ function validerVersionQcm() {
     );
   });
 
+  document.getElementById('btnVersionIndice').style.display = 'none';
+
   if (optionChoisie.correcte) {
-    score++;
-    feedback.textContent = '✓ Correct !';
+    feedback.textContent = assisted
+      ? '✓ Correct avec indice : +0,5 point.'
+      : '✓ Correct !';
     feedback.className = 'feedback correct';
   } else {
-    feedback.textContent = `✗ Réponse attendue : ${currentQuestion.mot.Traduction}`;
+    feedback.textContent =
+      `✗ Réponse attendue : ${currentQuestion.mot.Traduction}`;
     feedback.className = 'feedback incorrect';
   }
-  return true;
+
+  return creerResultatReponse({
+    statut: optionChoisie.correcte ? 'exact' : 'incorrect',
+    points: optionChoisie.correcte ? (assisted ? 0.5 : 1) : 0,
+    assisted,
+    indicesUtilises: currentQuestion.indicesUtilises,
+    dimensions: {}
+  });
 }
 
 function validerThemeProduction() {
   const input = document.getElementById('userInput');
-  if (!input.value.trim()) return false;
+  if (!input.value.trim()) return null;
 
   const feedback = document.getElementById('feedback');
   const analyse = analyserReponseTheme(
     input.value,
     currentQuestion.acceptedAnswers
   );
+  const assisted = currentQuestion.indicesUtilises > 0;
+  const penaliteIndices = currentQuestion.lettresRevelees * 0.1;
+  let points = 0;
 
-  if (analyse.statut === 'exacte') {
-    score += 1;
+  if (analyse.statut === 'exact') {
+    points = Math.max(0, arrondirDixieme(1 - penaliteIndices));
     const autres = autresReponsesTheme(
       currentQuestion.acceptedAnswers,
       analyse.correspondance
     );
+    const suffixePoints = points < 1
+      ? ` (+${formaterNombreScore(points)} point${points > 1 ? 's' : ''})`
+      : '';
 
     feedback.textContent = autres.length
-      ? `✓ Correct ! Autre${autres.length > 1 ? 's' : ''} réponse${autres.length > 1 ? 's' : ''} possible${autres.length > 1 ? 's' : ''} : ${autres.join(' ; ')}`
-      : '✓ Correct !';
+      ? `✓ Correct ! Autre${autres.length > 1 ? 's' : ''} réponse${autres.length > 1 ? 's' : ''} possible${autres.length > 1 ? 's' : ''} : ${autres.join(' ; ')}${suffixePoints}`
+      : `✓ Correct !${suffixePoints}`;
     feedback.className = 'feedback correct';
-  } else if (analyse.statut === 'omega-omicron') {
-    score += 0.5;
+  } else if (analyse.statut === 'orthographe') {
+    points = Math.max(0, arrondirDixieme(0.5 - penaliteIndices));
     feedback.textContent =
-      `≈ Réponse reconnue, mais confusion ο/ω : +0,5 point. Réponses possibles : ${currentQuestion.acceptedAnswers.join(' ; ')}`;
+      `≈ Réponse reconnue, mais confusion ο/ω : +${formaterNombreScore(points)} point${points > 1 ? 's' : ''}. Réponses possibles : ${currentQuestion.acceptedAnswers.join(' ; ')}`;
     feedback.className = 'feedback warning';
   } else {
     feedback.textContent =
@@ -2056,7 +3520,15 @@ function validerThemeProduction() {
 
   input.disabled = true;
   document.getElementById('btnVersionIndice').style.display = 'none';
-  return true;
+
+  return creerResultatReponse({
+    statut: analyse.statut,
+    points,
+    assisted,
+    indicesUtilises: currentQuestion.indicesUtilises,
+    lettresRevelees: currentQuestion.lettresRevelees,
+    dimensions: {}
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -2214,20 +3686,34 @@ function genererQuestion() {
   );
 }
 
-function validerReponse() {
-  if (!currentQuestion || questionValidated) return false;
-  let valide = false;
-  if (currentQuestion.kind === 'declension-production') valide = validerDeclinaisonProduction();
-  else if (currentQuestion.kind === 'declension-analysis') valide = validerDeclinaisonAnalyse();
-  else if (currentQuestion.kind === 'conjugation-production') valide = validerConjugaisonProduction();
-  else if (currentQuestion.kind === 'conjugation-analysis') valide = validerConjugaisonAnalyse();
-  else if (currentQuestion.kind === 'version-qcm') valide = validerVersionQcm();
-  else if (currentQuestion.kind === 'version-theme') valide = validerThemeProduction();
+function finaliserReponse(resultat, { delaiBouton = 60 } = {}) {
+  if (!resultat || questionValidated) return false;
 
-  if (!valide) return false;
+  const pointsPossibles = Math.max(0, Number(resultat.pointsPossibles) || 0);
+  const points = Math.max(
+    0,
+    Math.min(pointsPossibles, arrondirDixieme(resultat.points))
+  );
+  const resultatNormalise = {
+    ...resultat,
+    points,
+    pointsPossibles,
+    assisted: Boolean(resultat.assisted),
+    indicesUtilises: Math.max(0, Number(resultat.indicesUtilises) || 0),
+    lettresRevelees: Math.max(0, Number(resultat.lettresRevelees) || 0),
+    dimensions: resultat.dimensions || {}
+  };
 
   questionValidated = true;
-  total++;
+  score = arrondirDixieme(score + points);
+  total = arrondirDixieme(total + pointsPossibles);
+
+  StatsStore.enregistrerReponse({
+    ...resultatNormalise,
+    kind: currentQuestion.kind,
+    date: new Date().toISOString()
+  });
+
   afficherScore();
 
   const bouton = document.getElementById('btnValidate');
@@ -2236,9 +3722,31 @@ function validerReponse() {
   setTimeout(() => {
     afficherEtatBoutonValidation('next');
     bouton.disabled = false;
-  }, 60);
+  }, delaiBouton);
 
   return true;
+}
+
+function validerReponse() {
+  if (!currentQuestion || questionValidated) return false;
+
+  let resultat = null;
+  if (currentQuestion.kind === 'declension-production') {
+    resultat = validerDeclinaisonProduction();
+  } else if (currentQuestion.kind === 'declension-analysis') {
+    resultat = validerDeclinaisonAnalyse();
+  } else if (currentQuestion.kind === 'conjugation-production') {
+    resultat = validerConjugaisonProduction();
+  } else if (currentQuestion.kind === 'conjugation-analysis') {
+    resultat = validerConjugaisonAnalyse();
+  } else if (currentQuestion.kind === 'version-qcm') {
+    resultat = validerVersionQcm();
+  } else if (currentQuestion.kind === 'version-theme') {
+    resultat = validerThemeProduction();
+  }
+
+  if (!resultat) return false;
+  return finaliserReponse(resultat);
 }
 
 document
