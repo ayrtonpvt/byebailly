@@ -2108,8 +2108,12 @@ function variantesNuFacultatif(forme) {
 function normaliserComparaisonForme(forme) {
   return varianteSansNuFacultatif(forme)
     .normalize('NFD')
-    .replace(/[̀-̈́͆-ͯ]/g, '')
-    .replaceAll('ς', 'σ').replaceAll('ϕ', 'φ').normalize('NFC');
+    // Le mode de saisie ne permet pas d'entrer les signes diacritiques grecs,
+    // notamment l'iota souscrit (U+0345) : on retire donc toutes les marques.
+    .replace(/[\u0300-\u036f]/g, '')
+    .replaceAll('ς', 'σ')
+    .replaceAll('ϕ', 'φ')
+    .normalize('NFC');
 }
 function cleGraphieExacte(forme) {
   return String(forme || '').trim().replaceAll('ϕ', 'φ').normalize('NFC');
