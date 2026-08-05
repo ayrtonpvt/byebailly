@@ -2127,11 +2127,80 @@ function normaliserComparaisonForme(forme) {
 function cleGraphieExacte(forme) {
   return String(forme || '').trim().replaceAll('ϕ', 'φ').normalize('NFC');
 }
-function normaliserConfusionOmicronOmegaForme(forme) {
-  return String(forme || '').replace(/[οω]/g, 'ο');
+function estPaireVoyelles(a, b, voyelle1, voyelle2) {
+  return (a === voyelle1 && b === voyelle2)
+    || (a === voyelle2 && b === voyelle1);
 }
 
-function comparerFormesAvecStatut(attendus, propose) {
+function analyserConfusionsVoyelles(
+  attenduNormalise,
+  proposeNormalise,
+  {
+    limiteOmicronOmega = 0,
+    limiteEpsilonEta = 0
+  } = {}
+) {
+  if (attenduNormalise.length !== proposeNormalise.length) return null;
+
+  let confusionOmicronOmega = false;
+  let confusionEpsilonEta = false;
+
+  for (let index = 0; index < attenduNormalise.length; index++) {
+    const attendu = attenduNormalise[index];
+    const propose = proposeNormalise[index];
+
+    if (attendu === propose) continue;
+
+    // ο/ω n'est toléré que si la position se trouve dans la zone autorisée.
+    // En déclinaison, cette zone correspond au radical ; en thème, elle
+    // couvre toute la réponse ; en conjugaison, sa longueur reste nulle.
+    if (
+      index < limiteOmicronOmega
+      && estPaireVoyelles(attendu, propose, 'ο', 'ω')
+    ) {
+      confusionOmicronOmega = true;
+      continue;
+    }
+
+    // Même règle pour ε/η.
+    if (
+      index < limiteEpsilonEta
+      && estPaireVoyelles(attendu, propose, 'ε', 'η')
+    ) {
+      confusionEpsilonEta = true;
+      continue;
+    }
+
+    return null;
+  }
+
+  if (!confusionOmicronOmega && !confusionEpsilonEta) return null;
+
+  return {
+    omicronOmega: confusionOmicronOmega,
+    epsilonEta: confusionEpsilonEta
+  };
+}
+
+function libelleConfusionsVoyelles(confusions, confusionsDansRadical = false) {
+  if (confusions?.omicronOmega && confusions?.epsilonEta) {
+    return confusionsDansRadical
+      ? 'des confusions ο/ω et ε/η dans le radical'
+      : 'des confusions ο/ω et ε/η';
+  }
+
+  if (confusions?.epsilonEta) {
+    return confusionsDansRadical
+      ? 'une confusion ε/η dans le radical'
+      : 'une confusion ε/η';
+  }
+
+  return confusionsDansRadical
+    ? 'une confusion ο/ω dans le radical'
+    : 'une confusion ο/ω';
+}
+
+function comparerFormesAvecStatut(attendus, propose, options = {}) {
   const proposeGrec = translittererVersGrec(propose.trim(), currentInputMode);
   const proposeNorm = normaliserComparaisonForme(proposeGrec);
   const candidats = uniqueStrings(attendus).flatMap(attendu =>
@@ -2142,18 +2211,25 @@ function comparerFormesAvecStatut(attendus, propose) {
   );
 
   const exacte = candidats.find(candidat => candidat.normalisee === proposeNorm);
-  if (exacte) return { statut: 'exact', attendu: exacte.attendu };
+  if (exacte) return { statut: 'exact', attendu: exacte.attendu, confusions: null };
 
-  const proposeSouple = normaliserConfusionOmicronOmegaForme(proposeNorm);
-  const orthographe = candidats.find(candidat =>
-    normaliserConfusionOmicronOmegaForme(candidat.normalisee) === proposeSouple
-  );
+  for (const candidat of candidats) {
+    const confusions = analyserConfusionsVoyelles(
+      candidat.normalisee,
+      proposeNorm,
+      options
+    );
 
-  if (orthographe) {
-    return { statut: 'orthographe', attendu: orthographe.attendu };
+    if (confusions) {
+      return {
+        statut: 'orthographe',
+        attendu: candidat.attendu,
+        confusions
+      };
+    }
   }
 
-  return { statut: 'incorrect', attendu: null };
+  return { statut: 'incorrect', attendu: null, confusions: null };
 }
 
 function normaliserNumeroDeclinaison(valeur) {
@@ -2255,6 +2331,53 @@ function extraireCandidatsDeclinaison(mot) {
   return candidats;
 }
 
+
+function longueurPrefixeCommun(chaine1, chaine2) {
+  const limite = Math.min(chaine1.length, chaine2.length);
+  let longueur = 0;
+
+  while (longueur < limite && chaine1[longueur] === chaine2[longueur]) {
+    longueur += 1;
+  }
+
+  return longueur;
+}
+
+function obtenirLimiteRadicalDeclinaison(mot, attendu, genreCle = null) {
+  const attenduNormalise = normaliserComparaisonForme(attendu);
+
+  // On retient uniquement la partie initiale commune à TOUTES les formes
+  // disponibles du même mot et du même genre. Cette méthode est volontairement
+  // prudente : elle peut raccourcir le radical pour certains paradigmes
+  // irréguliers, mais elle n'étend jamais la tolérance dans une désinence
+  // simplement parce que deux formes possèdent une terminaison voisine.
+  const formesComparables = uniqueStrings(
+    extraireCandidatsDeclinaison(mot)
+      .filter(candidat => candidat.genreCle === genreCle)
+      .map(candidat => normaliserComparaisonForme(candidat.attendu))
+      .filter(Boolean)
+  );
+
+  if (!formesComparables.includes(attenduNormalise)) {
+    formesComparables.push(attenduNormalise);
+  }
+
+  if (formesComparables.length < 2) return 0;
+
+  let limiteRadical = attenduNormalise.length;
+
+  for (const forme of formesComparables) {
+    limiteRadical = Math.min(
+      limiteRadical,
+      longueurPrefixeCommun(attenduNormalise, forme)
+    );
+
+    if (limiteRadical === 0) break;
+  }
+
+  return limiteRadical;
+}
+
 function mettreAJourCarteDeclinaison(mot) {
   transliterationBaillyEtLien(mot.lemme, mot.lemme);
   document.getElementById('wordMeta').innerText = `${mot.traduction} — ${mot.type_affiche}`;
@@ -2310,17 +2433,30 @@ function validerDeclinaisonProduction() {
   if (!input.value.trim()) return null;
 
   const feedback = document.getElementById('feedback');
+  const limiteRadical = obtenirLimiteRadicalDeclinaison(
+    currentQuestion.mot,
+    currentQuestion.attendu,
+    currentQuestion.genreCle
+  );
   const comparaison = comparerFormesAvecStatut(
     [currentQuestion.attendu],
-    input.value
+    input.value,
+    {
+      limiteOmicronOmega: limiteRadical,
+      limiteEpsilonEta: limiteRadical
+    }
   );
 
   if (comparaison.statut === 'exact') {
     feedback.innerText = '✓ Correct !';
     feedback.className = 'feedback correct';
   } else if (comparaison.statut === 'orthographe') {
+    const libelleConfusion = libelleConfusionsVoyelles(
+      comparaison.confusions,
+      true
+    );
     feedback.innerHTML =
-      `≈ Forme reconnue malgré une confusion ο/ω : <span class="ifaogrec">${currentQuestion.attendu}</span> (+1 point)`;
+      `≈ Forme reconnue malgré ${libelleConfusion} : <span class="ifaogrec">${currentQuestion.attendu}</span> (+1 point)`;
     feedback.className = 'feedback warning';
   } else {
     feedback.innerHTML =
@@ -2721,18 +2857,20 @@ function validerConjugaisonProduction() {
   if (!input.value.trim()) return null;
 
   const feedback = document.getElementById('feedback');
+  // En conjugaison, aucune confusion vocalique n'est tolérée :
+  // la comparaison est entièrement stricte après la normalisation habituelle.
   const comparaison = comparerFormesAvecStatut(
     currentQuestion.expectedForms,
-    input.value
+    input.value,
+    {
+      limiteOmicronOmega: 0,
+      limiteEpsilonEta: 0
+    }
   );
 
   if (comparaison.statut === 'exact') {
     feedback.innerText = '✓ Correct !';
     feedback.className = 'feedback correct';
-  } else if (comparaison.statut === 'orthographe') {
-    feedback.innerHTML =
-      `≈ Forme reconnue malgré une confusion ο/ω : <span class="ifaogrec">${currentQuestion.expectedForms.join(' / ')}</span> (+0,5 point)`;
-    feedback.className = 'feedback warning';
   } else {
     feedback.innerHTML =
       `✗ Attendu : <span class="ifaogrec">${currentQuestion.expectedForms.join(' / ')}</span>`;
@@ -2743,11 +2881,7 @@ function validerConjugaisonProduction() {
 
   return creerResultatReponse({
     statut: comparaison.statut,
-    points: comparaison.statut === 'exact'
-      ? 1
-      : comparaison.statut === 'orthographe'
-        ? 0.5
-        : 0,
+    points: comparaison.statut === 'exact' ? 1 : 0,
     dimensions: dimensionsConjugaison(currentQuestion.analysis)
   });
 }
@@ -3258,12 +3392,6 @@ function normaliserReponseTheme(texte, depuisSaisie = false) {
     .normalize('NFC');
 }
 
-function normaliserConfusionOmicronOmegaTheme(texteNormalise) {
-  // La tolérance porte sur toutes les occurrences du mot ou de la locution,
-  // et non sur la seule désinence.
-  return texteNormalise.replace(/[οω]/g, 'ο');
-}
-
 function analyserReponseTheme(proposition, reponsesAcceptees) {
   const propositionNormalisee = normaliserReponseTheme(proposition, true);
   const reponses = reponsesAcceptees.map(reponse => ({
@@ -3274,20 +3402,40 @@ function analyserReponseTheme(proposition, reponsesAcceptees) {
   const exacte = reponses.find(
     reponse => reponse.normalisee === propositionNormalisee
   );
-  if (exacte) return { statut: 'exact', correspondance: exacte.texte };
-
-  const propositionSouple =
-    normaliserConfusionOmicronOmegaTheme(propositionNormalisee);
-
-  const omegaOmicron = reponses.find(reponse =>
-    normaliserConfusionOmicronOmegaTheme(reponse.normalisee) === propositionSouple
-  );
-
-  if (omegaOmicron) {
-    return { statut: 'orthographe', correspondance: omegaOmicron.texte };
+  if (exacte) {
+    return {
+      statut: 'exact',
+      correspondance: exacte.texte,
+      confusions: null
+    };
   }
 
-  return { statut: 'incorrect', correspondance: null };
+  // En thème-production, ο/ω et ε/η sont tolérés dans toutes les parties
+  // du mot ou de la locution.
+  for (const reponse of reponses) {
+    const confusions = analyserConfusionsVoyelles(
+      reponse.normalisee,
+      propositionNormalisee,
+      {
+        limiteOmicronOmega: Number.POSITIVE_INFINITY,
+        limiteEpsilonEta: Number.POSITIVE_INFINITY
+      }
+    );
+
+    if (confusions) {
+      return {
+        statut: 'orthographe',
+        correspondance: reponse.texte,
+        confusions
+      };
+    }
+  }
+
+  return {
+    statut: 'incorrect',
+    correspondance: null,
+    confusions: null
+  };
 }
 
 function autresReponsesTheme(reponses, correspondance) {
@@ -3522,8 +3670,9 @@ function validerThemeProduction() {
     feedback.className = 'feedback correct';
   } else if (analyse.statut === 'orthographe') {
     points = Math.max(0, arrondirDixieme(0.5 - penaliteIndices));
+    const libelleConfusion = libelleConfusionsVoyelles(analyse.confusions);
     feedback.textContent =
-      `≈ Réponse reconnue, mais confusion ο/ω : +${formaterNombreScore(points)} point${points > 1 ? 's' : ''}. Réponses possibles : ${currentQuestion.acceptedAnswers.join(' ; ')}`;
+      `≈ Réponse reconnue, mais ${libelleConfusion} : +${formaterNombreScore(points)} point${points > 1 ? 's' : ''}. Réponses possibles : ${currentQuestion.acceptedAnswers.join(' ; ')}`;
     feedback.className = 'feedback warning';
   } else {
     feedback.textContent =
@@ -3923,28 +4072,6 @@ function connexionInterditPrechargement() {
   return ['slow-2g', '2g'].includes(connexion.effectiveType);
 }
 
-function programmerPrechargementConjugaisons() {
-  if (conjugationLexicon.length || conjugationLoadingPromise) return;
-
-  if (connexionInterditPrechargement()) {
-    console.info(
-      'Préchargement des conjugaisons désactivé : économiseur de données ou connexion lente.'
-    );
-    return;
-  }
-
-  const lancer = () => {
-  chargerConjugaisons()
-    .then(() => {
-      // Les déclinaisons et les conjugaisons sont maintenant chargées :
-      // on peut précharger mots_version.json à son tour.
-      programmerPrechargementVersion();
-    })
-    .catch(error => {
-      // La déclinaison reste jouable même si ce téléchargement de fond échoue.
-      console.warn('Préchargement des conjugaisons interrompu :', error);
-    });
-};
 function programmerPrechargementVersion() {
   if (versionLexicon.length || versionLoadingPromise) return;
 
@@ -3957,7 +4084,7 @@ function programmerPrechargementVersion() {
 
   const lancer = () => {
     chargerVersion().catch(error => {
-      // Les déclinaisons et conjugaisons restent jouables si ce chargement échoue.
+      // Les deux autres modes restent jouables si ce chargement de fond échoue.
       console.warn('Préchargement du vocabulaire de version interrompu :', error);
     });
   };
@@ -3968,6 +4095,32 @@ function programmerPrechargementVersion() {
     window.setTimeout(lancer, 1000);
   }
 }
+
+function programmerPrechargementConjugaisons() {
+  if (conjugationLexicon.length) {
+    programmerPrechargementVersion();
+    return;
+  }
+  if (conjugationLoadingPromise) return;
+
+  if (connexionInterditPrechargement()) {
+    console.info(
+      'Préchargement des conjugaisons désactivé : économiseur de données ou connexion lente.'
+    );
+    return;
+  }
+
+  const lancer = () => {
+    chargerConjugaisons()
+      .then(() => {
+        // mots_version.json ne démarre qu'une fois les deux autres bases prêtes.
+        programmerPrechargementVersion();
+      })
+      .catch(error => {
+        // La déclinaison reste jouable même si ce téléchargement de fond échoue.
+        console.warn('Préchargement des conjugaisons interrompu :', error);
+      });
+  };
 
   if ('requestIdleCallback' in window) {
     window.requestIdleCallback(lancer, { timeout: 5000 });
