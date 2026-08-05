@@ -1577,8 +1577,8 @@ function rendreStatsVersion(conteneur, stats) {
   conteneur.append(
     creerResumeStats(compteur, { titre: 'Version et thème', compact: true }),
     creerModesStats('Sens de traduction', [
-      { libelle: 'Version · grec → français', compteur: stats.parCategorie.version.qcm },
-      { libelle: 'Thème · français → grec', compteur: stats.parCategorie.version.theme }
+      { libelle: 'Version ', compteur: stats.parCategorie.version.qcm },
+      { libelle: 'Thème ', compteur: stats.parCategorie.version.theme }
     ]),
     creerRepartitionStats(compteur)
   );
