@@ -461,18 +461,20 @@ function libelleModeInverse() {
 function appliquerModeJeu(mode) {
   currentGameMode = mode === 'analyse' ? 'analyse' : 'production';
 
-  // Le sous-mode Thème ne doit pas hériter des styles propres aux interfaces
-  // d'analyse morphologique.
   document.body.setAttribute(
-    "data-game-mode",
+    'data-game-mode',
     estModeTheme() ? 'theme' : currentGameMode
   );
-  localStorage.setItem("app_game_mode", currentGameMode);
 
-  const label = document.getElementById("gameModeLabel");
-  const bouton = document.getElementById("btnInverser");
+  const label = document.getElementById('gameModeLabel');
+  const bouton = document.getElementById('btnInverser');
+
   label.innerText = libelleModeActuel();
-  bouton.setAttribute('aria-label', `Passer en mode ${libelleModeInverse()}`);
+  bouton.setAttribute(
+    'aria-label',
+    `Passer en mode ${libelleModeInverse()}`
+  );
+
   mettreAJourPlaceholder();
 }
 
@@ -580,7 +582,18 @@ document.querySelectorAll('#gameCategoryControl button').forEach(btn => {
 });
 
 document.getElementById('btnInverser').addEventListener('click', () => {
-  appliquerModeJeu(currentGameMode === 'analyse' ? 'production' : 'analyse');
+  const nouveauMode =
+    currentGameMode === 'analyse' ? 'production' : 'analyse';
+
+  appliquerModeJeu(nouveauMode);
+
+  // On mémorise uniquement la préférence Analyse/Production
+  // choisie explicitement par l'utilisateur.
+  if (currentCategorieJeu !== 'version') {
+    modeAvantVersion = nouveauMode;
+    localStorage.setItem('app_game_mode', nouveauMode);
+  }
+
   genererQuestion();
 });
 
