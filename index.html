@@ -3934,11 +3934,40 @@ function programmerPrechargementConjugaisons() {
   }
 
   const lancer = () => {
-    chargerConjugaisons().catch(error => {
+  chargerConjugaisons()
+    .then(() => {
+      // Les déclinaisons et les conjugaisons sont maintenant chargées :
+      // on peut précharger mots_version.json à son tour.
+      programmerPrechargementVersion();
+    })
+    .catch(error => {
       // La déclinaison reste jouable même si ce téléchargement de fond échoue.
       console.warn('Préchargement des conjugaisons interrompu :', error);
     });
+};
+function programmerPrechargementVersion() {
+  if (versionLexicon.length || versionLoadingPromise) return;
+
+  if (connexionInterditPrechargement()) {
+    console.info(
+      'Préchargement du vocabulaire de version désactivé : économiseur de données ou connexion lente.'
+    );
+    return;
+  }
+
+  const lancer = () => {
+    chargerVersion().catch(error => {
+      // Les déclinaisons et conjugaisons restent jouables si ce chargement échoue.
+      console.warn('Préchargement du vocabulaire de version interrompu :', error);
+    });
   };
+
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(lancer, { timeout: 5000 });
+  } else {
+    window.setTimeout(lancer, 1000);
+  }
+}
 
   if ('requestIdleCallback' in window) {
     window.requestIdleCallback(lancer, { timeout: 5000 });
