@@ -1266,8 +1266,10 @@ function creerResumeStats(compteur, options = {}) {
   const {
     titre = "Vue d'ensemble",
     streak = null,
-    compact = false
+    compact = false,
+    afficherIndices = true
   } = options;
+
   const section = creerGroupeStats(titre);
   const grille = creerElementStats(
     'div',
@@ -1280,21 +1282,26 @@ function creerResumeStats(compteur, options = {}) {
     'Réussite',
     true
   );
+
   ajouterMetriqueStats(
     grille,
     `${formaterNombreStatsInterface(compteur.points)} / ${formaterNombreStatsInterface(compteur.pointsPossibles)}`,
     'Points'
   );
+
   ajouterMetriqueStats(
     grille,
     formaterNombreStatsInterface(compteur.tentatives),
     'Tentatives'
   );
-  ajouterMetriqueStats(
-    grille,
-    formaterNombreStatsInterface(compteur.assistees),
-    'Avec indice'
-  );
+
+  if (afficherIndices) {
+    ajouterMetriqueStats(
+      grille,
+      formaterNombreStatsInterface(compteur.assistees),
+      'Avec indice'
+    );
+  }
 
   if (streak) {
     ajouterMetriqueStats(
@@ -1302,6 +1309,7 @@ function creerResumeStats(compteur, options = {}) {
       formaterNombreStatsInterface(streak.actuel),
       'Série actuelle'
     );
+
     ajouterMetriqueStats(
       grille,
       formaterNombreStatsInterface(streak.meilleur),
@@ -1527,7 +1535,7 @@ function rendreStatsDeclinaison(conteneur, stats) {
   }
 
   conteneur.append(
-    creerResumeStats(compteur, { titre: 'Déclinaison', compact: true }),
+    creerResumeStats(compteur, { titre: 'Déclinaison',  afficherIndices: false }),
     creerModesStats('Modes d’exercice', [
       { libelle: 'Analyse', compteur: stats.parCategorie.declinaison.analyse },
       { libelle: 'Production', compteur: stats.parCategorie.declinaison.production }
@@ -1551,7 +1559,7 @@ function rendreStatsConjugaison(conteneur, stats) {
   }
 
   conteneur.append(
-    creerResumeStats(compteur, { titre: 'Conjugaison', compact: true }),
+    creerResumeStats(compteur, { titre: 'Conjugaison',  afficherIndices: false }),
     creerModesStats('Modes d’exercice', [
       { libelle: 'Analyse', compteur: stats.parCategorie.conjugaison.analyse },
       { libelle: 'Production', compteur: stats.parCategorie.conjugaison.production }
