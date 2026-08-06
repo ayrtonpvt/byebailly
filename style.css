@@ -72,7 +72,7 @@ body[data-theme="dark"] {
   body[data-theme="system"] {
     --bg-color: #171717;
     --card-bg: #262626;
-    --card-border: #1f293d;
+    --card-border: #232323;
     --topbar-border: #525252;
     --text-main: #f3f4f6;
     --text-muted: #9ca3af;
@@ -143,8 +143,8 @@ body[data-theme="dark"]::before {
 /* Gestion du Mode Système */
 @media (prefers-color-scheme: light) {
   body[data-theme="system"]::before {
-    filter: invert(1) contrast(1.1);
-    opacity: 0.8;
+    filter: none;
+  opacity: 1;
   }
 }
 
