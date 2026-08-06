@@ -2845,10 +2845,37 @@ function selectionComplete(s) {
   if (s.mode === 'participle') return Boolean(s.case && s.gender && s.number);
   return s.mode === 'infinitive';
 }
+function voixAnalyseCompatible(voixSelectionnee, voixJSON) {
+  const correspondances = {
+    active: ['active'],
+    middle: ['middle_passive'],
+    middle_passive: ['middle_passive', 'passive'],
+    passive: ['passive']
+  };
+
+  return correspondances[voixJSON]?.includes(voixSelectionnee) ?? false;
+}	
 function analyseCorrespond(selection, analyse) {
-  if (selection.mode !== analyse.mode || selection.tense !== analyse.tense || selection.voice !== voixInterface(analyse.voice)) return false;
-  if (analyse.mode === 'indicative') return selection.person === analyse.person;
-  if (analyse.mode === 'participle') return selection.case === analyse.case && selection.gender === analyse.gender && selection.number === analyse.number;
+  if (
+    selection.mode !== analyse.mode
+    || selection.tense !== analyse.tense
+    || !voixAnalyseCompatible(selection.voice, analyse.voice)
+  ) {
+    return false;
+  }
+
+  if (analyse.mode === 'indicative') {
+    return selection.person === analyse.person;
+  }
+
+  if (analyse.mode === 'participle') {
+    return (
+      selection.case === analyse.case
+      && selection.gender === analyse.gender
+      && selection.number === analyse.number
+    );
+  }
+
   return true;
 }
 
