@@ -2,7 +2,19 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <script>
+    // Détecte très tôt le mode installé afin d'appliquer les interactions de type application.
+    (() => {
+      const isStandalone =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.matchMedia('(display-mode: fullscreen)').matches ||
+        window.matchMedia('(display-mode: minimal-ui)').matches ||
+        window.navigator.standalone === true;
+
+      document.documentElement.classList.toggle('is-standalone', isStandalone);
+    })();
+  </script>
   <title>ByeBailly —Jeu grec-français en ligne</title>
   <meta name="description" content="Jeu de morphologie grecque. Dites aurevoir au Bailly avec ByeBailly!">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -395,6 +407,50 @@
       }
     }
 
+  
+
+    /* ======================================================================
+       Comportement de type application installée
+       ====================================================================== */
+
+    /* Empêche le pull-to-refresh et le rebond de défilement du navigateur. */
+    html,
+    body {
+      overscroll-behavior: none;
+      overscroll-behavior-y: none;
+    }
+
+    /* Le bouton de rafraîchissement n'est utile que dans la PWA installée. */
+    .pwa-refresh-action {
+      display: none;
+    }
+
+    html.is-standalone .pwa-refresh-action {
+      display: flex;
+    }
+
+    /* Évite les sélections et callouts accidentels dans l'interface installée. */
+    html.is-standalone body {
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    /* Les zones où copier ou modifier du texte reste légitime. */
+    html.is-standalone input,
+    html.is-standalone textarea,
+    html.is-standalone select,
+    html.is-standalone [contenteditable="true"],
+    html.is-standalone .word-title,
+    html.is-standalone .feedback,
+    html.is-standalone .about-body,
+    html.is-standalone .translit-scroll,
+    html.is-standalone .allow-text-selection {
+      -webkit-user-select: text;
+      user-select: text;
+      -webkit-touch-callout: default;
+    }
+
   </style>
 </head>
 <body data-theme="system">
@@ -450,6 +506,34 @@
   </g>
 </svg>
         <span class="header-action-label">Statistiques</span>
+      </button>
+
+
+
+      <!-- Bouton Actualiser, affiché uniquement dans la PWA installée -->
+      <button
+        type="button"
+        class="btn-icon pwa-refresh-action"
+        id="btnRefreshApp"
+        title="Actualiser l’application"
+        aria-label="Actualiser l’application"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M20 11a8.1 8.1 0 0 0-15.5-2M4 4v5h5" />
+          <path d="M4 13a8.1 8.1 0 0 0 15.5 2M20 20v-5h-5" />
+        </svg>
+        <span class="header-action-label">Actualiser</span>
       </button>
 
       <!-- Bouton Paramètres -->
@@ -796,6 +880,56 @@
 
 <!-- 4. Le Script complet (Bien isolé) -->
 <script>
+
+// ---------------------------------------------------------------------------
+// 0. Comportements spécifiques à la PWA installée
+// ---------------------------------------------------------------------------
+
+const isInstalledApp = document.documentElement.classList.contains('is-standalone');
+
+function hasActiveTextSelection() {
+  const selection = window.getSelection?.();
+  return Boolean(selection && !selection.isCollapsed && selection.toString().trim());
+}
+
+// Supprime le menu contextuel sur les zones purement interactives, tout en le
+// conservant sur les médias, les liens, les champs et les textes sélectionnés.
+document.addEventListener('contextmenu', event => {
+  if (!isInstalledApp || hasActiveTextSelection()) return;
+
+  const target = event.target instanceof Element ? event.target : null;
+  const contextMenuAllowed = target?.closest([
+    'img',
+    'video',
+    'audio',
+    'a[href]',
+    'input',
+    'textarea',
+    'select',
+    '[contenteditable="true"]',
+    '.allow-context-menu'
+  ].join(','));
+
+  if (!contextMenuAllowed) event.preventDefault();
+}, { capture: true });
+
+const btnRefreshApp = document.getElementById('btnRefreshApp');
+
+btnRefreshApp?.addEventListener('click', async () => {
+  btnRefreshApp.disabled = true;
+  btnRefreshApp.setAttribute('aria-busy', 'true');
+
+  try {
+    // Demande d'abord au service worker de rechercher une version plus récente.
+    const registration = await navigator.serviceWorker?.getRegistration?.();
+    await registration?.update?.();
+  } catch (error) {
+    console.warn('La vérification de mise à jour a échoué :', error);
+  } finally {
+    window.location.reload();
+  }
+});
+
 // ---------------------------------------------------------------------------
 // 1. État global, paramètres et modales
 // ---------------------------------------------------------------------------
