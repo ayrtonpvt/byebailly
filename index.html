@@ -2435,6 +2435,34 @@ function formaterAnalyseDeclinaison(attendus) {
   return attendus.slice().sort((a,b) => ORDRE_NOMBRES.indexOf(a.nombre)-ORDRE_NOMBRES.indexOf(b.nombre) || ORDRE_CAS.indexOf(a.cas)-ORDRE_CAS.indexOf(b.cas))
     .map(a => `${NOMS_CAS[a.cas]} ${NOMS_NOMBRE[a.nombre]}`).join(', ');
 }
+function formaterAnalyseDeclinaisonAvecSelection(
+  attendus,
+  selection,
+  separateur = ', '
+) {
+  const nombresChoisis = new Set(selection.nombres);
+  const casChoisis = new Set(selection.cas);
+
+  return attendus
+    .slice()
+    .sort((a, b) =>
+      ORDRE_NOMBRES.indexOf(a.nombre) - ORDRE_NOMBRES.indexOf(b.nombre)
+      || ORDRE_CAS.indexOf(a.cas) - ORDRE_CAS.indexOf(b.cas)
+    )
+    .map(analyse => {
+      const texte =
+        `${NOMS_CAS[analyse.cas]} ${NOMS_NOMBRE[analyse.nombre]}`;
+
+      const analyseBienChoisie =
+        nombresChoisis.has(analyse.nombre)
+        && casChoisis.has(analyse.cas);
+
+      return analyseBienChoisie
+        ? `<span class="analyse-declinaison-correcte">${texte}</span>`
+        : texte;
+    })
+    .join(separateur);
+}
 
 function validerDeclinaisonProduction() {
   const input = document.getElementById('userInput');
@@ -2544,8 +2572,13 @@ function validerDeclinaisonAnalyse() {
       )
     });
   } else if (vocatifOublie) {
-    feedback.innerHTML =
-      `≈ Réponse presque complète : le vocatif a été oublié. Attendu : ${formaterAnalyseDeclinaison(analysesDuNombre)} (+0,5 point)`;
+   feedback.innerHTML =
+  `≈ Réponse presque complète : le vocatif a été oublié. Attendu : ${
+    formaterAnalyseDeclinaisonAvecSelection(
+      analysesDuNombre,
+      selection
+    )
+  } (+0,5 point)`;
     feedback.className = 'feedback warning';
 
     resultat = creerResultatReponse({
@@ -2564,12 +2597,23 @@ function validerDeclinaisonAnalyse() {
     );
 
     if (nombresPossibles.size > 1) {
-      feedback.innerHTML =
-        `✗ Analyses correctes : ${toutesLesAnalyses.join(' ; ')}`;
-    } else {
-      feedback.innerHTML =
-        `✗ Attendu : ${formaterAnalyseDeclinaison(currentQuestion.attendus)}`;
-    }
+  feedback.innerHTML =
+    `✗ Analyses correctes : ${
+      formaterAnalyseDeclinaisonAvecSelection(
+        currentQuestion.attendus,
+        selection,
+        ' ; '
+      )
+    }`;
+} else {
+  feedback.innerHTML =
+    `✗ Attendu : ${
+      formaterAnalyseDeclinaisonAvecSelection(
+        currentQuestion.attendus,
+        selection
+      )
+    }`;
+}
     feedback.className = 'feedback incorrect';
 
     resultat = creerResultatReponse({
