@@ -420,15 +420,6 @@
       overscroll-behavior-y: none;
     }
 
-    /* Le bouton de rafraîchissement n'est utile que dans la PWA installée. */
-    .pwa-refresh-action {
-      display: none;
-    }
-
-    html.is-standalone .pwa-refresh-action {
-      display: flex;
-    }
-
     /* Évite les sélections et callouts accidentels dans l'interface installée. */
     html.is-standalone body {
       -webkit-user-select: none;
@@ -885,23 +876,6 @@ document.addEventListener('contextmenu', event => {
 
   if (!contextMenuAllowed) event.preventDefault();
 }, { capture: true });
-
-const btnRefreshApp = document.getElementById('btnRefreshApp');
-
-btnRefreshApp?.addEventListener('click', async () => {
-  btnRefreshApp.disabled = true;
-  btnRefreshApp.setAttribute('aria-busy', 'true');
-
-  try {
-    // Demande d'abord au service worker de rechercher une version plus récente.
-    const registration = await navigator.serviceWorker?.getRegistration?.();
-    await registration?.update?.();
-  } catch (error) {
-    console.warn('La vérification de mise à jour a échoué :', error);
-  } finally {
-    window.location.reload();
-  }
-});
 
 // ---------------------------------------------------------------------------
 // 1. État global, paramètres et modales
