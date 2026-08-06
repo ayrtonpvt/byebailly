@@ -1539,8 +1539,9 @@ body[data-game-category="version"] button.version-hint-button:focus-visible {
     padding: 0.55rem 0.9rem;
     font-size: 0.86rem;
   }
+}
+
 .analyse-declinaison-correcte {
   color: var(--success);
   font-weight: 600;
-}
 }
