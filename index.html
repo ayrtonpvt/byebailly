@@ -236,6 +236,11 @@
       background: #eab308;
     }
 
+    .analyse-declinaison-correcte {
+      color: var(--success);
+      font-weight: 600;
+    }
+
     .stats-result-incorrect .stats-progress-fill,
     .stats-result-revelee .stats-progress-fill {
       background: var(--error);
@@ -750,7 +755,7 @@
 >
   <div class="settings-modal-wrapper stats-modal-wrapper">
 
-    <div class="settings-modal-title stats-modal-title">
+    <div class="settings-modal-title">
       <span id="statsModalTitle">Statistiques</span>
 
       <button
@@ -1269,7 +1274,6 @@ function creerResumeStats(compteur, options = {}) {
     compact = false,
     afficherIndices = true
   } = options;
-
   const section = creerGroupeStats(titre);
   const grille = creerElementStats(
     'div',
@@ -1282,19 +1286,16 @@ function creerResumeStats(compteur, options = {}) {
     'Réussite',
     true
   );
-
   ajouterMetriqueStats(
     grille,
     `${formaterNombreStatsInterface(compteur.points)} / ${formaterNombreStatsInterface(compteur.pointsPossibles)}`,
     'Points'
   );
-
   ajouterMetriqueStats(
     grille,
     formaterNombreStatsInterface(compteur.tentatives),
     'Tentatives'
   );
-
   if (afficherIndices) {
     ajouterMetriqueStats(
       grille,
@@ -1309,7 +1310,6 @@ function creerResumeStats(compteur, options = {}) {
       formaterNombreStatsInterface(streak.actuel),
       'Série actuelle'
     );
-
     ajouterMetriqueStats(
       grille,
       formaterNombreStatsInterface(streak.meilleur),
@@ -1535,7 +1535,7 @@ function rendreStatsDeclinaison(conteneur, stats) {
   }
 
   conteneur.append(
-    creerResumeStats(compteur, { titre: 'Déclinaison',  afficherIndices: false }),
+    creerResumeStats(compteur, { titre: 'Déclinaison', afficherIndices: false }),
     creerModesStats('Modes d’exercice', [
       { libelle: 'Analyse', compteur: stats.parCategorie.declinaison.analyse },
       { libelle: 'Production', compteur: stats.parCategorie.declinaison.production }
@@ -1559,7 +1559,7 @@ function rendreStatsConjugaison(conteneur, stats) {
   }
 
   conteneur.append(
-    creerResumeStats(compteur, { titre: 'Conjugaison',  afficherIndices: false }),
+    creerResumeStats(compteur, { titre: 'Conjugaison', afficherIndices: false }),
     creerModesStats('Modes d’exercice', [
       { libelle: 'Analyse', compteur: stats.parCategorie.conjugaison.analyse },
       { libelle: 'Production', compteur: stats.parCategorie.conjugaison.production }
@@ -1886,18 +1886,6 @@ appliquerModeJeu(currentGameMode);
 // 2. Normalisation et translittération
 // ---------------------------------------------------------------------------
 
-function stripAccents(s) {
-  let d = s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  d = d.replaceAll("ς", "σ").replaceAll("ϕ", "φ");
-  return d.normalize("NFC");
-}
-
-function normaliser(s) {
-  let d = s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  d = d.replaceAll("ϕ", "φ");
-  return d.normalize("NFC");
-}
-
 function translittererVersGrec(texte, mode) {
   texte = texte.toLowerCase();
 
@@ -2135,6 +2123,19 @@ function normaliserComparaisonForme(forme) {
 function cleGraphieExacte(forme) {
   return String(forme || '').trim().replaceAll('ϕ', 'φ').normalize('NFC');
 }
+
+// Pour l'analyse des déclinaisons, les accents et les esprits ne doivent pas
+// créer de fausses distinctions, mais l'iota souscrit est morphologiquement
+// pertinent : παιδεία (nom./voc. sg.) ne doit pas être confondu avec
+// παιδείᾳ (dat. sg.). On conserve donc uniquement U+0345 parmi les marques.
+function normaliserGraphieAnalyseDeclinaison(forme) {
+  return varianteSansNuFacultatif(forme)
+    .normalize('NFD')
+    .replace(/\p{M}/gu, marque => marque === '\u0345' ? marque : '')
+    .replaceAll('ς', 'σ')
+    .replaceAll('ϕ', 'φ')
+    .normalize('NFC');
+}
 function estPaireVoyelles(a, b, voyelle1, voyelle2) {
   return (a === voyelle1 && b === voyelle2)
     || (a === voyelle2 && b === voyelle1);
@@ -2240,6 +2241,17 @@ function comparerFormesAvecStatut(attendus, propose, options = {}) {
   return { statut: 'incorrect', attendu: null, confusions: null };
 }
 
+function formeCorrespondExactement(attendus, propose) {
+  const proposeGrec = translittererVersGrec(propose.trim(), currentInputMode);
+  const proposeNorm = normaliserComparaisonForme(proposeGrec);
+
+  return uniqueStrings(attendus).some(attendu =>
+    variantesNuFacultatif(attendu).some(
+      variante => normaliserComparaisonForme(variante) === proposeNorm
+    )
+  );
+}
+
 function normaliserNumeroDeclinaison(valeur) {
   const numero = Number(valeur);
   return [1, 2, 3].includes(numero) ? String(numero) : null;
@@ -2267,7 +2279,9 @@ function dimensionsConjugaison(analyse) {
   return {
     mode: analyse?.mode || null,
     temps: analyse?.tense || null,
-    voix: analyse?.voice ? voixInterface(analyse.voice) : null
+    // Les statistiques conservent la voix morphologique réelle du JSON.
+    // Ainsi, « middle » et « middle_passive » restent distingués.
+    voix: analyse?.voice || null
   };
 }
 
@@ -2403,10 +2417,13 @@ function genererDeclinaisonProduction(mot, candidats) {
 
 function genererDeclinaisonAnalyse(mot, candidats) {
   const tirage = candidats[randomIndex(candidats.length)];
-  const cibleNorm = normaliserComparaisonForme(tirage.attendu);
+  const cibleNorm = normaliserGraphieAnalyseDeclinaison(tirage.attendu);
   const map = new Map();
   candidats.forEach(c => {
-    if (normaliserComparaisonForme(c.attendu) === cibleNorm && c.genreCle === tirage.genreCle) {
+    if (
+      normaliserGraphieAnalyseDeclinaison(c.attendu) === cibleNorm
+      && c.genreCle === tirage.genreCle
+    ) {
       map.set(c.signature, { nombre: c.nombre, cas: c.cas, signature: c.signature });
     }
   });
@@ -2430,11 +2447,11 @@ function getDeclensionSelections() {
     cas: [...document.querySelectorAll('.declension-analysis-choice[data-group="cas"].selected')].map(b => b.dataset.value)
   };
 }
-function comparerSets(a, b) { if (a.size !== b.size) return false; for (const v of a) if (!b.has(v)) return false; return true; }
 function formaterAnalyseDeclinaison(attendus) {
   return attendus.slice().sort((a,b) => ORDRE_NOMBRES.indexOf(a.nombre)-ORDRE_NOMBRES.indexOf(b.nombre) || ORDRE_CAS.indexOf(a.cas)-ORDRE_CAS.indexOf(b.cas))
     .map(a => `${NOMS_CAS[a.cas]} ${NOMS_NOMBRE[a.nombre]}`).join(', ');
 }
+
 function formaterAnalyseDeclinaisonAvecSelection(
   attendus,
   selection,
@@ -2450,14 +2467,11 @@ function formaterAnalyseDeclinaisonAvecSelection(
       || ORDRE_CAS.indexOf(a.cas) - ORDRE_CAS.indexOf(b.cas)
     )
     .map(analyse => {
-      const texte =
-        `${NOMS_CAS[analyse.cas]} ${NOMS_NOMBRE[analyse.nombre]}`;
+      const texte = `${NOMS_CAS[analyse.cas]} ${NOMS_NOMBRE[analyse.nombre]}`;
+      const correctementChoisie =
+        nombresChoisis.has(analyse.nombre) && casChoisis.has(analyse.cas);
 
-      const analyseBienChoisie =
-        nombresChoisis.has(analyse.nombre)
-        && casChoisis.has(analyse.cas);
-
-      return analyseBienChoisie
+      return correctementChoisie
         ? `<span class="analyse-declinaison-correcte">${texte}</span>`
         : texte;
     })
@@ -2572,13 +2586,10 @@ function validerDeclinaisonAnalyse() {
       )
     });
   } else if (vocatifOublie) {
-   feedback.innerHTML =
-  `≈ Réponse presque complète : le vocatif a été oublié. Attendu : ${
-    formaterAnalyseDeclinaisonAvecSelection(
-      analysesDuNombre,
-      selection
-    )
-  } (+0,5 point)`;
+    feedback.innerHTML =
+      `≈ Réponse presque complète : le vocatif a été oublié. Attendu : ${
+        formaterAnalyseDeclinaisonAvecSelection(analysesDuNombre, selection)
+      } (+0,5 point)`;
     feedback.className = 'feedback warning';
 
     resultat = creerResultatReponse({
@@ -2587,7 +2598,8 @@ function validerDeclinaisonAnalyse() {
       points: 0.5,
       dimensions: dimensionsDeclinaison(
         currentQuestion.mot,
-        [...casAttendus],
+        // Seuls les cas effectivement reconnus reçoivent les points partiels.
+        [...casChoisis],
         nombreChoisi
       )
     });
@@ -2597,23 +2609,23 @@ function validerDeclinaisonAnalyse() {
     );
 
     if (nombresPossibles.size > 1) {
-  feedback.innerHTML =
-    `✗ Analyses correctes : ${
-      formaterAnalyseDeclinaisonAvecSelection(
-        currentQuestion.attendus,
-        selection,
-        ' ; '
-      )
-    }`;
-} else {
-  feedback.innerHTML =
-    `✗ Attendu : ${
-      formaterAnalyseDeclinaisonAvecSelection(
-        currentQuestion.attendus,
-        selection
-      )
-    }`;
-}
+      feedback.innerHTML =
+        `✗ Analyses correctes : ${
+          formaterAnalyseDeclinaisonAvecSelection(
+            currentQuestion.attendus,
+            selection,
+            ' ; '
+          )
+        }`;
+    } else {
+      feedback.innerHTML =
+        `✗ Attendu : ${
+          formaterAnalyseDeclinaisonAvecSelection(
+            currentQuestion.attendus,
+            selection
+          )
+        }`;
+    }
     feedback.className = 'feedback incorrect';
 
     resultat = creerResultatReponse({
@@ -2640,7 +2652,16 @@ function validerDeclinaisonAnalyse() {
 // 6. Lecture du JSON verbal et index local des ambiguïtés
 // ---------------------------------------------------------------------------
 
-function voixInterface(voice) { return ['middle', 'middle_passive'].includes(voice) ? 'middle_passive' : voice; }
+function voixAnalyseCompatible(voixSelectionnee, voixJSON) {
+  const correspondances = {
+    active: ['active'],
+    middle: ['middle_passive'],
+    middle_passive: ['middle_passive', 'passive'],
+    passive: ['passive']
+  };
+
+  return correspondances[voixJSON]?.includes(voixSelectionnee) ?? false;
+}
 function signatureAnalyse(a) {
   return [a.mode, a.tense, a.voice, a.person || '', a.gender || '', a.number || '', a.case || ''].join('|');
 }
@@ -2897,16 +2918,6 @@ function selectionComplete(s) {
   if (s.mode === 'participle') return Boolean(s.case && s.gender && s.number);
   return s.mode === 'infinitive';
 }
-function voixAnalyseCompatible(voixSelectionnee, voixJSON) {
-  const correspondances = {
-    active: ['active'],
-    middle: ['middle_passive'],
-    middle_passive: ['middle_passive', 'passive'],
-    passive: ['passive']
-  };
-
-  return correspondances[voixJSON]?.includes(voixSelectionnee) ?? false;
-}	
 function analyseCorrespond(selection, analyse) {
   if (
     selection.mode !== analyse.mode
@@ -2936,18 +2947,12 @@ function validerConjugaisonProduction() {
   if (!input.value.trim()) return null;
 
   const feedback = document.getElementById('feedback');
-  // En conjugaison, aucune confusion vocalique n'est tolérée :
-  // la comparaison est entièrement stricte après la normalisation habituelle.
-  const comparaison = comparerFormesAvecStatut(
+  const correcte = formeCorrespondExactement(
     currentQuestion.expectedForms,
-    input.value,
-    {
-      limiteOmicronOmega: 0,
-      limiteEpsilonEta: 0
-    }
+    input.value
   );
 
-  if (comparaison.statut === 'exact') {
+  if (correcte) {
     feedback.innerText = '✓ Correct !';
     feedback.className = 'feedback correct';
   } else {
@@ -2959,8 +2964,8 @@ function validerConjugaisonProduction() {
   input.disabled = true;
 
   return creerResultatReponse({
-    statut: comparaison.statut,
-    points: comparaison.statut === 'exact' ? 1 : 0,
+    statut: correcte ? 'exact' : 'incorrect',
+    points: correcte ? 1 : 0,
     dimensions: dimensionsConjugaison(currentQuestion.analysis)
   });
 }
