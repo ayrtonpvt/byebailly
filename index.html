@@ -281,10 +281,24 @@
       display: flex;
       min-width: 0;
       height: 88px;
+      padding: 0;
+      border: 0;
+      border-radius: 0.4rem;
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
       gap: 0.3rem;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .stats-day:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
 
     .stats-day-bar-wrap {
@@ -301,6 +315,29 @@
       border-radius: 999px 999px 3px 3px;
       background: var(--accent);
       opacity: 0.85;
+      transform-origin: bottom center;
+      transition:
+        transform 0.15s ease,
+        opacity 0.15s ease,
+        background-color 0.15s ease,
+        box-shadow 0.15s ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .stats-day:hover .stats-day-bar {
+        opacity: 1;
+        transform: translateY(-2px) scaleX(1.18);
+        background: var(--accent-hover);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+      }
+    }
+
+    .stats-day:focus-visible .stats-day-bar,
+    .stats-day.is-selected .stats-day-bar {
+      opacity: 1;
+      transform: translateY(-2px) scaleX(1.18);
+      background: var(--accent-hover);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
     }
 
     .stats-day.is-empty .stats-day-bar {
@@ -309,11 +346,82 @@
       opacity: 0.6;
     }
 
+    .stats-day.is-empty:hover .stats-day-bar,
+    .stats-day.is-empty:focus-visible .stats-day-bar,
+    .stats-day.is-empty.is-selected .stats-day-bar {
+      background: var(--text-muted);
+      opacity: 0.8;
+    }
+
     .stats-day-label {
       color: var(--text-muted);
       font-size: 0.6rem;
       line-height: 1;
       font-variant-numeric: tabular-nums;
+      transition: color 0.15s ease, font-weight 0.15s ease;
+    }
+
+    .stats-day:hover .stats-day-label,
+    .stats-day:focus-visible .stats-day-label,
+    .stats-day.is-selected .stats-day-label {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .stats-activity-detail {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin-bottom: 0.55rem;
+      padding: 0.65rem;
+      border: 1px solid var(--input-border);
+      border-radius: 0.5rem;
+      background: var(--input-bg);
+      animation: stats-detail-in 0.16s ease-out;
+    }
+
+    .stats-activity-detail[hidden] {
+      display: none;
+    }
+
+    .stats-activity-detail-item {
+      min-width: 0;
+      text-align: center;
+    }
+
+    .stats-activity-detail-value {
+      display: block;
+      overflow: hidden;
+      color: var(--text-main);
+      font-size: 0.8rem;
+      line-height: 1.25;
+      font-weight: 600;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stats-activity-detail-item:last-child .stats-activity-detail-value {
+      color: var(--accent);
+    }
+
+    .stats-activity-detail-label {
+      display: block;
+      margin-top: 0.18rem;
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      line-height: 1.2;
+    }
+
+    @keyframes stats-detail-in {
+      from {
+        opacity: 0;
+        transform: translateY(3px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .stats-empty {
@@ -1530,6 +1638,7 @@ function joursRecentsStats(nombreJours = 14) {
 function creerActiviteStats(stats) {
   const jours = joursRecentsStats(14);
   const compteurs = jours.map(({ cle }) => stats.parJour?.[cle] || creerCompteurStats());
+  const maxTentatives = Math.max(1, ...compteurs.map(compteur => compteur.tentatives || 0));
   const totalRecent = fusionnerCompteursStats(compteurs);
   const section = creerGroupeStats('Activité récente', '14 derniers jours');
 
@@ -1543,30 +1652,91 @@ function creerActiviteStats(stats) {
     creerElementStats('span', '', `${pourcentageStats(totalRecent)} % de réussite`)
   );
 
+  const detail = creerElementStats('div', 'stats-activity-detail');
+  detail.hidden = true;
+  detail.setAttribute('aria-live', 'polite');
+
+  const detailJourValeur = creerElementStats('span', 'stats-activity-detail-value');
+  const detailPointsValeur = creerElementStats('span', 'stats-activity-detail-value');
+  const detailReussiteValeur = creerElementStats('span', 'stats-activity-detail-value');
+
+  const detailJour = creerElementStats('div', 'stats-activity-detail-item');
+  detailJour.append(
+    detailJourValeur,
+    creerElementStats('span', 'stats-activity-detail-label', 'Jour')
+  );
+
+  const detailPoints = creerElementStats('div', 'stats-activity-detail-item');
+  detailPoints.append(
+    detailPointsValeur,
+    creerElementStats('span', 'stats-activity-detail-label', 'Points')
+  );
+
+  const detailReussite = creerElementStats('div', 'stats-activity-detail-item');
+  detailReussite.append(
+    detailReussiteValeur,
+    creerElementStats('span', 'stats-activity-detail-label', 'Réussite')
+  );
+
+  detail.append(detailJour, detailPoints, detailReussite);
+
   const graphique = creerElementStats('div', 'stats-activity-chart');
+  let jourSelectionne = null;
 
   jours.forEach(({ date, cle }) => {
     const compteur = stats.parJour?.[cle] || creerCompteurStats();
     const pourcentage = pourcentageStats(compteur);
+    const dateLisible = date.toLocaleDateString('fr-FR', {
+      day: 'numeric',
+      month: 'long'
+    });
     const jour = creerElementStats(
-      'div',
+      'button',
       `stats-day${compteur.tentatives ? '' : ' is-empty'}`
     );
-    const enveloppe = creerElementStats('div', 'stats-day-bar-wrap');
-    const barre = creerElementStats('div', 'stats-day-bar');
-    barre.style.height = `${Math.max(3, Math.round((pourcentage / 100) * 64))}px`;
-    barre.title = compteur.tentatives
-      ? `${date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })} : ${formaterNombreStatsInterface(compteur.points)} / ${formaterNombreStatsInterface(compteur.pointsPossibles)} (${pourcentage} %)`
-      : `${date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })} : aucune tentative`;
+    jour.type = 'button';
+    jour.setAttribute(
+      'aria-label',
+      compteur.tentatives
+        ? `${dateLisible} : ${formaterNombreStatsInterface(compteur.points)} sur ${formaterNombreStatsInterface(compteur.pointsPossibles)}, ${pourcentage} % de réussite`
+        : `${dateLisible} : aucune tentative`
+    );
+
+    const enveloppe = creerElementStats('span', 'stats-day-bar-wrap');
+    const barre = creerElementStats('span', 'stats-day-bar');
+    barre.style.height = `${Math.max(3, Math.round((compteur.tentatives / maxTentatives) * 64))}px`;
     enveloppe.appendChild(barre);
+
     jour.append(
       enveloppe,
       creerElementStats('span', 'stats-day-label', String(date.getDate()))
     );
+
+    jour.addEventListener('click', () => {
+      if (jourSelectionne) {
+        jourSelectionne.classList.remove('is-selected');
+        jourSelectionne.setAttribute('aria-pressed', 'false');
+      }
+
+      jourSelectionne = jour;
+      jour.classList.add('is-selected');
+      jour.setAttribute('aria-pressed', 'true');
+
+      detailJourValeur.textContent = dateLisible;
+      detailPointsValeur.textContent = compteur.tentatives
+        ? `${formaterNombreStatsInterface(compteur.points)} / ${formaterNombreStatsInterface(compteur.pointsPossibles)}`
+        : '—';
+      detailReussiteValeur.textContent = compteur.tentatives
+        ? `${pourcentage} %`
+        : 'Aucun essai';
+      detail.hidden = false;
+    });
+
+    jour.setAttribute('aria-pressed', 'false');
     graphique.appendChild(jour);
   });
 
-  section.append(resume, graphique);
+  section.append(resume, detail, graphique);
   return section;
 }
 
