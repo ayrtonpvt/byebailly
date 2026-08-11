@@ -2562,7 +2562,7 @@ function mettreAJourModalModeDifficulte() {
   document.getElementById('difficultySection').hidden = version;
   document.getElementById('versionDifficultyNote').hidden = !version;
   document.getElementById('difficultyDescription').textContent =
-    descriptionDifficulte(modeDifficultyDraft.categorie, modeDifficultyDraft.difficulte);
+    
 
   const personnalise = modeDifficultyDraft.difficulte === 'custom' && !version;
   document.getElementById('customDeclensionPanel').hidden = !(personnalise && modeDifficultyDraft.categorie === 'declinaison');
