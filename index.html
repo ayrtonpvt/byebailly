@@ -708,7 +708,6 @@
 
           <div class="morph-main">
             <div class="analysis-row morph-main-row morph-mode-row" aria-label="Mode verbal">
-              <span class="morph-group-separator" aria-hidden="true"><span>Modes</span></span>
               <button type="button" class="analysis-choice conj-choice" data-group="morphMode" data-value="indicative">Indicatif</button>
               <button type="button" class="analysis-choice conj-choice" data-group="morphMode" data-value="participle">Participe</button>
               <button type="button" class="analysis-choice conj-choice" data-group="morphMode" data-value="infinitive">Infinitif</button>
@@ -717,13 +716,13 @@
               <button type="button" class="analysis-choice conj-choice" data-group="morphMode" data-value="optative">Optatif</button>
             </div>
             <div class="analysis-row morph-main-row morph-voice-row" aria-label="Voix">
-              <span class="morph-group-separator" aria-hidden="true"><span>Voix</span></span>
+              <span class="morph-group-separator" aria-hidden="true"></span>
               <button type="button" class="analysis-choice conj-choice" data-group="voice" data-value="active">Actif</button>
               <button type="button" class="analysis-choice conj-choice" data-group="voice" data-value="middle_passive">Moyen/<wbr>Passif</button>
               <button type="button" class="analysis-choice conj-choice" data-group="voice" data-value="passive">Passif</button>
             </div>
             <div class="analysis-row morph-main-row morph-tense-row" aria-label="Temps">
-              <span class="morph-group-separator" aria-hidden="true"><span>Temps</span></span>
+              <span class="morph-group-separator" aria-hidden="true"></span>
               <button type="button" class="analysis-choice conj-choice" data-group="tense" data-value="present">Présent</button>
               <button type="button" class="analysis-choice conj-choice" data-group="tense" data-value="imperfect">Imparfait</button>
               <button type="button" class="analysis-choice conj-choice" data-group="tense" data-value="future">Futur</button>
@@ -3945,22 +3944,14 @@ function mettreAJourControlesMorphologiques() {
   for (const bouton of [personne1s, personne1p]) {
     if (!bouton) continue;
     const indisponible = mode === 'imperative';
-    bouton.disabled = indisponible;
+    bouton.hidden = indisponible;
+    bouton.disabled = false;
     if (indisponible && bouton.classList.contains('selected')) {
       bouton.classList.remove('selected');
       bouton.setAttribute('aria-pressed', 'false');
     }
   }
 
-  const imperfect = document.querySelector('.conj-choice[data-group="tense"][data-value="imperfect"]');
-  if (imperfect) {
-    const indisponible = Boolean(mode && mode !== 'indicative');
-    imperfect.disabled = indisponible;
-    if (indisponible && imperfect.classList.contains('selected')) {
-      imperfect.classList.remove('selected');
-      imperfect.setAttribute('aria-pressed', 'false');
-    }
-  }
 }
 
 function mettreAJourSeparateursMorphologiques() {
@@ -3978,18 +3969,45 @@ function mettreAJourSeparateursMorphologiques() {
 }
 
 function mettreAJourVisibiliteOptionsConjugaison() {
-  const personnalise = currentDifficultyByCategory.conjugaison === 'custom';
   const configuration = obtenirConfigurationConjugaisonActive();
-  const groupes = {
+  const manifest = manifestActuel();
+  const champs = { morphMode: 'mode', voice: 'voice', tense: 'tense' };
+  const autorisees = {
     morphMode: new Set(configuration.modes),
     voice: new Set(configuration.voices),
     tense: new Set(configuration.tenses)
   };
+  const selections = {
+    morphMode: selectionBouton('morphMode'),
+    voice: selectionBouton('voice'),
+    tense: selectionBouton('tense')
+  };
 
-  for (const [groupe, autorisees] of Object.entries(groupes)) {
+  const combinaisonAutorisee = combinaison =>
+    autorisees.morphMode.has(combinaison.mode)
+    && autorisees.voice.has(combinaison.voice)
+    && autorisees.tense.has(combinaison.tense);
+
+  for (const [groupe, valeursAutorisees] of Object.entries(autorisees)) {
     document.querySelectorAll(`.conj-choice[data-group="${groupe}"]`).forEach(bouton => {
-      const visible = !personnalise || autorisees.has(bouton.dataset.value);
+      const valeur = bouton.dataset.value;
+      let visible = valeursAutorisees.has(valeur);
+
+      if (visible) {
+        visible = manifest.combinations.some(combinaison => {
+          if (!combinaisonAutorisee(combinaison)) return false;
+          if (combinaison[champs[groupe]] !== valeur) return false;
+
+          return Object.entries(champs).every(([autreGroupe, champ]) => {
+            if (autreGroupe === groupe) return true;
+            const selection = selections[autreGroupe];
+            return !selection || combinaison[champ] === selection;
+          });
+        });
+      }
+
       bouton.hidden = !visible;
+      bouton.disabled = false;
       if (!visible) {
         bouton.classList.remove('selected');
         bouton.setAttribute('aria-pressed', 'false');
@@ -4018,6 +4036,7 @@ function choisirBoutonMorphologique(btn) {
   if (group === 'morphMode' && value !== 'indicative' && !deja) {
     if (selectionBouton('tense') === 'imperfect') viderGroupe('tense');
   }
+  mettreAJourVisibiliteOptionsConjugaison();
   mettreAJourControlesMorphologiques();
 }
 
