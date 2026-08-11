@@ -5439,24 +5439,25 @@ function updateTenseLabels() {
     }
   ];
 
-  // On remet d'abord tous les libellés complets.
   for (const { selector, full } of labels) {
     const btn = document.querySelector(selector);
-    if (btn) btn.textContent = full;
+    if (!btn) continue;
+
+    btn.textContent = full;
+    btn.style.whiteSpace = 'nowrap';
   }
 
-  // On laisse le navigateur recalculer les dimensions,
-  // puis on abrège seulement si le texte déborde réellement.
   requestAnimationFrame(() => {
     for (const { selector, short } of labels) {
       const btn = document.querySelector(selector);
 
       if (
-        btn &&
-        !btn.hidden &&
-        btn.offsetParent !== null &&
-        btn.scrollWidth > btn.clientWidth
-      ) {
+        !btn ||
+        btn.hidden ||
+        btn.offsetParent === null
+      ) continue;
+
+      if (btn.scrollWidth > btn.clientWidth) {
         btn.textContent = short;
       }
     }
