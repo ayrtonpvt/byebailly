@@ -2556,7 +2556,6 @@ function mettreAJourModalModeDifficulte() {
 
   const version = modeDifficultyDraft.categorie === 'version';
   document.getElementById('difficultySection').hidden = version;
-  document.getElementById('versionDifficultyNote').hidden = !version;
   const difficultyDescription = document.getElementById('difficultyDescription');
   if (difficultyDescription) {
     difficultyDescription.textContent = '';
