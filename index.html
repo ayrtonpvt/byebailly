@@ -558,71 +558,73 @@
   <header class="top-bar">
   <div class="top-bar-content">
     <h1>ByeBailly</h1>
-	<div class="game-mode-control">
-  <button
-    type="button"
-    class="btn-inverser"
-    id="btnInverser"
-    aria-label="Passer en mode Analyse"
-    title="Changer de mode"
-  >
-    <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.8"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M7 7h10.5" />
-    <path d="m14.5 4 3 3-3 3" />
 
-    <path d="M17 17H6.5" />
-    <path d="m9.5 14-3 3 3 3" />
-  </svg>
-  </button>
+    <div class="game-mode-control">
+      <button
+        type="button"
+        class="mode-difficulty-button"
+        id="btnModeDifficulty"
+        aria-label="Modifier le mode et la difficulté"
+        title="Mode / Difficulté"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"></path>
+        </svg>
+        <span class="mode-difficulty-copy">
+          <strong id="modeDifficultyCategoryLabel">Déclinaison</strong>
+          <small id="modeDifficultyLevelLabel">Intermédiaire</small>
+        </span>
+      </button>
 
-  <span class="game-mode-label" id="gameModeLabel">
-    Déclinaison
-  </span>
-</div>
+      <button
+        type="button"
+        class="btn-inverser"
+        id="btnInverser"
+        aria-label="Passer en mode Analyse"
+        title="Inverser l’exercice"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7 7h10.5" />
+          <path d="m14.5 4 3 3-3 3" />
+          <path d="M17 17H6.5" />
+          <path d="m9.5 14-3 3 3 3" />
+        </svg>
+      </button>
+
+      <span class="game-mode-label" id="gameModeLabel">Analyse</span>
+    </div>
+
     <div class="header-actions">
-
-      <!-- Bouton Statistiques -->
-      <button class="btn-icon" id="btnToggleStats" title="Statistiques" aria-label="Ouvrir les statistiques">
-        <svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="20"
-  height="20"
-  viewBox="0 0 24 24"
-  fill="currentColor"
-  aria-hidden="true"
->
-  <g transform="translate(1 1) scale(0.0785714286)">
-    <path d="M271,262h-49.238V158.694c0-4.971-4.029-9-9-9h-30.664c-4.971,0-9,4.029-9,9V262h-17.901V115.338c0-4.971-4.029-9-9-9h-30.664c-4.971,0-9,4.029-9,9V262H88.633V71.553c0-4.971-4.029-9-9-9H48.969c-4.971,0-9,4.029-9,9V262H18V9c0-4.971-4.029-9-9-9S0,4.029,0,9v262c0,4.971,4.029,9,9,9h262c4.971,0,9-4.029,9-9S275.971,262,271,262z M191.098,167.694h12.664V262h-12.664V167.694z M124.534,124.338h12.664V262h-12.664V124.338z M57.969,80.553h12.664V262H57.969V80.553z"/>
-  </g>
-</svg>
+      <button class="btn-icon desktop-header-action" id="btnToggleStats" title="Statistiques" aria-label="Ouvrir les statistiques">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <g transform="translate(1 1) scale(0.0785714286)">
+            <path d="M271,262h-49.238V158.694c0-4.971-4.029-9-9-9h-30.664c-4.971,0-9,4.029-9,9V262h-17.901V115.338c0-4.971-4.029-9-9-9h-30.664c-4.971,0-9,4.029-9,9V262H88.633V71.553c0-4.971-4.029-9-9-9H48.969c-4.971,0-9,4.029-9,9V262H18V9c0-4.971-4.029-9-9-9S0,4.029,0,9v262c0,4.971,4.029,9,9,9h262c4.971,0,9-4.029,9-9S275.971,262,271,262z M191.098,167.694h12.664V262h-12.664V167.694z M124.534,124.338h12.664V262h-12.664V124.338z M57.969,80.553h12.664V262H57.969V80.553z"/>
+          </g>
+        </svg>
         <span class="header-action-label">Statistiques</span>
       </button>
 
-
-      <!-- Bouton Paramètres -->
-      <button class="btn-icon" id="btnToggleSettings" title="Paramètres">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"></path>
+      <button class="btn-icon desktop-header-action" id="btnToggleSettings" title="Paramètres" aria-label="Ouvrir les paramètres">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.592c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.246c.275.476.18 1.08-.235 1.438l-.984.827c-.29.243-.44.617-.433.995v.254c-.007.378.143.752.433.995l.984.827c.416.357.51.962.235 1.438l-1.296 2.246a1.125 1.125 0 0 1-1.37.49l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.127c-.331.184-.581.496-.644.87l-.213 1.281c-.09.542-.56.94-1.11.94h-2.592c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.063-.374-.313-.686-.645-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.075-.124l-1.217.456a1.125 1.125 0 0 1-1.37-.49L3.51 15.284a1.125 1.125 0 0 1 .235-1.438l.984-.827c.29-.243.44-.617.433-.995v-.254a1.595 1.595 0 0 0-.433-.995l-.984-.827a1.125 1.125 0 0 1-.235-1.438L4.806 6.264a1.125 1.125 0 0 1 1.37-.49l1.217.456c.355.133.75.072 1.076-.124.072-.044.145-.086.22-.127.331-.184.581-.496.644-.87l.213-1.281Z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
         </svg>
         <span class="header-action-label">Paramètres</span>
       </button>
 
-      <!-- Bouton À propos -->
-      <button class="btn-icon" id="btnToggleAbout" title="À propos">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+      <button class="btn-icon desktop-header-action" id="btnToggleAbout" title="À propos" aria-label="Ouvrir À propos">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"></path>
         </svg>
         <span class="header-action-label">À propos</span>
       </button>
+
+      <button class="btn-icon mobile-more-button" id="btnMobileMore" title="Plus" aria-label="Ouvrir le menu" aria-expanded="false">⋮</button>
+      <div class="mobile-more-menu" id="mobileMoreMenu" hidden>
+        <button type="button" data-mobile-action="stats">Statistiques</button>
+        <button type="button" data-mobile-action="settings">Paramètres</button>
+        <button type="button" data-mobile-action="about">À propos</button>
+      </div>
     </div>
   </div>
 </header>
@@ -689,6 +691,9 @@
               <button type="button" class="analysis-choice conj-choice" data-group="morphMode" data-value="indicative">Indicatif</button>
               <button type="button" class="analysis-choice conj-choice" data-group="morphMode" data-value="participle">Participe</button>
               <button type="button" class="analysis-choice conj-choice" data-group="morphMode" data-value="infinitive">Infinitif</button>
+              <button type="button" class="analysis-choice conj-choice" data-group="morphMode" data-value="subjunctive">Subjonctif</button>
+              <button type="button" class="analysis-choice conj-choice" data-group="morphMode" data-value="imperative">Impératif</button>
+              <button type="button" class="analysis-choice conj-choice" data-group="morphMode" data-value="optative">Optatif</button>
             </div>
             <div class="analysis-row morph-main-row morph-voice-row" aria-label="Voix">
               <button type="button" class="analysis-choice conj-choice" data-group="voice" data-value="active">Actif</button>
@@ -700,6 +705,7 @@
               <button type="button" class="analysis-choice conj-choice" data-group="tense" data-value="imperfect">Imparfait</button>
               <button type="button" class="analysis-choice conj-choice" data-group="tense" data-value="future">Futur</button>
               <button type="button" class="analysis-choice conj-choice" data-group="tense" data-value="aorist">Aoriste</button>
+              <button type="button" class="analysis-choice conj-choice" data-group="tense" data-value="perfect">Parfait</button>
             </div>
             <div class="analysis-row morph-main-row morph-number-row" id="participleNumberControls" aria-label="Nombre du participe" hidden>
               <button type="button" class="analysis-choice conj-choice" data-group="participleNumber" data-value="singular">Singulier</button>
@@ -727,6 +733,11 @@
         </button>
       </div>
 
+      <div class="greek-keyboard" id="greekKeyboard" aria-label="Clavier grec ancien" hidden>
+        <div class="greek-keyboard-row greek-keyboard-letters" id="greekKeyboardLetters"></div>
+        <div class="greek-keyboard-row greek-keyboard-diacritics" id="greekKeyboardDiacritics"></div>
+      </div>
+
       <div class="feedback" id="feedback"></div>
     </div>
 
@@ -748,6 +759,9 @@
       </div>
       <p>
         Sources: vocabulaire compilé par J-B. Clérigues et S. Raffin
+      </p>
+      <p>
+        Inspiré par <a href="https://bailly.app/%C3%A0-propos" target="_blank" rel="noopener noreferrer">bailly.app</a>.
       </p>
     </div>
   </div>
@@ -850,32 +864,85 @@
 </div>     <!-- fin de #modalTable -->
 
 
-<!-- Modal Paramètres -->
-<div class="modal-overlay" id="modalSettings">
-  <div class="settings-modal-wrapper">
-
+<!-- Modal Mode / Difficulté -->
+<div class="modal-overlay" id="modalModeDifficulty" role="dialog" aria-modal="true" aria-labelledby="modeDifficultyModalTitle" aria-hidden="true">
+  <div class="settings-modal-wrapper mode-difficulty-modal-wrapper">
     <div class="settings-modal-title">
-      <span>Paramètres</span>
-
-      <button
-        class="btn-icon settings-close-button"
-        id="btnCloseSettings"
-        aria-label="Fermer"
-      >
-        ✕
-      </button>
+      <span id="modeDifficultyModalTitle">Mode / Difficulté</span>
+      <button class="btn-icon settings-close-button" id="btnCloseModeDifficulty" aria-label="Fermer" title="Fermer">✕</button>
     </div>
 
-    <div class="settings-stack">
+    <div class="settings-stack mode-difficulty-stack">
       <section class="setting-group" aria-labelledby="settingGameTitle">
         <h3 class="setting-label" id="settingGameTitle">Mode de jeu</h3>
         <div class="segmented-control" id="gameCategoryControl">
-          <button type="button" data-value="declinaison" class="active">Déclinaison</button>
+          <button type="button" data-value="declinaison">Déclinaison</button>
           <button type="button" data-value="conjugaison">Conjugaison</button>
           <button type="button" data-value="version">Version</button>
         </div>
       </section>
 
+      <section class="setting-group" id="difficultySection" aria-labelledby="settingDifficultyTitle">
+        <h3 class="setting-label" id="settingDifficultyTitle">Difficulté</h3>
+        <div class="segmented-control difficulty-control" id="difficultyControl">
+          <button type="button" data-value="beginner">Débutant</button>
+          <button type="button" data-value="intermediate">Intermédiaire</button>
+          <button type="button" data-value="advanced">Avancé</button>
+          <button type="button" data-value="custom">Personnalisé</button>
+        </div>
+        <p class="setting-help" id="difficultyDescription"></p>
+      </section>
+
+      <section class="setting-group custom-panel" id="customDeclensionPanel" hidden aria-labelledby="customDeclensionTitle">
+        <div class="setting-heading-row">
+          <h3 class="setting-label" id="customDeclensionTitle">Déclinaisons interrogées</h3>
+          <span class="setting-inline-note">au moins une</span>
+        </div>
+        <div class="toggle-choice-grid toggle-choice-grid-three" id="customDeclensionChoices">
+          <button type="button" class="filter-toggle" data-value="1" aria-pressed="false">1re déclinaison</button>
+          <button type="button" class="filter-toggle" data-value="2" aria-pressed="false">2e déclinaison</button>
+          <button type="button" class="filter-toggle" data-value="3" aria-pressed="false">3e déclinaison</button>
+        </div>
+      </section>
+
+      <section class="setting-group custom-panel" id="customConjugationPanel" hidden aria-labelledby="customConjugationTitle">
+        <h3 class="setting-label" id="customConjugationTitle">Contenu personnalisé</h3>
+        <div class="custom-filter-group">
+          <span class="custom-filter-label">Temps</span>
+          <div class="toggle-choice-grid" id="customTenseChoices"></div>
+        </div>
+        <div class="custom-filter-group">
+          <span class="custom-filter-label">Modes</span>
+          <div class="toggle-choice-grid" id="customModeChoices"></div>
+        </div>
+        <div class="custom-filter-group">
+          <span class="custom-filter-label">Voix</span>
+          <div class="toggle-choice-grid toggle-choice-grid-three" id="customVoiceChoices"></div>
+        </div>
+        <p class="setting-help custom-filter-status" id="customConjugationStatus" aria-live="polite"></p>
+      </section>
+
+      <section class="setting-group version-difficulty-note" id="versionDifficultyNote" hidden>
+        <h3 class="setting-label">Version</h3>
+        <p class="setting-help">Le corpus et le fonctionnement actuels sont conservés pour l’instant. Les niveaux spécifiques à la Version pourront être ajoutés plus tard sans modifier cette interface.</p>
+      </section>
+
+      <div class="mode-difficulty-actions">
+        <button type="button" class="btn-primary mode-difficulty-apply" id="btnApplyModeDifficulty">Appliquer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Paramètres -->
+<div class="modal-overlay" id="modalSettings">
+  <div class="settings-modal-wrapper">
+    <div class="settings-modal-title">
+      <span>Paramètres</span>
+      <button class="btn-icon settings-close-button" id="btnCloseSettings" aria-label="Fermer">✕</button>
+    </div>
+
+    <div class="settings-stack">
       <section class="setting-group" aria-labelledby="settingThemeTitle">
         <h3 class="setting-label" id="settingThemeTitle">Thème</h3>
         <div class="segmented-control" id="themeControl">
@@ -887,17 +954,17 @@
 
       <section class="setting-group" aria-labelledby="settingInputTitle">
         <h3 class="setting-label" id="settingInputTitle">Mode de saisie</h3>
-        <div class="segmented-control" id="modeControl">
+        <div class="segmented-control input-mode-control" id="modeControl">
           <button type="button" data-value="translit" class="active">Translittération</button>
           <button type="button" data-value="beta">Bêta code</button>
+          <button type="button" data-value="greek">Clavier grec</button>
         </div>
+        <p class="setting-help">Le clavier grec intégré reste dans la page et accepte aussi les accents, esprits, tréma et iota souscrit.</p>
         <a class="link-table" id="btnOpenTable">Table de correspondance</a>
       </section>
     </div>
-
   </div>
 </div>
-
 
 
 <!-- Modal Statistiques -->
@@ -990,7 +1057,9 @@ document.addEventListener('contextmenu', event => {
 // ---------------------------------------------------------------------------
 
 let currentTheme = localStorage.getItem("app_theme") || "system";
+if (!['system', 'light', 'dark'].includes(currentTheme)) currentTheme = 'system';
 let currentInputMode = localStorage.getItem("app_input_mode") || "translit";
+if (!['translit', 'beta', 'greek'].includes(currentInputMode)) currentInputMode = 'translit';
 // La page démarre toujours en déclinaison afin que le premier écran reste léger.
 let currentCategorieJeu = "declinaison";
 let currentGameMode = localStorage.getItem("app_game_mode") || "analyse";
@@ -1015,12 +1084,108 @@ let modeAvantVersion = currentGameMode;
 let declensionLoadingPromise = null;
 let conjugationLoadingPromise = null;
 let versionLoadingPromise = null;
+let conjugationManifestPromise = null;
+let conjugationManifest = null;
+let conjugationLoadedTierIndex = -1;
+let conjugationRequestedTierIndex = -1;
+const conjugationLexiconById = new Map();
+const declensionQuestionDecks = new Map();
+const conjugationQuestionDecks = new Map();
+const conjugationPoolCache = new Map();
+
+const DIFFICULTY_STORAGE_PREFIX = 'app_difficulty_';
+const CUSTOM_DECLENSION_STORAGE_KEY = 'app_custom_declensions';
+const CUSTOM_CONJUGATION_STORAGE_KEY = 'app_custom_conjugation';
+const DIFFICULTY_ORDER = ['beginner', 'intermediate', 'advanced'];
+const DIFFICULTY_LABELS = Object.freeze({
+  beginner: 'Débutant',
+  intermediate: 'Intermédiaire',
+  advanced: 'Avancé',
+  custom: 'Personnalisé'
+});
+const CATEGORY_LABELS = Object.freeze({
+  declinaison: 'Déclinaison',
+  conjugaison: 'Conjugaison',
+  version: 'Version'
+});
+const CONJUGATION_TIER_FILES = Object.freeze([
+  'verbes_grecs_jeu_debutant.json',
+  'verbes_grecs_jeu_intermediaire.json',
+  'verbes_grecs_jeu_avance.json'
+]);
+
+function lireDifficulteStockee(categorie) {
+  const valeur = localStorage.getItem(`${DIFFICULTY_STORAGE_PREFIX}${categorie}`);
+  return ['beginner', 'intermediate', 'advanced', 'custom'].includes(valeur)
+    ? valeur
+    : 'intermediate';
+}
+
+function lireJsonLocal(cle, valeurParDefaut) {
+  try {
+    const valeur = JSON.parse(localStorage.getItem(cle));
+    return valeur ?? valeurParDefaut;
+  } catch {
+    return valeurParDefaut;
+  }
+}
+
+let currentDifficultyByCategory = {
+  declinaison: lireDifficulteStockee('declinaison'),
+  conjugaison: lireDifficulteStockee('conjugaison'),
+  version: 'intermediate'
+};
+
+let customDeclensions = new Set(
+  (Array.isArray(lireJsonLocal(CUSTOM_DECLENSION_STORAGE_KEY, ['1', '2', '3']))
+    ? lireJsonLocal(CUSTOM_DECLENSION_STORAGE_KEY, ['1', '2', '3'])
+    : ['1', '2', '3'])
+    .map(String)
+    .filter(valeur => ['1', '2', '3'].includes(valeur))
+);
+if (!customDeclensions.size) customDeclensions = new Set(['1']);
+
+const DEFAULT_CUSTOM_CONJUGATION = Object.freeze({
+  tenses: ['present', 'imperfect', 'future', 'aorist', 'perfect'],
+  modes: ['indicative', 'participle', 'infinitive', 'subjunctive', 'imperative', 'optative'],
+  voices: ['active', 'middle_passive', 'passive']
+});
+
+function normaliserListePersonnalisee(valeur, autorisees, fallback) {
+  const liste = Array.isArray(valeur) ? valeur : fallback;
+  const resultat = [...new Set(liste.filter(item => autorisees.includes(item)))];
+  return resultat.length ? resultat : [...fallback];
+}
+
+function lireConjugaisonPersonnalisee() {
+  const brute = lireJsonLocal(CUSTOM_CONJUGATION_STORAGE_KEY, {});
+  return {
+    tenses: normaliserListePersonnalisee(
+      brute?.tenses,
+      ['present', 'imperfect', 'future', 'aorist', 'perfect'],
+      DEFAULT_CUSTOM_CONJUGATION.tenses
+    ),
+    modes: normaliserListePersonnalisee(
+      brute?.modes,
+      ['indicative', 'participle', 'infinitive', 'subjunctive', 'imperative', 'optative'],
+      DEFAULT_CUSTOM_CONJUGATION.modes
+    ),
+    voices: normaliserListePersonnalisee(
+      brute?.voices,
+      ['active', 'middle_passive', 'passive'],
+      DEFAULT_CUSTOM_CONJUGATION.voices
+    )
+  };
+}
+
+let customConjugation = lireConjugaisonPersonnalisee();
+let modeDifficultyDraft = null;
 
 let currentQuestion = null;
 let questionValidated = false;
 let score = 0;
 let total = 0;
-const conjugationCandidateCache = new WeakMap();
+let conjugationCandidateCache = new WeakMap();
 
 const STATS_STORAGE_KEY = 'byebailly_stats';
 const DEVICE_STORAGE_KEY = 'byebailly_device_id';
@@ -1898,6 +2063,14 @@ function mettreAJourPlaceholder() {
   const input = document.getElementById("userInput");
   if (!input) return;
 
+  if (currentInputMode === 'greek') {
+    input.placeholder = 'Saisir directement en grec…';
+    input.setAttribute('inputmode', 'none');
+    return;
+  }
+
+  input.setAttribute('inputmode', 'text');
+
   if (estModeTheme()) {
     input.placeholder = currentInputMode === "beta"
       ? "Saisir le mot grec en Bêta code…"
@@ -1914,12 +2087,13 @@ function mettreAJourPlaceholder() {
 }
 
 function appliquerModeSaisie(mode) {
-  currentInputMode = mode;
-  localStorage.setItem("app_input_mode", mode);
+  currentInputMode = ['translit', 'beta', 'greek'].includes(mode) ? mode : 'translit';
+  localStorage.setItem("app_input_mode", currentInputMode);
   document.querySelectorAll("#modeControl button").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.value === mode);
+    btn.classList.toggle("active", btn.dataset.value === currentInputMode);
   });
   mettreAJourPlaceholder();
+  mettreAJourClavierGrec();
 }
 
 function libelleModeProduction() {
@@ -1953,34 +2127,651 @@ function appliquerModeJeu(mode) {
   const label = document.getElementById('gameModeLabel');
   const bouton = document.getElementById('btnInverser');
 
-  label.innerText = libelleModeActuel();
-  bouton.setAttribute(
-    'aria-label',
-    `Passer en mode ${libelleModeInverse()}`
-  );
+  if (label) label.innerText = libelleModeActuel();
+  if (bouton) {
+    bouton.setAttribute(
+      'aria-label',
+      `Passer en mode ${libelleModeInverse()}`
+    );
+  }
 
+  mettreAJourBoutonModeDifficulte();
   mettreAJourPlaceholder();
+  mettreAJourClavierGrec();
 }
 
 function categorieDisponible(categorie) {
   if (categorie === 'declinaison') return declensionLexicon.length > 0;
-  if (categorie === 'conjugaison') return conjugationLexicon.length > 0;
+  if (categorie === 'conjugaison') {
+    return conjugationLoadedTierIndex >= indexTierRequisConjugaison();
+  }
   if (categorie === 'version') return versionLexicon.length > 0;
   return false;
 }
 
 function appliquerCategorieJeu(categorie) {
-  currentCategorieJeu = categorie;
-  localStorage.setItem("app_categorie_jeu", categorie);
-  document.body.setAttribute('data-game-category', categorie);
+  currentCategorieJeu = ['declinaison', 'conjugaison', 'version'].includes(categorie)
+    ? categorie
+    : 'declinaison';
+  localStorage.setItem("app_categorie_jeu", currentCategorieJeu);
+  document.body.setAttribute('data-game-category', currentCategorieJeu);
   document.querySelectorAll("#gameCategoryControl button").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.value === categorie);
+    btn.classList.toggle("active", btn.dataset.value === currentCategorieJeu);
   });
   appliquerModeJeu(currentGameMode);
+  mettreAJourBoutonModeDifficulte();
   mettreAJourPlaceholder();
+  mettreAJourClavierGrec();
 }
 
-const MODALES_MASQUANT_JEU = new Set(['modalSettings', 'modalStats']);
+const MODALES_MASQUANT_JEU = new Set(['modalSettings', 'modalStats', 'modalModeDifficulty']);
+
+
+function difficulteActuelle(categorie = currentCategorieJeu) {
+  return currentDifficultyByCategory[categorie] || 'intermediate';
+}
+
+function mettreAJourBoutonModeDifficulte() {
+  const categorie = document.getElementById('modeDifficultyCategoryLabel');
+  const niveau = document.getElementById('modeDifficultyLevelLabel');
+  if (categorie) categorie.textContent = CATEGORY_LABELS[currentCategorieJeu] || 'Déclinaison';
+  if (niveau) {
+    niveau.textContent = currentCategorieJeu === 'version'
+      ? 'Corpus actuel'
+      : (DIFFICULTY_LABELS[difficulteActuelle()] || 'Intermédiaire');
+  }
+}
+
+function numeroPedagogiqueDeclinaison(mot) {
+  return normaliserNumeroDeclinaison(mot?.declinaison)
+    || normaliserNumeroDeclinaison(mot?.classe_adjectif);
+}
+
+function obtenirPoolDeclinaisonActuel() {
+  const difficulte = currentDifficultyByCategory.declinaison;
+  const autorisees = difficulte === 'beginner'
+    ? new Set(['1'])
+    : difficulte === 'intermediate'
+      ? new Set(['1', '2'])
+      : difficulte === 'custom'
+        ? customDeclensions
+        : new Set(['1', '2', '3']);
+
+  return declensionLexicon.filter(mot => {
+    const numero = numeroPedagogiqueDeclinaison(mot);
+    return numero && autorisees.has(numero);
+  });
+}
+
+function tirerDepuisDeck(pool, decks, signature, obtenirCle = element => element?.id ?? element) {
+  if (!pool.length) return null;
+  let deck = decks.get(signature);
+  const clesPool = new Set(pool.map(obtenirCle));
+  if (!Array.isArray(deck) || !deck.length || deck.some(element => !clesPool.has(obtenirCle(element)))) {
+    deck = [...pool];
+    decks.set(signature, deck);
+  }
+  return deck.splice(randomIndex(deck.length), 1)[0] || null;
+}
+
+function tirerGroupePondere(groupes, poids) {
+  const disponibles = Object.entries(poids)
+    .filter(([cle, valeur]) => valeur > 0 && (groupes[cle]?.length || 0) > 0);
+  if (!disponibles.length) return null;
+  const total = disponibles.reduce((somme, [, valeur]) => somme + valeur, 0);
+  let hasard = Math.random() * total;
+  for (const [cle, valeur] of disponibles) {
+    hasard -= valeur;
+    if (hasard < 0) return cle;
+  }
+  return disponibles[disponibles.length - 1][0];
+}
+
+function tirerMotDeclinaisonFiltre(pool) {
+  if (!pool.length) return null;
+  const difficulte = currentDifficultyByCategory.declinaison;
+  const signatureBase = difficulte === 'custom'
+    ? `custom:${[...customDeclensions].sort().join(',')}`
+    : difficulte;
+
+  if (difficulte !== 'advanced') {
+    return tirerDepuisDeck(pool, declensionQuestionDecks, signatureBase);
+  }
+
+  const noms = pool.filter(mot => normaliserNumeroDeclinaison(mot?.declinaison));
+  const autres = pool.filter(mot => !normaliserNumeroDeclinaison(mot?.declinaison));
+  const choisirNom = noms.length && (!autres.length || Math.random() < noms.length / pool.length);
+
+  if (!choisirNom) {
+    return tirerDepuisDeck(autres, declensionQuestionDecks, `${signatureBase}:autres`);
+  }
+
+  const groupes = { '1': [], '2': [], '3': [] };
+  noms.forEach(mot => groupes[normaliserNumeroDeclinaison(mot.declinaison)]?.push(mot));
+  const numero = tirerGroupePondere(groupes, { '1': 32.1, '2': 30.6, '3': 37.3 });
+  return numero
+    ? tirerDepuisDeck(groupes[numero], declensionQuestionDecks, `${signatureBase}:nom:${numero}`)
+    : null;
+}
+
+function normaliserPersonnalisationDeclinaisonSelonLexique() {
+  const disponibles = new Set(declensionLexicon.map(numeroPedagogiqueDeclinaison).filter(Boolean));
+  const nettoyees = [...customDeclensions].filter(numero => disponibles.has(numero));
+  if (!nettoyees.length && disponibles.size) nettoyees.push([...disponibles][0]);
+  customDeclensions = new Set(nettoyees.length ? nettoyees : ['1']);
+  localStorage.setItem(CUSTOM_DECLENSION_STORAGE_KEY, JSON.stringify([...customDeclensions]));
+}
+
+function uiVoiceAccepteAnalyse(selectionVoix, voixJson) {
+  if (selectionVoix === 'active') return voixJson === 'active';
+  if (selectionVoix === 'middle_passive') return ['middle', 'middle_passive'].includes(voixJson);
+  if (selectionVoix === 'passive') return ['passive', 'middle_passive'].includes(voixJson);
+  return false;
+}
+
+function obtenirConfigurationConjugaisonActive() {
+  const difficulte = currentDifficultyByCategory.conjugaison;
+  if (difficulte === 'beginner') {
+    return { tenses: ['present', 'imperfect', 'future'], modes: ['indicative', 'infinitive'], voices: ['active'] };
+  }
+  if (difficulte === 'intermediate') {
+    return { tenses: ['present', 'imperfect', 'future', 'aorist'], modes: ['indicative', 'participle', 'infinitive'], voices: ['active', 'middle_passive', 'passive'] };
+  }
+  if (difficulte === 'advanced') {
+    return { tenses: ['present', 'imperfect', 'future', 'aorist', 'perfect'], modes: ['indicative', 'participle', 'infinitive', 'subjunctive', 'imperative', 'optative'], voices: ['active', 'middle_passive', 'passive'] };
+  }
+  return {
+    tenses: [...customConjugation.tenses],
+    modes: [...customConjugation.modes],
+    voices: [...customConjugation.voices]
+  };
+}
+
+function filtrerAnalysesConjugaison(analyses, configuration = obtenirConfigurationConjugaisonActive()) {
+  const temps = new Set(configuration.tenses);
+  const modes = new Set(configuration.modes);
+  const voix = new Set(configuration.voices);
+  return analyses.filter(analyse =>
+    temps.has(analyse.tense)
+    && modes.has(analyse.mode)
+    && [...voix].some(selection => uiVoiceAccepteAnalyse(selection, analyse.voice))
+  );
+}
+
+function signatureConfigurationConjugaison(configuration) {
+  return [
+    [...configuration.modes].sort().join(','),
+    [...configuration.tenses].sort().join(','),
+    [...configuration.voices].sort().join(',')
+  ].join('|');
+}
+
+function obtenirGroupesConjugaison(configuration) {
+  const signature = `${signatureConfigurationConjugaison(configuration)}|tier${conjugationLoadedTierIndex}`;
+  if (conjugationPoolCache.has(signature)) return conjugationPoolCache.get(signature);
+
+  const groupesParMode = new Map();
+  for (const verbe of conjugationLexicon) {
+    const extrait = extraireAnalysesVerbe(verbe);
+    const analysesEligibles = filtrerAnalysesConjugaison(extrait.analyses, configuration);
+    if (!analysesEligibles.length) continue;
+
+    const analysesParMode = new Map();
+    for (const analyse of analysesEligibles) {
+      if (!analysesParMode.has(analyse.mode)) analysesParMode.set(analyse.mode, []);
+      analysesParMode.get(analyse.mode).push(analyse);
+    }
+
+    for (const [mode, analysesMode] of analysesParMode) {
+      if (!groupesParMode.has(mode)) groupesParMode.set(mode, []);
+      groupesParMode.get(mode).push({
+        verbe,
+        graphies: extrait.graphies,
+        analysesEligibles,
+        analysesMode
+      });
+    }
+  }
+
+  conjugationPoolCache.set(signature, groupesParMode);
+  return groupesParMode;
+}
+
+function niveauRequisConjugaison(difficulte = currentDifficultyByCategory.conjugaison, custom = customConjugation) {
+  if (difficulte === 'beginner') return 'beginner';
+  if (difficulte === 'intermediate') return 'intermediate';
+  if (difficulte === 'advanced') return 'advanced';
+
+  const modesAvances = custom.modes.some(mode => ['subjunctive', 'imperative', 'optative'].includes(mode));
+  if (modesAvances || custom.tenses.includes('perfect')) return 'advanced';
+  if (
+    custom.modes.includes('participle')
+    || custom.tenses.includes('aorist')
+    || custom.voices.some(voix => voix !== 'active')
+  ) return 'intermediate';
+  return 'beginner';
+}
+
+function indexTierRequisConjugaison() {
+  return DIFFICULTY_ORDER.indexOf(niveauRequisConjugaison());
+}
+
+function fusionnerObjetProfond(cible, source) {
+  if (!source || typeof source !== 'object') return cible;
+  for (const [cle, valeur] of Object.entries(source)) {
+    if (Array.isArray(valeur)) {
+      cible[cle] = uniqueStrings([...(Array.isArray(cible[cle]) ? cible[cle] : []), ...valeur]);
+    } else if (valeur && typeof valeur === 'object') {
+      if (!cible[cle] || typeof cible[cle] !== 'object' || Array.isArray(cible[cle])) cible[cle] = {};
+      fusionnerObjetProfond(cible[cle], valeur);
+    } else {
+      cible[cle] = valeur;
+    }
+  }
+  return cible;
+}
+
+function fusionnerLotVerbes(verbs) {
+  for (const verbe of verbs) {
+    if (!verbe?.id || !verbe?.lemma || !verbe?.forms) continue;
+    const existant = conjugationLexiconById.get(verbe.id);
+    if (existant) fusionnerObjetProfond(existant, verbe);
+    else conjugationLexiconById.set(verbe.id, verbe);
+  }
+  conjugationLexicon = [...conjugationLexiconById.values()];
+  conjugationRemaining = [...conjugationLexicon];
+  conjugationCandidateCache = new WeakMap();
+  conjugationQuestionDecks.clear();
+  conjugationPoolCache.clear();
+}
+
+function construireManifestSecours() {
+  const modes = ['indicative', 'participle', 'infinitive', 'subjunctive', 'imperative', 'optative'];
+  const tenses = ['present', 'imperfect', 'future', 'aorist', 'perfect'];
+  const voices = ['active', 'middle_passive', 'passive'];
+  const tempsParMode = {
+    indicative: ['present', 'imperfect', 'future', 'aorist', 'perfect'],
+    participle: ['present', 'future', 'aorist', 'perfect'],
+    infinitive: ['present', 'future', 'aorist', 'perfect'],
+    subjunctive: ['present', 'aorist', 'perfect'],
+    imperative: ['present', 'aorist', 'perfect'],
+    optative: ['present', 'future', 'aorist', 'perfect']
+  };
+  return {
+    options: { modes, tenses, voices },
+    combinations: modes.flatMap(mode =>
+      tempsParMode[mode].flatMap(tense => voices.map(voice => ({ mode, tense, voice })))
+    )
+  };
+}
+
+async function chargerManifestConjugaison() {
+  if (conjugationManifest) return conjugationManifest;
+  if (conjugationManifestPromise) return conjugationManifestPromise;
+  conjugationManifestPromise = chargerPremierJson(['verbes_grecs_jeu_manifest.json'])
+    .then(data => {
+      if (!Array.isArray(data?.combinations) || !data?.options) throw new Error('Manifeste verbal invalide');
+      conjugationManifest = data;
+      return conjugationManifest;
+    })
+    .catch(error => {
+      conjugationManifest = construireManifestSecours();
+      throw error;
+    })
+    .finally(() => {
+      conjugationManifestPromise = null;
+    });
+  return conjugationManifestPromise;
+}
+
+function manifestActuel() {
+  return conjugationManifest || construireManifestSecours();
+}
+
+function configurationConjugaisonPossible(configuration) {
+  return manifestActuel().combinations.some(combinaison =>
+    configuration.modes.includes(combinaison.mode)
+    && configuration.tenses.includes(combinaison.tense)
+    && configuration.voices.includes(combinaison.voice)
+  );
+}
+
+function libelleOptionPersonnalisee(type, valeur) {
+  if (type === 'modes') return MORPH_LABELS.mode[valeur] || valeur;
+  if (type === 'tenses') {
+    const libelle = MORPH_LABELS.tense[valeur] || valeur;
+    return libelle.charAt(0).toUpperCase() + libelle.slice(1);
+  }
+  if (valeur === 'middle_passive') return 'Moyen/Passif';
+  const libelle = MORPH_LABELS.voice[valeur] || valeur;
+  return libelle.charAt(0).toUpperCase() + libelle.slice(1);
+}
+
+function descriptionDifficulte(categorie, difficulte) {
+  if (categorie === 'declinaison') {
+    if (difficulte === 'beginner') return '1re déclinaison et adjectifs de 1re classe.';
+    if (difficulte === 'intermediate') return '1re–2e déclinaisons et adjectifs de 1re–2e classes.';
+    if (difficulte === 'advanced') return '1re–3e déclinaisons et adjectifs de 1re–3e classes, avec davantage de noms de 3e déclinaison.';
+    return 'Choisis une ou plusieurs déclinaisons. Cas, nombres et genres restent tirés automatiquement.';
+  }
+  if (categorie === 'conjugaison') {
+    if (difficulte === 'beginner') return 'Indicatif et infinitif ; présent, imparfait et futur ; actif uniquement.';
+    if (difficulte === 'intermediate') return 'Indicatif, participe et infinitif ; présent, imparfait, futur et aoriste ; toutes les voix.';
+    if (difficulte === 'advanced') return 'Ajoute subjonctif, impératif, optatif et parfait, avec pondération des modes 45/30/10/5/5/5.';
+    return 'Choisis librement temps, modes et voix. Les personnes, nombres, cas et genres restent automatiques.';
+  }
+  return '';
+}
+
+function rendreChoixConjugaisonPersonnalisee() {
+  if (!modeDifficultyDraft) return;
+  const manifest = manifestActuel();
+  const groupes = [
+    ['tenses', 'customTenseChoices'],
+    ['modes', 'customModeChoices'],
+    ['voices', 'customVoiceChoices']
+  ];
+
+  for (const [type, id] of groupes) {
+    const conteneur = document.getElementById(id);
+    conteneur.replaceChildren();
+    for (const valeur of manifest.options[type] || []) {
+      const bouton = document.createElement('button');
+      bouton.type = 'button';
+      bouton.className = 'filter-toggle';
+      bouton.dataset.filterType = type;
+      bouton.dataset.value = valeur;
+      bouton.textContent = libelleOptionPersonnalisee(type, valeur);
+      const active = modeDifficultyDraft.customConjugation[type].includes(valeur);
+      bouton.classList.toggle('selected', active);
+      bouton.setAttribute('aria-pressed', String(active));
+      bouton.addEventListener('click', () => basculerFiltreConjugaisonPersonnalisee(type, valeur));
+      conteneur.appendChild(bouton);
+    }
+  }
+  mettreAJourStatutConjugaisonPersonnalisee();
+}
+
+function basculerFiltreConjugaisonPersonnalisee(type, valeur) {
+  if (!modeDifficultyDraft) return;
+  const courant = modeDifficultyDraft.customConjugation[type];
+  const copie = [...courant];
+  const index = copie.indexOf(valeur);
+  const statut = document.getElementById('customConjugationStatus');
+
+  if (index >= 0) {
+    if (copie.length === 1) {
+      statut.textContent = 'Au moins une option doit rester sélectionnée dans chaque catégorie.';
+      statut.classList.add('is-warning');
+      return;
+    }
+    copie.splice(index, 1);
+  } else {
+    copie.push(valeur);
+  }
+
+  const candidate = {
+    ...modeDifficultyDraft.customConjugation,
+    [type]: copie
+  };
+  if (!configurationConjugaisonPossible(candidate)) {
+    statut.textContent = 'Cette combinaison ne correspond à aucune forme disponible.';
+    statut.classList.add('is-warning');
+    return;
+  }
+
+  modeDifficultyDraft.customConjugation = candidate;
+  rendreChoixConjugaisonPersonnalisee();
+}
+
+function mettreAJourStatutConjugaisonPersonnalisee() {
+  const statut = document.getElementById('customConjugationStatus');
+  if (!statut || !modeDifficultyDraft) return;
+  const configuration = modeDifficultyDraft.customConjugation;
+  const nombre = manifestActuel().combinations.filter(combinaison =>
+    configuration.modes.includes(combinaison.mode)
+    && configuration.tenses.includes(combinaison.tense)
+    && configuration.voices.includes(combinaison.voice)
+  ).length;
+  statut.textContent = `${nombre} combinaison${nombre > 1 ? 's' : ''} Temps × Mode × Voix disponible${nombre > 1 ? 's' : ''}.`;
+  statut.classList.remove('is-warning');
+}
+
+function mettreAJourModalModeDifficulte() {
+  if (!modeDifficultyDraft) return;
+  document.querySelectorAll('#gameCategoryControl button').forEach(bouton => {
+    const active = bouton.dataset.value === modeDifficultyDraft.categorie;
+    bouton.classList.toggle('active', active);
+    bouton.setAttribute('aria-pressed', String(active));
+  });
+  document.querySelectorAll('#difficultyControl button').forEach(bouton => {
+    const active = bouton.dataset.value === modeDifficultyDraft.difficulte;
+    bouton.classList.toggle('active', active);
+    bouton.setAttribute('aria-pressed', String(active));
+  });
+
+  const version = modeDifficultyDraft.categorie === 'version';
+  document.getElementById('difficultySection').hidden = version;
+  document.getElementById('versionDifficultyNote').hidden = !version;
+  document.getElementById('difficultyDescription').textContent =
+    descriptionDifficulte(modeDifficultyDraft.categorie, modeDifficultyDraft.difficulte);
+
+  const personnalise = modeDifficultyDraft.difficulte === 'custom' && !version;
+  document.getElementById('customDeclensionPanel').hidden = !(personnalise && modeDifficultyDraft.categorie === 'declinaison');
+  document.getElementById('customConjugationPanel').hidden = !(personnalise && modeDifficultyDraft.categorie === 'conjugaison');
+
+  document.querySelectorAll('#customDeclensionChoices .filter-toggle').forEach(bouton => {
+    const active = modeDifficultyDraft.customDeclensions.includes(bouton.dataset.value);
+    bouton.classList.toggle('selected', active);
+    bouton.setAttribute('aria-pressed', String(active));
+  });
+
+  if (personnalise && modeDifficultyDraft.categorie === 'conjugaison') {
+    rendreChoixConjugaisonPersonnalisee();
+  }
+}
+
+function ouvrirModeDifficulte() {
+  modeDifficultyDraft = {
+    categorie: currentCategorieJeu,
+    difficulte: difficulteActuelle(),
+    customDeclensions: [...customDeclensions],
+    customConjugation: {
+      tenses: [...customConjugation.tenses],
+      modes: [...customConjugation.modes],
+      voices: [...customConjugation.voices]
+    }
+  };
+  mettreAJourModalModeDifficulte();
+  chargerManifestConjugaison()
+    .then(() => mettreAJourModalModeDifficulte())
+    .catch(() => mettreAJourModalModeDifficulte());
+  ouvrirModal('modalModeDifficulty');
+}
+
+async function appliquerConfigurationModeDifficulte() {
+  if (!modeDifficultyDraft) return;
+  const categoriePrecedente = currentCategorieJeu;
+  const nouvelleCategorie = modeDifficultyDraft.categorie;
+  const nouvelleDifficulte = nouvelleCategorie === 'version'
+    ? 'intermediate'
+    : modeDifficultyDraft.difficulte;
+
+  customDeclensions = new Set(modeDifficultyDraft.customDeclensions);
+  customConjugation = {
+    tenses: [...modeDifficultyDraft.customConjugation.tenses],
+    modes: [...modeDifficultyDraft.customConjugation.modes],
+    voices: [...modeDifficultyDraft.customConjugation.voices]
+  };
+  currentDifficultyByCategory[nouvelleCategorie] = nouvelleDifficulte;
+
+  localStorage.setItem(`${DIFFICULTY_STORAGE_PREFIX}${nouvelleCategorie}`, nouvelleDifficulte);
+  localStorage.setItem(CUSTOM_DECLENSION_STORAGE_KEY, JSON.stringify([...customDeclensions]));
+  localStorage.setItem(CUSTOM_CONJUGATION_STORAGE_KEY, JSON.stringify(customConjugation));
+  declensionQuestionDecks.clear();
+  conjugationQuestionDecks.clear();
+  conjugationPoolCache.clear();
+
+  const loading = document.getElementById('loadingText');
+  const gameArea = document.getElementById('gameArea');
+  fermerModal('modalModeDifficulty');
+
+  try {
+    if (nouvelleCategorie === 'declinaison' && !declensionLexicon.length) {
+      gameArea.style.display = 'none';
+      loading.style.display = 'block';
+      loading.innerText = 'Chargement des déclinaisons…';
+      await chargerDeclinaisons();
+    }
+
+    if (nouvelleCategorie === 'conjugaison') {
+      gameArea.style.display = 'none';
+      loading.style.display = 'block';
+      loading.innerText = `Chargement des conjugaisons — ${DIFFICULTY_LABELS[nouvelleDifficulte]}…`;
+      await chargerConjugaisons(niveauRequisConjugaison(nouvelleDifficulte, customConjugation));
+    }
+
+    if (nouvelleCategorie === 'version' && !versionLexicon.length) {
+      gameArea.style.display = 'none';
+      loading.style.display = 'block';
+      loading.innerText = 'Chargement du vocabulaire de version…';
+      await chargerVersion();
+    }
+
+    if (nouvelleCategorie === 'version' && categoriePrecedente !== 'version') {
+      modeAvantVersion = currentGameMode;
+      currentGameMode = 'production';
+    } else if (categoriePrecedente === 'version' && nouvelleCategorie !== 'version') {
+      currentGameMode = modeAvantVersion;
+    }
+
+    appliquerCategorieJeu(nouvelleCategorie);
+    loading.style.display = 'none';
+    gameArea.style.display = 'block';
+    genererQuestion();
+  } catch (error) {
+    console.error(`Chargement impossible pour ${nouvelleCategorie} :`, error);
+    loading.style.display = 'block';
+    loading.innerText = nouvelleCategorie === 'conjugaison'
+      ? 'Les données verbales nécessaires n’ont pas pu être chargées.'
+      : nouvelleCategorie === 'version'
+        ? 'Le fichier mots_version.json n’a pas pu être chargé.'
+        : 'Le fichier des déclinaisons n’a pas pu être chargé.';
+  }
+}
+
+function fermerMenuMobile() {
+  const menu = document.getElementById('mobileMoreMenu');
+  const bouton = document.getElementById('btnMobileMore');
+  if (!menu || !bouton) return;
+  menu.hidden = true;
+  bouton.setAttribute('aria-expanded', 'false');
+}
+
+function basculerMenuMobile() {
+  const menu = document.getElementById('mobileMoreMenu');
+  const bouton = document.getElementById('btnMobileMore');
+  if (!menu || !bouton) return;
+  const ouvrir = menu.hidden;
+  menu.hidden = !ouvrir;
+  bouton.setAttribute('aria-expanded', String(ouvrir));
+}
+
+function insererTexteClavier(texte) {
+  const input = document.getElementById('userInput');
+  if (!input || input.disabled) return;
+  const debut = input.selectionStart ?? input.value.length;
+  const fin = input.selectionEnd ?? debut;
+  input.setRangeText(texte, debut, fin, 'end');
+  input.focus({ preventScroll: true });
+}
+
+function appliquerDiacritiqueClavier(marque) {
+  const input = document.getElementById('userInput');
+  if (!input || input.disabled) return;
+  const position = input.selectionStart ?? input.value.length;
+  if (position <= 0) return;
+  const prefixe = input.value.slice(0, position).normalize('NFD');
+  const suffixe = input.value.slice(position);
+  const caracteres = Array.from(prefixe);
+  let indexBase = caracteres.length - 1;
+  while (indexBase >= 0 && /\p{M}/u.test(caracteres[indexBase])) indexBase -= 1;
+  if (indexBase < 0 || !/[αεηιουωρ]/u.test(caracteres[indexBase])) return;
+  caracteres.splice(indexBase + 1, 0, marque);
+  input.value = (caracteres.join('') + suffixe).normalize('NFC');
+  input.setSelectionRange(input.value.length, input.value.length);
+  input.focus({ preventScroll: true });
+}
+
+function construireClavierGrec() {
+  const lettres = document.getElementById('greekKeyboardLetters');
+  const diacritiques = document.getElementById('greekKeyboardDiacritics');
+  if (!lettres || !diacritiques || lettres.children.length) return;
+
+  for (const lettre of 'αβγδεζηθικλμνξοπρστυφχψω') {
+    const bouton = document.createElement('button');
+    bouton.type = 'button';
+    bouton.className = 'greek-key';
+    bouton.textContent = lettre;
+    bouton.addEventListener('click', () => insererTexteClavier(lettre));
+    lettres.appendChild(bouton);
+  }
+  const sigmaFinal = document.createElement('button');
+  sigmaFinal.type = 'button';
+  sigmaFinal.className = 'greek-key';
+  sigmaFinal.textContent = 'ς';
+  sigmaFinal.addEventListener('click', () => insererTexteClavier('ς'));
+  lettres.appendChild(sigmaFinal);
+
+  const signes = [
+    ['᾿', '\u0313', 'Esprit doux'], ['῾', '\u0314', 'Esprit rude'],
+    ['´', '\u0301', 'Accent aigu'], ['`', '\u0300', 'Accent grave'],
+    ['῀', '\u0342', 'Circonflexe'], ['¨', '\u0308', 'Tréma'], ['ͅ', '\u0345', 'Iota souscrit']
+  ];
+  for (const [libelle, marque, titre] of signes) {
+    const bouton = document.createElement('button');
+    bouton.type = 'button';
+    bouton.className = 'greek-key greek-key-diacritic';
+    bouton.textContent = libelle;
+    bouton.title = titre;
+    bouton.setAttribute('aria-label', titre);
+    bouton.addEventListener('click', () => appliquerDiacritiqueClavier(marque));
+    diacritiques.appendChild(bouton);
+  }
+
+  const espace = document.createElement('button');
+  espace.type = 'button';
+  espace.className = 'greek-key greek-key-wide';
+  espace.textContent = 'espace';
+  espace.addEventListener('click', () => insererTexteClavier(' '));
+  diacritiques.appendChild(espace);
+
+  const retour = document.createElement('button');
+  retour.type = 'button';
+  retour.className = 'greek-key';
+  retour.textContent = '⌫';
+  retour.setAttribute('aria-label', 'Effacer');
+  retour.addEventListener('click', () => {
+    const input = document.getElementById('userInput');
+    if (!input || input.disabled) return;
+    const debut = input.selectionStart ?? input.value.length;
+    const fin = input.selectionEnd ?? debut;
+    if (debut !== fin) input.setRangeText('', debut, fin, 'end');
+    else if (debut > 0) input.setRangeText('', debut - 1, debut, 'end');
+    input.focus({ preventScroll: true });
+  });
+  diacritiques.appendChild(retour);
+}
+
+function mettreAJourClavierGrec() {
+  const clavier = document.getElementById('greekKeyboard');
+  const input = document.getElementById('userInput');
+  if (!clavier || !input) return;
+  construireClavierGrec();
+  const analyseMorphologique = currentGameMode === 'analyse' && currentCategorieJeu !== 'version';
+  const qcmVersion = currentCategorieJeu === 'version' && !estModeTheme();
+  clavier.hidden = currentInputMode !== 'greek' || analyseMorphologique || qcmVersion || input.style.display === 'none';
+}
 
 function ouvrirModal(id) {
   const modal = document.getElementById(id);
@@ -2024,6 +2815,68 @@ document.getElementById('btnCloseAbout').addEventListener('click', () => fermerM
 document.getElementById('btnOpenTable').addEventListener('click', () => ouvrirModal('modalTable'));
 document.getElementById('btnCloseTable').addEventListener('click', () => fermerModal('modalTable'));
 
+document.getElementById('btnModeDifficulty').addEventListener('click', ouvrirModeDifficulte);
+document.getElementById('btnCloseModeDifficulty').addEventListener('click', () => fermerModal('modalModeDifficulty'));
+document.getElementById('btnApplyModeDifficulty').addEventListener('click', appliquerConfigurationModeDifficulte);
+document.getElementById('btnMobileMore').addEventListener('click', event => {
+  event.stopPropagation();
+  basculerMenuMobile();
+});
+
+document.querySelectorAll('#mobileMoreMenu [data-mobile-action]').forEach(bouton => {
+  bouton.addEventListener('click', () => {
+    fermerMenuMobile();
+    const action = bouton.dataset.mobileAction;
+    if (action === 'stats') ouvrirModal('modalStats');
+    else if (action === 'settings') ouvrirModal('modalSettings');
+    else if (action === 'about') ouvrirModal('modalAbout');
+  });
+});
+
+document.addEventListener('click', event => {
+  const menu = document.getElementById('mobileMoreMenu');
+  const bouton = document.getElementById('btnMobileMore');
+  if (!menu?.hidden && !menu.contains(event.target) && !bouton.contains(event.target)) fermerMenuMobile();
+});
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 600) fermerMenuMobile();
+});
+
+document.querySelectorAll('#gameCategoryControl button').forEach(bouton => {
+  bouton.addEventListener('click', () => {
+    if (!modeDifficultyDraft) return;
+    modeDifficultyDraft.categorie = bouton.dataset.value;
+    modeDifficultyDraft.difficulte = modeDifficultyDraft.categorie === 'version'
+      ? 'intermediate'
+      : currentDifficultyByCategory[modeDifficultyDraft.categorie] || 'intermediate';
+    mettreAJourModalModeDifficulte();
+  });
+});
+
+document.querySelectorAll('#difficultyControl button').forEach(bouton => {
+  bouton.addEventListener('click', () => {
+    if (!modeDifficultyDraft || modeDifficultyDraft.categorie === 'version') return;
+    modeDifficultyDraft.difficulte = bouton.dataset.value;
+    mettreAJourModalModeDifficulte();
+  });
+});
+
+document.querySelectorAll('#customDeclensionChoices .filter-toggle').forEach(bouton => {
+  bouton.addEventListener('click', () => {
+    if (!modeDifficultyDraft) return;
+    const valeur = bouton.dataset.value;
+    const selection = new Set(modeDifficultyDraft.customDeclensions);
+    if (selection.has(valeur)) {
+      if (selection.size === 1) return;
+      selection.delete(valeur);
+    } else {
+      selection.add(valeur);
+    }
+    modeDifficultyDraft.customDeclensions = [...selection];
+    mettreAJourModalModeDifficulte();
+  });
+});
+
 document.querySelectorAll('#statsViewControl button').forEach(bouton => {
   bouton.addEventListener('click', () => {
     currentStatsView = bouton.dataset.view || 'global';
@@ -2037,60 +2890,6 @@ document.querySelectorAll('#themeControl button').forEach(btn => {
 document.querySelectorAll('#modeControl button').forEach(btn => {
   btn.addEventListener('click', () => appliquerModeSaisie(btn.dataset.value));
 });
-document.querySelectorAll('#gameCategoryControl button').forEach(btn => {
-  btn.addEventListener('click', async () => {
-    const nouvelleCategorie = btn.dataset.value;
-    const loading = document.getElementById('loadingText');
-    const gameArea = document.getElementById('gameArea');
-
-    try {
-      if (nouvelleCategorie === 'declinaison' && !declensionLexicon.length) {
-        gameArea.style.display = 'none';
-        loading.style.display = 'block';
-        loading.innerText = 'Chargement des déclinaisons…';
-        await chargerDeclinaisons();
-      }
-
-      if (nouvelleCategorie === 'conjugaison' && !conjugationLexicon.length) {
-        gameArea.style.display = 'none';
-        loading.style.display = 'block';
-        loading.innerText = 'Chargement des conjugaisons…';
-        // Si le préchargement est déjà en cours, cette fonction attend la même promesse.
-        await chargerConjugaisons();
-      }
-
-      if (nouvelleCategorie === 'version' && !versionLexicon.length) {
-        gameArea.style.display = 'none';
-        loading.style.display = 'block';
-        loading.innerText = 'Chargement du vocabulaire de version…';
-        await chargerVersion();
-      }
-
-      const categoriePrecedente = currentCategorieJeu;
-      if (nouvelleCategorie === 'version' && categoriePrecedente !== 'version') {
-        modeAvantVersion = currentGameMode;
-        currentGameMode = 'production';
-      } else if (categoriePrecedente === 'version' && nouvelleCategorie !== 'version') {
-        currentGameMode = modeAvantVersion;
-      }
-
-      appliquerCategorieJeu(nouvelleCategorie);
-      fermerModal('modalSettings');
-      loading.style.display = 'none';
-      gameArea.style.display = 'block';
-      genererQuestion();
-    } catch (error) {
-      console.error(`Chargement impossible pour ${nouvelleCategorie} :`, error);
-      loading.style.display = 'block';
-      loading.innerText = nouvelleCategorie === 'conjugaison'
-        ? 'Le fichier des conjugaisons n’a pas pu être chargé.'
-        : nouvelleCategorie === 'version'
-          ? 'Le fichier mots_version.json n’a pas pu être chargé.'
-          : 'Le fichier des déclinaisons n’a pas pu être chargé.';
-    }
-  });
-});
-
 document.getElementById('btnInverser').addEventListener('click', () => {
   const nouveauMode =
     currentGameMode === 'analyse' ? 'production' : 'analyse';
@@ -2118,7 +2917,7 @@ document.querySelectorAll('.modal-overlay').forEach(modal => {
 document.addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
 
-  for (const id of ['modalTable', 'modalStats', 'modalSettings', 'modalAbout']) {
+  for (const id of ['modalTable', 'modalStats', 'modalModeDifficulty', 'modalSettings', 'modalAbout']) {
     const modal = document.getElementById(id);
 
     if (modal.classList.contains('active')) {
@@ -2138,7 +2937,11 @@ appliquerModeJeu(currentGameMode);
 // ---------------------------------------------------------------------------
 
 function translittererVersGrec(texte, mode) {
-  texte = texte.toLowerCase();
+  texte = String(texte || '').toLowerCase();
+
+  if (mode === 'greek') {
+    return texte.normalize('NFC');
+  }
 
   if (mode === 'beta') {
     const betaMap = {
@@ -2147,14 +2950,14 @@ function translittererVersGrec(texte, mode) {
       "n": "ν", "c": "ξ", "o": "ο", "p": "π", "r": "ρ", "s": "σ",
       "t": "τ", "u": "υ", "f": "φ", "x": "χ", "y": "ψ", "w": "ω"
     };
-    for (let [lat, gr] of Object.entries(betaMap)) {
+    for (const [lat, gr] of Object.entries(betaMap)) {
       texte = texte.replaceAll(lat, gr);
     }
     return texte;
   }
 
   const digrammes = { "th": "θ", "ph": "φ", "ch": "χ", "ps": "ψ" };
-  for (let [lat, gr] of Object.entries(digrammes)) {
+  for (const [lat, gr] of Object.entries(digrammes)) {
     texte = texte.replaceAll(lat, gr);
   }
   const lettres = {
@@ -2163,7 +2966,7 @@ function translittererVersGrec(texte, mode) {
     "m": "μ", "n": "ν", "x": "ξ", "o": "ο", "p": "π", "r": "ρ",
     "s": "σ", "t": "τ", "u": "υ", "y": "υ", "f": "φ", "w": "ω", "ô": "ω"
   };
-  for (let [lat, gr] of Object.entries(lettres)) {
+  for (const [lat, gr] of Object.entries(lettres)) {
     texte = texte.replaceAll(lat, gr);
   }
   return texte;
@@ -2342,8 +3145,11 @@ const ORDRE_NOMBRES = ['sg', 'pl'];
 const ORDRE_CAS = ['nom', 'voc', 'acc', 'gen', 'dat'];
 
 const MORPH_LABELS = {
-  mode: { indicative: 'Indicatif', participle: 'Participe', infinitive: 'Infinitif' },
-  tense: { present: 'présent', imperfect: 'imparfait', future: 'futur', aorist: 'aoriste' },
+  mode: {
+    indicative: 'Indicatif', participle: 'Participe', infinitive: 'Infinitif',
+    subjunctive: 'Subjonctif', imperative: 'Impératif', optative: 'Optatif'
+  },
+  tense: { present: 'présent', imperfect: 'imparfait', future: 'futur', aorist: 'aoriste', perfect: 'parfait' },
   voice: { active: 'actif', middle: 'moyen', middle_passive: 'moyen/passif', passive: 'passif' },
   person: {
     '1s': '1re personne du singulier', '2s': '2e personne du singulier', '3s': '3e personne du singulier',
@@ -2929,13 +3735,15 @@ function extraireAnalysesVerbe(verbe) {
   const map = new Map();
   const forms = verbe.forms || {};
 
-  Object.entries(forms.indicative || {}).forEach(([tense, voices]) => {
-    Object.entries(voices || {}).forEach(([voice, persons]) => {
-      Object.entries(persons || {}).forEach(([person, spellings]) => {
-        ajouterAnalyse(map, { mode: 'indicative', tense, voice, person }, spellings);
+  for (const mode of ['indicative', 'subjunctive', 'optative', 'imperative']) {
+    Object.entries(forms[mode] || {}).forEach(([tense, voices]) => {
+      Object.entries(voices || {}).forEach(([voice, persons]) => {
+        Object.entries(persons || {}).forEach(([person, spellings]) => {
+          ajouterAnalyse(map, { mode, tense, voice, person }, spellings);
+        });
       });
     });
-  });
+  }
 
   Object.entries(forms.infinitive || {}).forEach(([tense, voices]) => {
     if (tense === 'imperfect' || !voices || typeof voices !== 'object' || voices.available === false) return;
@@ -2987,53 +3795,52 @@ function traductionPourVoix(verbe, voice) {
 
 function formatAnalyse(analyse) {
   const parties = [MORPH_LABELS.mode[analyse.mode], MORPH_LABELS.tense[analyse.tense], MORPH_LABELS.voice[analyse.voice]];
-  if (analyse.mode === 'indicative') parties.push(MORPH_LABELS.person[analyse.person]);
-  if (analyse.mode === 'participle') parties.push(MORPH_LABELS.case[analyse.case], MORPH_LABELS.number[analyse.number], MORPH_LABELS.gender[analyse.gender]);
+  if (['indicative', 'subjunctive', 'optative', 'imperative'].includes(analyse.mode)) {
+    parties.push(MORPH_LABELS.person[analyse.person]);
+  }
+  if (analyse.mode === 'participle') {
+    parties.push(MORPH_LABELS.case[analyse.case], MORPH_LABELS.number[analyse.number], MORPH_LABELS.gender[analyse.gender]);
+  }
   return parties.filter(Boolean).join(' · ');
 }
 
 function formatAnalysesUniques(analyses) { return [...new Set(analyses.map(formatAnalyse))]; }
 
 
-// Pondération commune aux modes Conjugaison et Analyse :
-// Indicatif 50 %, Participe 40 %, Infinitif 10 %.
-// Si un mode n'existe pas pour le verbe choisi, son poids est redistribué
-// proportionnellement entre les modes réellement disponibles.
-function tirerAnalysePonderee(analyses) {
-  const groupes = {
-    indicative: analyses.filter(a => a.mode === 'indicative'),
-    participle: analyses.filter(a => a.mode === 'participle'),
-    infinitive: analyses.filter(a => a.mode === 'infinitive')
-  };
-
-  const modesDisponibles = [
-    { mode: 'indicative', poids: 50 },
-    { mode: 'participle', poids: 40 },
-    { mode: 'infinitive', poids: 10 }
-  ].filter(item => groupes[item.mode].length > 0);
-
-  if (!modesDisponibles.length) return null;
-
-  const poidsTotal = modesDisponibles.reduce(
-    (somme, item) => somme + item.poids,
-    0
-  );
-
-  let hasard = Math.random() * poidsTotal;
-
-  for (const item of modesDisponibles) {
-    hasard -= item.poids;
-
-    if (hasard < 0) {
-      const groupe = groupes[item.mode];
-      return groupe[randomIndex(groupe.length)];
-    }
+// La pondération porte désormais sur le MODE à l'échelle de tout le pool
+// éligible. Cela garantit notamment le 45/30/10/5/5/5 demandé en Avancé.
+function poidsModesConjugaisonActuels() {
+  const difficulte = currentDifficultyByCategory.conjugaison;
+  if (difficulte === 'advanced') {
+    return { indicative: 45, participle: 30, infinitive: 10, subjunctive: 5, imperative: 5, optative: 5 };
   }
+  if (difficulte === 'custom') {
+    return Object.fromEntries(customConjugation.modes.map(mode => [mode, 1]));
+  }
+  if (difficulte === 'beginner') {
+    return { indicative: 50, infinitive: 10 };
+  }
+  return { indicative: 50, participle: 40, infinitive: 10 };
+}
 
-  // Sécurité contre un éventuel effet d'arrondi flottant.
-  const dernierMode = modesDisponibles[modesDisponibles.length - 1].mode;
-  const dernierGroupe = groupes[dernierMode];
-  return dernierGroupe[randomIndex(dernierGroupe.length)];
+function tirerModePondere(groupesParMode, poidsModes) {
+  const disponibles = Object.entries(poidsModes)
+    .filter(([mode, poids]) => poids > 0 && (groupesParMode.get(mode)?.length || 0) > 0)
+    .map(([mode, poids]) => ({ mode, poids }));
+
+  if (!disponibles.length) return null;
+  const totalPoids = disponibles.reduce((somme, item) => somme + item.poids, 0);
+  let hasard = Math.random() * totalPoids;
+  for (const item of disponibles) {
+    hasard -= item.poids;
+    if (hasard < 0) return item.mode;
+  }
+  return disponibles[disponibles.length - 1].mode;
+}
+
+function tirerAnalysePonderee(analyses) {
+  if (!analyses.length) return null;
+  return analyses[randomIndex(analyses.length)];
 }
 
 function genererConjugaisonProduction(verbe, analyses) {
@@ -3060,20 +3867,21 @@ function genererConjugaisonProduction(verbe, analyses) {
   return true;
 }
 
-function genererConjugaisonAnalyse(verbe, analyses, graphies) {
+function genererConjugaisonAnalyse(verbe, analyses, graphies, analysesEligibles = analyses) {
   const tirage = tirerAnalysePonderee(analyses);
   if (!tirage) return false;
 
   const forme = tirage.forms[randomIndex(tirage.forms.length)];
-  const alternatives =
-    graphies.get(cleGraphieExacte(forme)) || [tirage];
+  const signaturesEligibles = new Set(analysesEligibles.map(signatureAnalyse));
+  const alternatives = (graphies.get(cleGraphieExacte(forme)) || [tirage])
+    .filter(analyse => signaturesEligibles.has(signatureAnalyse(analyse)));
 
   currentQuestion = {
     kind: 'conjugation-analysis',
     verb: verbe,
     displayedForm: forme,
     targetAnalysis: tirage,
-    acceptedAnalyses: alternatives
+    acceptedAnalyses: alternatives.length ? alternatives : [tirage]
   };
 
   transliterationBaillyEtLien(verbe.lemma, forme);
@@ -3100,17 +3908,43 @@ function mettreAJourControlesMorphologiques() {
   const genders = document.getElementById('genderControls');
   const numbers = document.getElementById('participleNumberControls');
 
-  const indicative = mode === 'indicative';
+  const finite = ['indicative', 'subjunctive', 'optative', 'imperative'].includes(mode);
   const participle = mode === 'participle';
-  persons.hidden = !indicative;
+  persons.hidden = !finite;
   cases.hidden = !participle;
   numbers.hidden = !participle;
   genders.hidden = !participle;
-  leftRail.classList.toggle('is-hidden', !(indicative || participle));
+  leftRail.classList.toggle('is-hidden', !(finite || participle));
   genders.classList.toggle('is-hidden', !participle);
 
-  if (!indicative) viderGroupe('person');
-  if (!participle) { viderGroupe('case'); viderGroupe('gender'); viderGroupe('participleNumber'); }
+  if (!finite) viderGroupe('person');
+  if (!participle) {
+    viderGroupe('case');
+    viderGroupe('gender');
+    viderGroupe('participleNumber');
+  }
+
+  const personne1s = document.querySelector('.conj-choice[data-group="person"][data-value="1s"]');
+  const personne1p = document.querySelector('.conj-choice[data-group="person"][data-value="1p"]');
+  for (const bouton of [personne1s, personne1p]) {
+    if (!bouton) continue;
+    const indisponible = mode === 'imperative';
+    bouton.disabled = indisponible;
+    if (indisponible && bouton.classList.contains('selected')) {
+      bouton.classList.remove('selected');
+      bouton.setAttribute('aria-pressed', 'false');
+    }
+  }
+
+  const imperfect = document.querySelector('.conj-choice[data-group="tense"][data-value="imperfect"]');
+  if (imperfect) {
+    const indisponible = Boolean(mode && mode !== 'indicative');
+    imperfect.disabled = indisponible;
+    if (indisponible && imperfect.classList.contains('selected')) {
+      imperfect.classList.remove('selected');
+      imperfect.setAttribute('aria-pressed', 'false');
+    }
+  }
 }
 
 function choisirBoutonMorphologique(btn) {
@@ -3119,14 +3953,16 @@ function choisirBoutonMorphologique(btn) {
   const value = btn.dataset.value;
   const deja = btn.classList.contains('selected');
   viderGroupe(group);
-  if (!deja) { btn.classList.add('selected'); btn.setAttribute('aria-pressed','true'); }
+  if (!deja) {
+    btn.classList.add('selected');
+    btn.setAttribute('aria-pressed', 'true');
+  }
 
-  // Infinitif et participe imparfaits n’existent pas : le dernier choix effectué l’emporte.
   if (group === 'tense' && value === 'imperfect' && !deja) {
     const mode = selectionBouton('morphMode');
-    if (mode === 'participle' || mode === 'infinitive') viderGroupe('morphMode');
+    if (mode && mode !== 'indicative') viderGroupe('morphMode');
   }
-  if (group === 'morphMode' && ['participle','infinitive'].includes(value) && !deja) {
+  if (group === 'morphMode' && value !== 'indicative' && !deja) {
     if (selectionBouton('tense') === 'imperfect') viderGroupe('tense');
   }
   mettreAJourControlesMorphologiques();
@@ -3165,10 +4001,13 @@ function selectionsConjugaison() {
 }
 function selectionComplete(s) {
   if (!s.mode || !s.voice || !s.tense) return false;
-  if (s.mode === 'indicative') return Boolean(s.person);
+  if (['indicative', 'subjunctive', 'optative', 'imperative'].includes(s.mode)) {
+    return Boolean(s.person);
+  }
   if (s.mode === 'participle') return Boolean(s.case && s.gender && s.number);
   return s.mode === 'infinitive';
 }
+
 function analyseCorrespond(selection, analyse) {
   if (
     selection.mode !== analyse.mode
@@ -3178,7 +4017,7 @@ function analyseCorrespond(selection, analyse) {
     return false;
   }
 
-  if (analyse.mode === 'indicative') {
+  if (['indicative', 'subjunctive', 'optative', 'imperative'].includes(analyse.mode)) {
     return selection.person === analyse.person;
   }
 
@@ -4086,10 +4925,7 @@ function preparerInterfaceQuestion() {
   versionGrid.replaceChildren();
 
   inputGroup.style.display = 'flex';
-  inputGroup.classList.toggle(
-    'analysis-validate-row',
-    analyseMorphologique
-  );
+  inputGroup.classList.toggle('analysis-validate-row', analyseMorphologique);
   inputGroup.classList.remove('version-validate-row');
 
   input.style.display = analyseMorphologique ? 'none' : '';
@@ -4100,26 +4936,20 @@ function preparerInterfaceQuestion() {
     'analysis-validate-button',
     analyseMorphologique
   );
-  document.getElementById('btnValidate').classList.remove(
-    'version-validate-button'
-  );
+  document.getElementById('btnValidate').classList.remove('version-validate-button');
 
   document.getElementById('declensionAnalysisControls').style.display =
-    analyseMorphologique && currentCategorieJeu === 'declinaison'
-      ? 'block'
-      : 'none';
+    analyseMorphologique && currentCategorieJeu === 'declinaison' ? 'block' : 'none';
   document.getElementById('conjugationAnalysisControls').style.display =
-    analyseMorphologique && currentCategorieJeu === 'conjugaison'
-      ? 'block'
-      : 'none';
+    analyseMorphologique && currentCategorieJeu === 'conjugaison' ? 'block' : 'none';
 
-  // En Thème, le champ reste visible malgré la valeur interne « analyse »,
-  // utilisée uniquement pour conserver le mécanisme du bouton d'inversion.
   if (theme) input.style.display = '';
 
   reinitialiserBoutons();
   mettreAJourPlaceholder();
+  mettreAJourClavierGrec();
 }
+
 function tirerMot(lexique, nomFile) {
   if (!nomFile.length) nomFile.push(...lexique);
   if (!nomFile.length) return null;
@@ -4129,7 +4959,7 @@ function tirerMot(lexique, nomFile) {
 function genererQuestion() {
   if (!categorieDisponible(currentCategorieJeu)) {
     afficherErreurChargement(currentCategorieJeu === 'conjugaison'
-      ? 'Le fichier verbes_grecs_jeu_final.min.json n’a pas pu être chargé.'
+      ? 'Les données verbales nécessaires à cette difficulté n’ont pas pu être chargées.'
       : currentCategorieJeu === 'version'
         ? 'Le fichier mots_version.json n’a pas pu être chargé.'
         : 'Le fichier declinaisons_compilees_accentuees.json n’a pas pu être chargé.');
@@ -4141,28 +4971,33 @@ function genererQuestion() {
   preparerInterfaceQuestion();
 
   if (currentCategorieJeu === 'declinaison') {
-    for (let essais = 0; essais < declensionLexicon.length; essais++) {
-      const mot = tirerMot(declensionLexicon, declensionRemaining);
+    const pool = obtenirPoolDeclinaisonActuel();
+    const mot = tirerMotDeclinaisonFiltre(pool);
+    if (mot) {
       const candidats = extraireCandidatsDeclinaison(mot);
-      if (!candidats.length) continue;
-      if (currentGameMode === 'analyse') {
-        genererDeclinaisonAnalyse(mot, candidats);
-      } else {
-        genererDeclinaisonProduction(mot, candidats);
+      if (candidats.length) {
+        if (currentGameMode === 'analyse') genererDeclinaisonAnalyse(mot, candidats);
+        else genererDeclinaisonProduction(mot, candidats);
+        return;
       }
-      return;
     }
   } else if (currentCategorieJeu === 'conjugaison') {
-    for (let essais = 0; essais < conjugationLexicon.length; essais++) {
-      const verbe = tirerMot(conjugationLexicon, conjugationRemaining);
-      const { analyses, graphies } = extraireAnalysesVerbe(verbe);
-      if (!analyses.length) continue;
-      if (currentGameMode === 'analyse') {
-        genererConjugaisonAnalyse(verbe, analyses, graphies);
-      } else {
-        genererConjugaisonProduction(verbe, analyses);
+    const configuration = obtenirConfigurationConjugaisonActive();
+    const groupesParMode = obtenirGroupesConjugaison(configuration);
+
+    const modeTire = tirerModePondere(groupesParMode, poidsModesConjugaisonActuels());
+    const groupe = modeTire ? groupesParMode.get(modeTire) : null;
+    if (groupe?.length) {
+      const signature = `${signatureConfigurationConjugaison(configuration)}|${modeTire}|tier${conjugationLoadedTierIndex}`;
+      const item = tirerDepuisDeck(groupe, conjugationQuestionDecks, signature, element => element.verbe.id);
+      if (item) {
+        if (currentGameMode === 'analyse') {
+          genererConjugaisonAnalyse(item.verbe, item.analysesMode, item.graphies, item.analysesEligibles);
+        } else {
+          genererConjugaisonProduction(item.verbe, item.analysesMode);
+        }
+        return;
       }
-      return;
     }
   } else {
     const lexique = estModeTheme() ? themeLexicon : versionLexicon;
@@ -4173,14 +5008,11 @@ function genererQuestion() {
       const generee = estModeTheme()
         ? genererThemeProduction(mot)
         : genererVersionProduction(mot);
-
       if (generee) return;
     }
   }
 
-  afficherErreurChargement(
-    'Aucune forme jouable n’a été trouvée dans la catégorie choisie.'
-  );
+  afficherErreurChargement('Aucune forme jouable n’a été trouvée avec les filtres choisis.');
 }
 
 function finaliserReponse(resultat, { delaiBouton = 60 } = {}) {
@@ -4318,31 +5150,42 @@ async function chargerDeclinaisons() {
   return declensionLoadingPromise;
 }
 
-async function chargerConjugaisons() {
-  if (conjugationLexicon.length) return conjugationLexicon;
-  if (conjugationLoadingPromise) return conjugationLoadingPromise;
+async function chargerConjugaisons(niveau = niveauRequisConjugaison()) {
+  const cible = Math.max(0, DIFFICULTY_ORDER.indexOf(niveau));
+  conjugationRequestedTierIndex = Math.max(conjugationRequestedTierIndex, cible);
 
-  conjugationLoadingPromise = chargerPremierJson([
-    'verbes_grecs_jeu_final.min.json',
-    'verbes_grecs_jeu_final.json'
-  ])
-    .then(data => {
+  if (conjugationLoadedTierIndex >= cible) return conjugationLexicon;
+  if (conjugationLoadingPromise) {
+    await conjugationLoadingPromise;
+    return conjugationLoadedTierIndex >= cible
+      ? conjugationLexicon
+      : chargerConjugaisons(niveau);
+  }
+
+  conjugationLoadingPromise = (async () => {
+    while (conjugationLoadedTierIndex < conjugationRequestedTierIndex) {
+      const prochainIndex = conjugationLoadedTierIndex + 1;
+      const fichier = CONJUGATION_TIER_FILES[prochainIndex];
+      const data = await chargerPremierJson([fichier]);
       const verbs = data?.verbs;
       if (!Array.isArray(verbs)) {
-        throw new Error('Structure verbale invalide : tableau « verbs » absent');
+        throw new Error(`Structure verbale invalide dans ${fichier}`);
       }
-      conjugationLexicon = verbs.filter(v => v && v.lemma && v.forms);
-      conjugationRemaining = [...conjugationLexicon];
-      return conjugationLexicon;
-    })
-    .finally(() => {
-      conjugationLoadingPromise = null;
-    });
+      fusionnerLotVerbes(verbs);
+      conjugationLoadedTierIndex = prochainIndex;
+    }
+    return conjugationLexicon;
+  })().finally(() => {
+    conjugationLoadingPromise = null;
+  });
 
-  return conjugationLoadingPromise;
+  await conjugationLoadingPromise;
+  return conjugationLoadedTierIndex >= cible
+    ? conjugationLexicon
+    : chargerConjugaisons(niveau);
 }
 
-async function chargerVersion() {
+function chargerVersion() {
   if (versionLexicon.length) return versionLexicon;
   if (versionLoadingPromise) return versionLoadingPromise;
 
@@ -4432,29 +5275,29 @@ function programmerPrechargementVersion() {
 }
 
 function programmerPrechargementConjugaisons() {
-  if (conjugationLexicon.length) {
-    programmerPrechargementVersion();
-    return;
-  }
-  if (conjugationLoadingPromise) return;
-
   if (connexionInterditPrechargement()) {
-    console.info(
-      'Préchargement des conjugaisons désactivé : économiseur de données ou connexion lente.'
-    );
+    console.info('Préchargement des conjugaisons désactivé : économiseur de données ou connexion lente.');
     return;
   }
 
-  const lancer = () => {
-    chargerConjugaisons()
-      .then(() => {
-        // mots_version.json ne démarre qu'une fois les deux autres bases prêtes.
-        programmerPrechargementVersion();
-      })
-      .catch(error => {
-        // La déclinaison reste jouable même si ce téléchargement de fond échoue.
-        console.warn('Préchargement des conjugaisons interrompu :', error);
-      });
+  const ciblePreferee = niveauRequisConjugaison(currentDifficultyByCategory.conjugaison, customConjugation);
+
+  const lancer = async () => {
+    try {
+      // Toujours commencer par le petit lot Débutant (~5 % de l'ancien JSON).
+      await chargerConjugaisons('beginner');
+
+      if (DIFFICULTY_ORDER.indexOf(ciblePreferee) >= 1) {
+        await chargerConjugaisons('intermediate');
+      }
+      if (DIFFICULTY_ORDER.indexOf(ciblePreferee) >= 2) {
+        await chargerConjugaisons('advanced');
+      }
+
+      programmerPrechargementVersion();
+    } catch (error) {
+      console.warn('Préchargement progressif des conjugaisons interrompu :', error);
+    }
   };
 
   if ('requestIdleCallback' in window) {
@@ -4468,26 +5311,26 @@ async function initialiserDonnees() {
   const loading = document.getElementById('loadingText');
   const gameArea = document.getElementById('gameArea');
 
-  // La déclinaison est toujours l'écran initial et la seule base bloquante.
   appliquerCategorieJeu('declinaison');
   loading.innerText = 'Chargement des déclinaisons…';
 
+  // Le manifeste est minuscule et sert de source de vérité à l'UI personnalisée.
+  chargerManifestConjugaison().catch(error => {
+    console.warn('Manifeste verbal non chargé, utilisation des règles de secours :', error);
+  });
+
   try {
     await chargerDeclinaisons();
+    normaliserPersonnalisationDeclinaisonSelonLexique();
   } catch (error) {
     console.error('Déclinaisons non chargées :', error);
-    afficherErreurChargement(
-      'Le fichier declinaisons_compilees_accentuees.json n’a pas pu être chargé.'
-    );
+    afficherErreurChargement('Le fichier declinaisons_compilees_accentuees.json n’a pas pu être chargé.');
     return;
   }
 
-  // Le jeu devient jouable avant le téléchargement de la base verbale.
   loading.style.display = 'none';
   gameArea.style.display = 'block';
   genererQuestion();
-
-  // Téléchargement discret après affichage de la première question.
   programmerPrechargementConjugaisons();
 }
 
@@ -4495,7 +5338,7 @@ initialiserDonnees().catch(error => {
   afficherErreurChargement(`Erreur de chargement : ${error.message}`);
 });
 
-	function updateTenseLabels() {
+function updateTenseLabels() {
   const btn = document.querySelector(
     '.conj-choice[data-group="tense"][data-value="imperfect"]'
   );
