@@ -912,7 +912,7 @@
           <button type="button" data-value="advanced">Avancé</button>
           <button type="button" data-value="custom">Personnalisé</button>
         </div>
-        <p class="setting-help" id="difficultyDescription" style="display:none;"></p>
+        <p class="setting-help" id="difficultyDescription"></p>
       </section>
 
       <section class="setting-group custom-panel" id="customDeclensionPanel" hidden aria-labelledby="customDeclensionTitle">
@@ -2469,21 +2469,7 @@ function libelleOptionPersonnalisee(type, valeur) {
   return libelle.charAt(0).toUpperCase() + libelle.slice(1);
 }
 
-function descriptionDifficulte(categorie, difficulte) {
-  if (categorie === 'declinaison') {
-    if (difficulte === 'beginner') return '1re déclinaison et adjectifs de 1re classe.';
-    if (difficulte === 'intermediate') return '1re–2e déclinaisons et adjectifs de 1re–2e classes.';
-    if (difficulte === 'advanced') return '1re–3e déclinaisons et adjectifs de 1re–3e classes, avec davantage de noms de 3e déclinaison.';
-    return 'Choisis une ou plusieurs déclinaisons. Cas, nombres et genres restent tirés automatiquement.';
-  }
-  if (categorie === 'conjugaison') {
-    if (difficulte === 'beginner') return 'Indicatif et infinitif ; présent, imparfait et futur ; actif uniquement.';
-    if (difficulte === 'intermediate') return 'Indicatif, participe et infinitif ; présent, imparfait, futur et aoriste ; toutes les voix.';
-    if (difficulte === 'advanced') return 'Ajoute subjonctif, impératif, optatif et parfait, avec pondération des modes 45/30/10/5/5/5.';
-    return 'Choisis librement temps, modes et voix. Les personnes, nombres, cas et genres restent automatiques.';
-  }
-  return '';
-}
+
 
 function rendreChoixConjugaisonPersonnalisee() {
   if (!modeDifficultyDraft) return;
@@ -2575,13 +2561,11 @@ function mettreAJourModalModeDifficulte() {
   const version = modeDifficultyDraft.categorie === 'version';
   document.getElementById('difficultySection').hidden = version;
   document.getElementById('versionDifficultyNote').hidden = !version;
- const description = document.getElementById('difficultyDescription');
-
-if (modeDifficultyDraft.difficulte === 'custom') {
-  description.style.display = '';
-} else {
-  description.style.display = 'none';
-}
+  const difficultyDescription = document.getElementById('difficultyDescription');
+  if (difficultyDescription) {
+    difficultyDescription.textContent = '';
+    difficultyDescription.hidden = true;
+  }
 
   const personnalise = modeDifficultyDraft.difficulte === 'custom' && !version;
   document.getElementById('customDeclensionPanel').hidden = !(personnalise && modeDifficultyDraft.categorie === 'declinaison');
@@ -3959,18 +3943,67 @@ function mettreAJourControlesMorphologiques() {
 
 }
 
-function mettreAJourSeparateursMorphologiques() {
-  const principal = document.querySelector('.morph-main');
-  const ligneModes = document.querySelector('.morph-mode-row');
-  if (!principal || !ligneModes) return;
+function boutonsMorphologiquesVisibles(ligne) {
+  return [...ligne.querySelectorAll('.conj-choice:not([hidden])')]
+    .filter(bouton => bouton.offsetParent !== null);
+}
 
-  principal.classList.remove('show-section-separators');
-  window.requestAnimationFrame(() => {
-    const boutonsVisibles = [...ligneModes.querySelectorAll('.conj-choice:not([hidden])')]
-      .filter(bouton => bouton.offsetParent !== null);
-    const rangees = new Set(boutonsVisibles.map(bouton => Math.round(bouton.offsetTop)));
-    principal.classList.toggle('show-section-separators', rangees.size > 1);
-  });
+function nombreColonnesMorphologiques(ligne, nombreBoutons) {
+  if (!nombreBoutons) return 1;
+  const mobile = window.innerWidth <= 600;
+  const type = ligne.classList.contains('morph-mode-row')
+    ? 'mode'
+    : ligne.classList.contains('morph-tense-row')
+      ? 'tense'
+      : 'voice';
+
+  // Sur mobile, trois boutons maximum par rangée. Sur ordinateur, les voix et
+  // les temps restent sur une seule ligne dès que la largeur le permet.
+  if (mobile) return Math.min(3, nombreBoutons);
+
+  const largeur = ligne.clientWidth || ligne.getBoundingClientRect().width || 0;
+  const largeurMin = type === 'mode' ? 86 : type === 'tense' ? 72 : 74;
+  const gap = 8;
+  const colonnesQuiTiennent = Math.max(
+    1,
+    Math.floor((largeur + gap) / (largeurMin + gap))
+  );
+
+  if (nombreBoutons <= colonnesQuiTiennent) return nombreBoutons;
+
+  // Six modes en Avancé : deux rangées propres de trois plutôt qu'un 5 + 1.
+  if (type === 'mode' && nombreBoutons === 6 && colonnesQuiTiennent >= 3) return 3;
+
+  return Math.min(colonnesQuiTiennent, nombreBoutons);
+}
+
+function mettreAJourDispositionMorphologique() {
+  const principal = document.querySelector('.morph-main');
+  if (!principal) return;
+
+  const lignes = [
+    document.querySelector('.morph-mode-row'),
+    document.querySelector('.morph-voice-row'),
+    document.querySelector('.morph-tense-row')
+  ].filter(Boolean);
+
+  let modesSurPlusieursRangees = false;
+
+  for (const ligne of lignes) {
+    const boutons = boutonsMorphologiquesVisibles(ligne);
+    const colonnes = nombreColonnesMorphologiques(ligne, boutons.length);
+    ligne.style.setProperty('--morph-columns', String(colonnes));
+
+    if (ligne.classList.contains('morph-mode-row')) {
+      modesSurPlusieursRangees = boutons.length > colonnes;
+    }
+  }
+
+  principal.classList.toggle('show-section-separators', modesSurPlusieursRangees);
+}
+
+function mettreAJourSeparateursMorphologiques() {
+  window.requestAnimationFrame(mettreAJourDispositionMorphologique);
 }
 
 function mettreAJourVisibiliteOptionsConjugaison() {
@@ -3982,34 +4015,22 @@ function mettreAJourVisibiliteOptionsConjugaison() {
     voice: new Set(configuration.voices),
     tense: new Set(configuration.tenses)
   };
-  const selections = {
-    morphMode: selectionBouton('morphMode'),
-    voice: selectionBouton('voice'),
-    tense: selectionBouton('tense')
-  };
 
-  const combinaisonAutorisee = combinaison =>
+  const combinaisonDansConfiguration = combinaison =>
     autorisees.morphMode.has(combinaison.mode)
     && autorisees.voice.has(combinaison.voice)
     && autorisees.tense.has(combinaison.tense);
 
+  // La visibilité dépend uniquement de la difficulté / configuration appliquée.
+  // Elle ne change jamais au fil des clics pendant une réponse.
   for (const [groupe, valeursAutorisees] of Object.entries(autorisees)) {
     document.querySelectorAll(`.conj-choice[data-group="${groupe}"]`).forEach(bouton => {
       const valeur = bouton.dataset.value;
-      let visible = valeursAutorisees.has(valeur);
-
-      if (visible) {
-        visible = manifest.combinations.some(combinaison => {
-          if (!combinaisonAutorisee(combinaison)) return false;
-          if (combinaison[champs[groupe]] !== valeur) return false;
-
-          return Object.entries(champs).every(([autreGroupe, champ]) => {
-            if (autreGroupe === groupe) return true;
-            const selection = selections[autreGroupe];
-            return !selection || combinaison[champ] === selection;
-          });
-        });
-      }
+      const visible = valeursAutorisees.has(valeur)
+        && manifest.combinations.some(combinaison =>
+          combinaisonDansConfiguration(combinaison)
+          && combinaison[champs[groupe]] === valeur
+        );
 
       bouton.hidden = !visible;
       bouton.disabled = false;
@@ -4024,24 +4045,16 @@ function mettreAJourVisibiliteOptionsConjugaison() {
 }
 
 function choisirBoutonMorphologique(btn) {
-  if (btn.disabled) return;
+  if (btn.disabled || btn.hidden) return;
   const group = btn.dataset.group;
-  const value = btn.dataset.value;
   const deja = btn.classList.contains('selected');
+
   viderGroupe(group);
   if (!deja) {
     btn.classList.add('selected');
     btn.setAttribute('aria-pressed', 'true');
   }
 
-  if (group === 'tense' && value === 'imperfect' && !deja) {
-    const mode = selectionBouton('morphMode');
-    if (mode && mode !== 'indicative') viderGroupe('morphMode');
-  }
-  if (group === 'morphMode' && value !== 'indicative' && !deja) {
-    if (selectionBouton('tense') === 'imperfect') viderGroupe('tense');
-  }
-  mettreAJourVisibiliteOptionsConjugaison();
   mettreAJourControlesMorphologiques();
 }
 
