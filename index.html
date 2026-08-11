@@ -912,7 +912,7 @@
           <button type="button" data-value="advanced">Avancé</button>
           <button type="button" data-value="custom">Personnalisé</button>
         </div>
-        <p class="setting-help" id="difficultyDescription"></p>
+        <p class="setting-help" id="difficultyDescription" style="display:none;"></p>
       </section>
 
       <section class="setting-group custom-panel" id="customDeclensionPanel" hidden aria-labelledby="customDeclensionTitle">
@@ -2575,8 +2575,13 @@ function mettreAJourModalModeDifficulte() {
   const version = modeDifficultyDraft.categorie === 'version';
   document.getElementById('difficultySection').hidden = version;
   document.getElementById('versionDifficultyNote').hidden = !version;
-  document.getElementById('difficultyDescription').textContent =
-    descriptionDifficulte(modeDifficultyDraft.categorie, modeDifficultyDraft.difficulte);
+ const description = document.getElementById('difficultyDescription');
+
+if (modeDifficultyDraft.difficulte === 'custom') {
+  description.style.display = '';
+} else {
+  description.style.display = 'none';
+}
 
   const personnalise = modeDifficultyDraft.difficulte === 'custom' && !version;
   document.getElementById('customDeclensionPanel').hidden = !(personnalise && modeDifficultyDraft.categorie === 'declinaison');
