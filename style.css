@@ -1322,6 +1322,16 @@ body[data-game-category="conjugaison"][data-game-mode="production"] .word-title 
   .morph-main-row {
     gap: 5px;
   }
+  .morph-tense-row {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.morph-tense-row .analysis-choice {
+  min-width: 0;
+  padding-left: 0.35rem;
+  padding-right: 0.35rem;
+  font-size: 0.78rem;
+}
 
   .morph-main button.analysis-choice {
     min-height: 40px;
