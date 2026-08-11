@@ -3995,6 +3995,10 @@ function mettreAJourDispositionMorphologique() {
   }
 
   principal.classList.toggle('show-section-separators', modesSurPlusieursRangees);
+
+  // Les largeurs de colonnes sont maintenant définitives : on peut mesurer
+  // les libellés et n'abréger que ceux qui passent réellement sur 2 lignes.
+  updateTenseLabels();
 }
 
 function mettreAJourSeparateursMorphologiques() {
@@ -4037,7 +4041,6 @@ function mettreAJourVisibiliteOptionsConjugaison() {
   }
 
   mettreAJourSeparateursMorphologiques();
-  updateTenseLabels();
 }
 
 function choisirBoutonMorphologique(btn) {
@@ -5425,52 +5428,85 @@ initialiserDonnees().catch(error => {
   afficherErreurChargement(`Erreur de chargement : ${error.message}`);
 });
 
-function updateTenseLabels() {
-  const labels = [
-    {
-      selector: '.conj-choice[data-group="tense"][data-value="imperfect"]',
-      full: 'Imparfait',
-      short: 'Impf.'
-    },
-    {
-      selector: '.conj-choice[data-group="tense"][data-value="aorist"]',
-      full: 'Aoriste',
-      short: 'Aor.'
+var tenseLabelFrame = 0;
+var lastObservedTenseRowWidth = null;
+
+function nombreLignesTexteBouton(bouton) {
+  if (!bouton || bouton.hidden || bouton.offsetParent === null) return 0;
+
+  const range = document.createRange();
+  range.selectNodeContents(bouton);
+
+  const rects = [...range.getClientRects()].filter(rect => rect.width > 0 && rect.height > 0);
+  const lignes = [];
+
+  for (const rect of rects) {
+    if (!lignes.some(top => Math.abs(top - rect.top) < 1)) {
+      lignes.push(rect.top);
     }
-  ];
-
-  for (const { selector, full } of labels) {
-    const btn = document.querySelector(selector);
-    if (!btn) continue;
-
-    btn.textContent = full;
-    btn.style.whiteSpace = 'nowrap';
   }
 
-  requestAnimationFrame(() => {
-    for (const { selector, short } of labels) {
-      const btn = document.querySelector(selector);
+  if (typeof range.detach === 'function') range.detach();
+  return lignes.length;
+}
 
-      if (
-        !btn ||
-        btn.hidden ||
-        btn.offsetParent === null
-      ) continue;
+function updateTenseLabels() {
+  const variantesParTemps = {
+    present:   ['Présent',   'Prés.', 'Pr.'],
+    imperfect: ['Imparfait', 'Impf.', 'Imp.', 'Im.'],
+    future:    ['Futur',     'Fut.',  'Fu.'],
+    aorist:    ['Aoriste',   'Aor.',  'Ao.', 'A.'],
+    perfect:   ['Parfait',   'Parf.', 'Pf.']
+  };
 
-      if (btn.scrollWidth > btn.clientWidth) {
-        btn.textContent = short;
+  cancelAnimationFrame(tenseLabelFrame);
+
+  tenseLabelFrame = requestAnimationFrame(() => {
+    const boutons = [...document.querySelectorAll('.conj-choice[data-group="tense"]')];
+
+    // 1. Toujours repartir du libellé complet.
+    for (const bouton of boutons) {
+      const variantes = variantesParTemps[bouton.dataset.value];
+      if (variantes) bouton.textContent = variantes[0];
+    }
+
+    // Force le calcul de mise en page avec les libellés complets.
+    document.querySelector('.morph-tense-row')?.getBoundingClientRect();
+
+    // 2. Pour chaque bouton visible, essayer successivement les variantes.
+    // On ne passe à l'abréviation suivante que si le texte rendu occupe
+    // réellement plus d'une ligne.
+    for (const bouton of boutons) {
+      const variantes = variantesParTemps[bouton.dataset.value];
+      if (!variantes || bouton.hidden || bouton.offsetParent === null) continue;
+
+      for (let index = 0; index < variantes.length; index += 1) {
+        bouton.textContent = variantes[index];
+        bouton.getBoundingClientRect();
+
+        if (nombreLignesTexteBouton(bouton) <= 1) break;
       }
     }
   });
 }
 
+// Réévalue aussi si la largeur réelle de la rangée change sans resize global.
+// Seule la largeur est observée pour éviter une boucle liée aux changements de hauteur.
+const tenseRowForObserver = document.querySelector('.morph-tense-row');
+if (tenseRowForObserver && 'ResizeObserver' in window) {
+  new ResizeObserver(entries => {
+    const largeur = entries[0]?.contentRect?.width ?? 0;
+    if (
+      lastObservedTenseRowWidth === null ||
+      Math.abs(largeur - lastObservedTenseRowWidth) > 0.5
+    ) {
+      lastObservedTenseRowWidth = largeur;
+      updateTenseLabels();
+    }
+  }).observe(tenseRowForObserver);
+}
 
-
-  
-
-window.addEventListener("resize", updateTenseLabels);
-window.addEventListener("resize", mettreAJourSeparateursMorphologiques);
-updateTenseLabels();
+window.addEventListener('resize', mettreAJourSeparateursMorphologiques);
 mettreAJourSeparateursMorphologiques();
 </script>
 
