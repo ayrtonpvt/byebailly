@@ -2469,7 +2469,21 @@ function libelleOptionPersonnalisee(type, valeur) {
   return libelle.charAt(0).toUpperCase() + libelle.slice(1);
 }
 
-
+function descriptionDifficulte(categorie, difficulte) {
+  if (categorie === 'declinaison') {
+    if (difficulte === 'beginner') return '1re déclinaison et adjectifs de 1re classe.';
+    if (difficulte === 'intermediate') return '1re–2e déclinaisons et adjectifs de 1re–2e classes.';
+    if (difficulte === 'advanced') return '1re–3e déclinaisons et adjectifs de 1re–3e classes, avec davantage de noms de 3e déclinaison.';
+    return 'Choisis une ou plusieurs déclinaisons. Cas, nombres et genres restent tirés automatiquement.';
+  }
+  if (categorie === 'conjugaison') {
+    if (difficulte === 'beginner') return 'Indicatif et infinitif ; présent, imparfait et futur ; actif uniquement.';
+    if (difficulte === 'intermediate') return 'Indicatif, participe et infinitif ; présent, imparfait, futur et aoriste ; toutes les voix.';
+    if (difficulte === 'advanced') return 'Ajoute subjonctif, impératif, optatif et parfait, avec pondération des modes 45/30/10/5/5/5.';
+    return 'Choisis librement temps, modes et voix. Les personnes, nombres, cas et genres restent automatiques.';
+  }
+  return '';
+}
 
 function rendreChoixConjugaisonPersonnalisee() {
   if (!modeDifficultyDraft) return;
@@ -2562,7 +2576,7 @@ function mettreAJourModalModeDifficulte() {
   document.getElementById('difficultySection').hidden = version;
   document.getElementById('versionDifficultyNote').hidden = !version;
   document.getElementById('difficultyDescription').textContent =
-    
+    descriptionDifficulte(modeDifficultyDraft.categorie, modeDifficultyDraft.difficulte);
 
   const personnalise = modeDifficultyDraft.difficulte === 'custom' && !version;
   document.getElementById('customDeclensionPanel').hidden = !(personnalise && modeDifficultyDraft.categorie === 'declinaison');
