@@ -5433,9 +5433,7 @@ function updateTenseLabels() {
     '.conj-choice[data-group="tense"][data-value="imperfect"]'
   );
 
-  const aoristBtn = document.querySelector(
-    '.conj-choice[data-group="tense"][data-value="aorist"]'
-  );
+
 
   const mobile = window.innerWidth <= 390;
 
@@ -5443,9 +5441,6 @@ function updateTenseLabels() {
     imperfectBtn.textContent = mobile ? "Impf." : "Imparfait";
   }
 
-  if (aoristBtn) {
-    aoristBtn.textContent = mobile ? "Aor." : "Aoriste";
-  }
 }
 
 window.addEventListener("resize", updateTenseLabels);
