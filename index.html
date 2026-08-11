@@ -5429,13 +5429,23 @@ initialiserDonnees().catch(error => {
 });
 
 function updateTenseLabels() {
-  const btn = document.querySelector(
+  const imperfectBtn = document.querySelector(
     '.conj-choice[data-group="tense"][data-value="imperfect"]'
   );
 
-  if (!btn) return;
+  const aoristBtn = document.querySelector(
+    '.conj-choice[data-group="tense"][data-value="aorist"]'
+  );
 
-  btn.textContent = window.innerWidth <= 390 ? "Impf." : "Imparfait";
+  const mobile = window.innerWidth <= 390;
+
+  if (imperfectBtn) {
+    imperfectBtn.textContent = mobile ? "Impf." : "Imparfait";
+  }
+
+  if (aoristBtn) {
+    aoristBtn.textContent = mobile ? "Aor." : "Aoriste";
+  }
 }
 
 window.addEventListener("resize", updateTenseLabels);
