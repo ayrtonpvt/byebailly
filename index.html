@@ -5465,13 +5465,7 @@ function updateTenseLabels() {
 
 
 
-  const mobile = window.innerWidth <= 390;
-
-  if (imperfectBtn) {
-    imperfectBtn.textContent = mobile ? "Impf." : "Imparfait";
-  }
-
-}
+  
 
 window.addEventListener("resize", updateTenseLabels);
 window.addEventListener("resize", mettreAJourSeparateursMorphologiques);
