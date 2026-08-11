@@ -4009,6 +4009,7 @@ function mettreAJourVisibiliteOptionsConjugaison() {
     morphMode: new Set(configuration.modes),
     voice: new Set(configuration.voices),
     tense: new Set(configuration.tenses)
+    updateTenseLabels();
   };
 
   const combinaisonDansConfiguration = combinaison =>
@@ -5425,9 +5426,42 @@ initialiserDonnees().catch(error => {
 });
 
 function updateTenseLabels() {
-  const imperfectBtn = document.querySelector(
-    '.conj-choice[data-group="tense"][data-value="imperfect"]'
-  );
+  const labels = [
+    {
+      selector: '.conj-choice[data-group="tense"][data-value="imperfect"]',
+      full: 'Imparfait',
+      short: 'Impf.'
+    },
+    {
+      selector: '.conj-choice[data-group="tense"][data-value="aorist"]',
+      full: 'Aoriste',
+      short: 'Aor.'
+    }
+  ];
+
+  // On remet d'abord tous les libellés complets.
+  for (const { selector, full } of labels) {
+    const btn = document.querySelector(selector);
+    if (btn) btn.textContent = full;
+  }
+
+  // On laisse le navigateur recalculer les dimensions,
+  // puis on abrège seulement si le texte déborde réellement.
+  requestAnimationFrame(() => {
+    for (const { selector, short } of labels) {
+      const btn = document.querySelector(selector);
+
+      if (
+        btn &&
+        !btn.hidden &&
+        btn.offsetParent !== null &&
+        btn.scrollWidth > btn.clientWidth
+      ) {
+        btn.textContent = short;
+      }
+    }
+  });
+}
 
 
 
