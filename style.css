@@ -1891,4 +1891,9 @@ body[data-game-category="version"] button.version-hint-button:focus-visible {
     width: 38px;
     height: 38px;
   }
+  @media (max-width: 600px) {
+  .morph-tense-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
 }
