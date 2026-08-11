@@ -1889,37 +1889,24 @@ body[data-game-category="version"] button.version-hint-button:focus-visible {
     width: 38px;
     height: 38px;
   }
- 
-@media (max-width: 600px) {
 
-  /* 5 temps visibles : Avancé */
-  .morph-tense-row:has(
-    .analysis-choice[data-value="perfect"]:not([hidden])
-  ) {
+  /* Les temps restent sur une seule rangée dans les trois difficultés. */
+  .morph-tense-row:has(.analysis-choice[data-value="perfect"]:not([hidden])) {
     grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
     width: 100%;
   }
 
-  /* 4 temps visibles : Intermédiaire */
-  .morph-tense-row:has(
-    .analysis-choice[data-value="aorist"]:not([hidden])
-  ):not(:has(
-    .analysis-choice[data-value="perfect"]:not([hidden])
-  )) {
+  .morph-tense-row:has(.analysis-choice[data-value="aorist"]:not([hidden])):not(:has(.analysis-choice[data-value="perfect"]:not([hidden]))) {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     width: 100%;
   }
 
-  /* 3 temps visibles : Débutant */
-  .morph-tense-row:not(:has(
-    .analysis-choice[data-value="aorist"]:not([hidden])
-  )) {
+  .morph-tense-row:not(:has(.analysis-choice[data-value="aorist"]:not([hidden]))) {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     width: 78%;
     margin-inline: auto;
   }
 
-  /* Un peu plus compact pour que les 5 tiennent réellement */
   .morph-tense-row .analysis-choice {
     min-width: 0;
     padding-left: 2px;
