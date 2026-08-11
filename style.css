@@ -1076,6 +1076,10 @@ button:focus-visible,
 .btn-primary:focus-visible,
 .btn-next:focus-visible,
 .analysis-choice:focus-visible,
+.mode-difficulty-button:focus-visible,
+.filter-toggle:focus-visible,
+.greek-key:focus-visible,
+.mobile-more-menu button:focus-visible,
 input:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -1544,4 +1548,213 @@ body[data-game-category="version"] button.version-hint-button:focus-visible {
 .analyse-declinaison-correcte {
   color: var(--success);
   font-weight: 600;
+}
+
+
+/* ========================================================================== 
+   Mode / Difficulté, menu mobile et clavier grec intégré
+   ========================================================================== */
+
+.mode-difficulty-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  min-height: 42px;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--topbar-border);
+  border-radius: 12px;
+  background: var(--input-bg);
+  color: var(--text-main);
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+  transition: border-color .15s ease, background-color .15s ease, transform .1s ease, box-shadow .15s ease;
+}
+
+.mode-difficulty-button:hover {
+  border-color: var(--accent);
+  box-shadow: 0 3px 10px rgba(234, 139, 22, 0.15);
+}
+
+.mode-difficulty-button:active { transform: scale(0.98); }
+.mode-difficulty-button svg { width: 20px; height: 20px; flex: 0 0 auto; color: var(--accent); }
+.mode-difficulty-copy { display: grid; min-width: 0; text-align: left; line-height: 1.1; }
+.mode-difficulty-copy strong { overflow: hidden; font-size: 0.79rem; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+.mode-difficulty-copy small { overflow: hidden; margin-top: 0.16rem; color: var(--text-muted); font-size: 0.66rem; text-overflow: ellipsis; white-space: nowrap; }
+
+.game-mode-control { gap: 0.5rem; }
+.btn-inverser { width: 2.65rem; height: 2.65rem; box-shadow: 0 4px 10px -4px rgba(0,0,0,.18); }
+.btn-inverser svg { width: 21px; height: 21px; }
+
+.mobile-more-button,
+.mobile-more-menu { display: none; }
+
+.mobile-more-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 1.65rem;
+  line-height: 1;
+}
+
+.mobile-more-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 10px;
+  z-index: 160;
+  width: min(190px, calc(100vw - 20px));
+  overflow: hidden;
+  padding: 0.35rem;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.mobile-more-menu[hidden] { display: none !important; }
+.mobile-more-menu button {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+  padding: 0.7rem 0.8rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-main);
+  font: inherit;
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+}
+.mobile-more-menu button:hover { background: var(--segmented-bg); }
+
+.mode-difficulty-modal-wrapper { max-width: 620px; }
+.mode-difficulty-stack { max-height: calc(100vh - 92px); }
+.difficulty-control { flex-wrap: wrap; }
+.difficulty-control button { flex: 1 1 24%; }
+.setting-help {
+  margin: 0.7rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+.setting-heading-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
+.setting-heading-row .setting-label { margin-bottom: 0.75rem; }
+.setting-inline-note { color: var(--text-muted); font-size: 0.68rem; white-space: nowrap; }
+.toggle-choice-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem; }
+.toggle-choice-grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.filter-toggle {
+  min-width: 0;
+  min-height: 42px;
+  padding: 0.55rem 0.45rem;
+  border: 1px solid var(--input-border);
+  border-radius: 9px;
+  background: var(--input-bg);
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.76rem;
+  line-height: 1.15;
+  cursor: pointer;
+  transition: border-color .15s ease, background-color .15s ease, color .15s ease, transform .1s ease, box-shadow .15s ease;
+}
+.filter-toggle:hover { border-color: var(--accent); color: var(--text-main); }
+.filter-toggle.selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 11%, var(--input-bg));
+  color: var(--text-main);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.filter-toggle:active { transform: scale(0.98); }
+.custom-filter-group + .custom-filter-group { margin-top: 0.85rem; }
+.custom-filter-label { display: block; margin-bottom: 0.45rem; color: var(--text-main); font-size: 0.76rem; font-weight: 600; }
+.custom-filter-status.is-warning { color: var(--error); }
+.mode-difficulty-actions { display: flex; justify-content: flex-end; padding: 0.1rem 0 0.25rem; }
+.mode-difficulty-apply { min-width: 140px; }
+
+.greek-keyboard {
+  width: 100%;
+  margin: -4px 0 16px;
+  padding: 0.55rem;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--input-bg) 92%, var(--segmented-bg));
+}
+.greek-keyboard[hidden] { display: none !important; }
+.greek-keyboard-row { display: grid; gap: 0.35rem; }
+.greek-keyboard-letters { grid-template-columns: repeat(9, minmax(0, 1fr)); }
+.greek-keyboard-diacritics { grid-template-columns: repeat(9, minmax(0, 1fr)); margin-top: 0.35rem; }
+.greek-key {
+  min-width: 0;
+  min-height: 34px;
+  padding: 0.28rem 0.15rem;
+  border: 1px solid var(--input-border);
+  border-radius: 7px;
+  background: var(--input-bg);
+  color: var(--text-main);
+  font-family: 'IFAOGrec', 'Brill', serif;
+  font-size: 1.05rem;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(15,23,42,.05);
+}
+.greek-key:hover { border-color: var(--accent); }
+.greek-key:active { transform: scale(0.95); }
+.greek-key-diacritic { color: var(--accent); }
+.greek-key-wide { grid-column: span 1; font-family: 'Inter', sans-serif; font-size: 0.66rem; }
+
+.morph-tense-row { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+@media (max-width: 600px) {
+  .top-bar-content {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.35rem;
+    padding: max(4px, env(safe-area-inset-top)) 8px 5px;
+  }
+
+  .top-bar-content h1 { font-size: 1.05rem; }
+  .game-mode-control {
+    position: static;
+    min-width: 0;
+    justify-self: center;
+    transform: none;
+    gap: 0.35rem;
+  }
+  .mode-difficulty-button { max-width: 122px; min-height: 38px; padding: 0.25rem 0.48rem; border-radius: 10px; }
+  .mode-difficulty-button svg { width: 17px; height: 17px; }
+  .mode-difficulty-copy strong { font-size: 0.7rem; }
+  .mode-difficulty-copy small { font-size: 0.59rem; }
+  .btn-inverser { width: 2.35rem; height: 2.35rem; }
+  .btn-inverser svg { width: 19px; height: 19px; }
+  .game-mode-label { display: none !important; }
+  .desktop-header-action { display: none !important; }
+  .mobile-more-button { display: flex; }
+  .mobile-more-menu:not([hidden]) { display: block; }
+  .header-actions { position: relative; gap: 0; }
+
+  .difficulty-control button { flex: 1 1 50%; border-bottom: 1px solid rgba(64,64,64,.35); }
+  .toggle-choice-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .toggle-choice-grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .filter-toggle { min-height: 40px; padding: 0.5rem 0.3rem; font-size: 0.7rem; }
+  .mode-difficulty-actions { position: sticky; bottom: 0; padding: 0.4rem 0 0.15rem; background: linear-gradient(transparent, var(--bg-color) 25%); }
+  .mode-difficulty-apply { width: 100%; }
+
+  .greek-keyboard { margin-top: -7px; padding: 0.45rem; }
+  .greek-keyboard-letters { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+  .greek-keyboard-diacritics { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .greek-key { min-height: 36px; font-size: 1rem; }
+
+  .morph-tense-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 360px) {
+  .top-bar-content h1 { font-size: 0.95rem; }
+  .mode-difficulty-button { max-width: 106px; }
+  .mode-difficulty-copy strong { font-size: 0.64rem; }
+  .mode-difficulty-copy small { font-size: 0.54rem; }
+  .btn-inverser { width: 2.15rem; height: 2.15rem; }
+  .greek-keyboard-letters { grid-template-columns: repeat(7, minmax(0, 1fr)); }
 }
