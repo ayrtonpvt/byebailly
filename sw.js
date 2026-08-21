@@ -1,0 +1,5 @@
+const CACHE='byebailly-v2';
+const SHELL=['./','./index.html','./profil.html','./classement.html','./style.css','./config.js','./app-api.js','./profile.js','./leaderboard.js','./manifest.json','./favicon.svg','./declinaisons_compilees_accentuees.json','./mots_version.json','./verbes_grecs_jeu_manifest.json','./verbes_grecs_jeu_debutant.json','./verbes_grecs_jeu_intermediaire.json','./verbes_grecs_jeu_avance.json'];
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',event=>{const req=event.request;if(req.method!=='GET')return;const url=new URL(req.url);if(url.pathname.startsWith('/api/'))return;event.respondWith(caches.match(req).then(cached=>{const network=fetch(req).then(res=>{if(res.ok&&url.origin===location.origin){const copy=res.clone();caches.open(CACHE).then(c=>c.put(req,copy));}return res;}).catch(()=>cached);return cached||network;}));});

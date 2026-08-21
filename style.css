@@ -1913,3 +1913,44 @@ body[data-game-category="version"] button.version-hint-button:focus-visible {
     padding-right: 2px;
   }
 }
+
+/* Pages Profil / Classement */
+.header-link-action { text-decoration: none; color: inherit; }
+.secondary-page { min-height: 100vh; }
+.secondary-topbar .topbar-inner { gap: 14px; }
+.secondary-topbar h1 { margin-right: auto; }
+.back-link, .secondary-nav a { color: inherit; text-decoration: none; font-weight: 700; }
+.back-link { font-size: 1.5rem; line-height: 1; }
+.profile-page, .leaderboard-page { width: min(960px, calc(100% - 28px)); margin: 28px auto 60px; }
+.card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; box-shadow: var(--card-shadow, 0 12px 30px rgba(15,23,42,.08)); }
+.profile-identity { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:22px; margin-bottom:14px; }
+.profile-identity h2, .page-heading h2 { margin:0 0 6px; }
+.profile-identity p, .page-heading p, .profile-hint { margin:0; color:var(--text-muted); }
+.profile-notice { min-height:1.4em; color:var(--error); }
+.profile-hint { margin: 8px 2px 18px; }
+.auth-panel { display:grid; grid-template-columns:1fr 1fr; gap:0; margin-bottom:24px; overflow:hidden; }
+.auth-column { padding:22px; }
+.auth-column + .auth-column { border-left:1px solid var(--card-border); }
+.auth-column h3 { margin-top:0; }
+.auth-column form { display:grid; gap:12px; }
+.auth-column label { display:grid; gap:6px; font-weight:600; }
+.auth-column input { width:100%; box-sizing:border-box; padding:11px 12px; border-radius:10px; border:1px solid var(--input-border, var(--card-border)); background:var(--input-bg); color:var(--text); font:inherit; }
+.profile-stats .stats-view-control { margin-bottom:16px; }
+.stats-streak-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.stats-streak-card { display:grid; gap:5px; padding:14px; border:1px solid var(--card-border); border-radius:12px; background:var(--input-bg); }
+.stats-streak-card span { color:var(--text-muted); font-size:.9rem; }
+.stats-activity-simple { display:grid; grid-template-columns:repeat(14,1fr); gap:6px; align-items:end; }
+.stats-day-simple { min-width:0; display:grid; gap:5px; text-align:center; padding:8px 2px; border-radius:8px; background:var(--input-bg); }
+.stats-day-count { font-weight:800; }
+.stats-day-simple small { color:var(--text-muted); }
+.page-heading { margin-bottom:18px; }
+.leaderboard-card { overflow:hidden; }
+.leaderboard-head, .leaderboard-row { display:grid; grid-template-columns:70px minmax(160px,1.6fr) repeat(4,minmax(95px,1fr)); align-items:center; gap:10px; padding:14px 18px; }
+.leaderboard-head { font-size:.8rem; font-weight:800; text-transform:uppercase; color:var(--text-muted); border-bottom:1px solid var(--card-border); }
+.leaderboard-row + .leaderboard-row { border-top:1px solid var(--card-border); }
+.leaderboard-rank { font-weight:800; }
+.leaderboard-user { color:var(--accent, #D96A18); font-weight:800; text-decoration:none; }
+@media (max-width:700px){
+  .profile-page,.leaderboard-page{width:min(100% - 18px,960px);margin-top:14px}.auth-panel{grid-template-columns:1fr}.auth-column + .auth-column{border-left:0;border-top:1px solid var(--card-border)}.profile-identity{align-items:flex-start;flex-direction:column}.stats-streak-grid{grid-template-columns:1fr 1fr}.stats-activity-simple{grid-template-columns:repeat(7,1fr)}
+  .leaderboard-head{display:none}.leaderboard-card{background:transparent;border:0;box-shadow:none;display:grid;gap:9px}.leaderboard-row{grid-template-columns:auto 1fr auto;gap:5px 10px;padding:13px 14px;border:1px solid var(--card-border)!important;border-radius:13px;background:var(--card-bg)}.leaderboard-rank{grid-row:1 / 3}.leaderboard-user{grid-column:2 / 4}.leaderboard-row span[data-label]{font-size:.82rem;color:var(--text-muted)}.leaderboard-row span[data-label]::before{content:attr(data-label) ' : ';}.leaderboard-row span[data-label="Correctes"],.leaderboard-row span[data-label="Réussite"]{grid-column:auto}.leaderboard-row span[data-label="Tentatives"],.leaderboard-row span[data-label="Série"]{display:none}
+}
