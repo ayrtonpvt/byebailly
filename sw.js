@@ -1,4 +1,4 @@
-const CACHE='byebailly-v2';
+const CACHE='byebailly-v3';
 const SHELL=['./','./index.html','./profil.html','./classement.html','./style.css','./config.js','./app-api.js','./profile.js','./leaderboard.js','./manifest.json','./favicon.svg','./declinaisons_compilees_accentuees.json','./mots_version.json','./verbes_grecs_jeu_manifest.json','./verbes_grecs_jeu_debutant.json','./verbes_grecs_jeu_intermediaire.json','./verbes_grecs_jeu_avance.json'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));

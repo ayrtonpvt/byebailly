@@ -1954,3 +1954,482 @@ body[data-game-category="version"] button.version-hint-button:focus-visible {
   .profile-page,.leaderboard-page{width:min(100% - 18px,960px);margin-top:14px}.auth-panel{grid-template-columns:1fr}.auth-column + .auth-column{border-left:0;border-top:1px solid var(--card-border)}.profile-identity{align-items:flex-start;flex-direction:column}.stats-streak-grid{grid-template-columns:1fr 1fr}.stats-activity-simple{grid-template-columns:repeat(7,1fr)}
   .leaderboard-head{display:none}.leaderboard-card{background:transparent;border:0;box-shadow:none;display:grid;gap:9px}.leaderboard-row{grid-template-columns:auto 1fr auto;gap:5px 10px;padding:13px 14px;border:1px solid var(--card-border)!important;border-radius:13px;background:var(--card-bg)}.leaderboard-rank{grid-row:1 / 3}.leaderboard-user{grid-column:2 / 4}.leaderboard-row span[data-label]{font-size:.82rem;color:var(--text-muted)}.leaderboard-row span[data-label]::before{content:attr(data-label) ' : ';}.leaderboard-row span[data-label="Correctes"],.leaderboard-row span[data-label="Réussite"]{grid-column:auto}.leaderboard-row span[data-label="Tentatives"],.leaderboard-row span[data-label="Série"]{display:none}
 }
+
+
+/* Interface des statistiques — rendu historique réutilisé sur Profil */
+/* ======================================================================
+   Interface des statistiques
+   ====================================================================== */
+.stats-modal-wrapper {
+  max-width: 640px;
+}
+
+.stats-stack {
+  gap: 0.75rem;
+}
+
+.stats-view-control {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.stats-view-control button {
+  white-space: nowrap;
+}
+
+.stats-tab-short {
+  display: none;
+}
+
+.stats-panel {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.stats-group {
+  min-width: 0;
+}
+
+.stats-group-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.stats-group-title-row .setting-label {
+  margin: 0;
+}
+
+.stats-group-note {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.stats-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.625rem;
+}
+
+.stats-summary-grid.stats-summary-grid-compact {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.stats-metric {
+  min-width: 0;
+  padding: 0.8rem 0.65rem;
+  border: 1px solid var(--input-border);
+  border-radius: 0.5rem;
+  background: var(--input-bg);
+  text-align: center;
+}
+
+.stats-metric-value {
+  display: block;
+  overflow: hidden;
+  color: var(--text-main);
+  font-size: 1.15rem;
+  line-height: 1.25;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stats-metric-value.is-accent {
+  color: var(--accent);
+}
+
+.stats-metric-label {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+.stats-mode-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.625rem;
+}
+
+.stats-mode-card {
+  min-width: 0;
+  padding: 0.8rem;
+  border: 1px solid var(--input-border);
+  border-radius: 0.5rem;
+  background: var(--input-bg);
+}
+
+.stats-mode-name {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--text-main);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.stats-mode-score {
+  display: block;
+  color: var(--accent);
+  font-size: 1.1rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.stats-mode-detail {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.stats-detail-list,
+.stats-result-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.stats-detail-row {
+  min-width: 0;
+}
+
+.stats-detail-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.stats-detail-label {
+  min-width: 0;
+  color: var(--text-main);
+  font-size: 0.82rem;
+  line-height: 1.25;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.stats-detail-value {
+  flex: 0 0 auto;
+  color: var(--text-main);
+  font-size: 0.78rem;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats-progress-track {
+  width: 100%;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--segmented-bg);
+}
+
+.stats-progress-fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+
+.stats-detail-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.28rem;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  line-height: 1.25;
+}
+
+.stats-result-exact .stats-progress-fill {
+  background: var(--success);
+}
+
+.stats-result-orthographe .stats-progress-fill {
+  background: var(--accent);
+}
+
+.stats-result-partiel .stats-progress-fill {
+  background: #eab308;
+}
+
+.analyse-declinaison-correcte {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.stats-result-incorrect .stats-progress-fill,
+.stats-result-revelee .stats-progress-fill {
+  background: var(--error);
+}
+
+.stats-activity-summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.stats-activity-chart {
+  display: grid;
+  grid-template-columns: repeat(14, minmax(0, 1fr));
+  align-items: end;
+  gap: 0.3rem;
+  min-height: 88px;
+  padding-top: 0.3rem;
+}
+
+.stats-day {
+  display: flex;
+  min-width: 0;
+  height: 88px;
+  padding: 0;
+  border: 0;
+  border-radius: 0.4rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.stats-day:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.stats-day-bar-wrap {
+  display: flex;
+  width: 100%;
+  height: 64px;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.stats-day-bar {
+  width: min(100%, 14px);
+  min-height: 3px;
+  border-radius: 999px 999px 3px 3px;
+  background: var(--accent);
+  opacity: 0.85;
+  transform-origin: bottom center;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .stats-day:hover .stats-day-bar {
+    opacity: 1;
+    transform: translateY(-2px) scaleX(1.18);
+    background: var(--accent-hover);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+}
+
+.stats-day:focus-visible .stats-day-bar,
+.stats-day.is-selected .stats-day-bar {
+  opacity: 1;
+  transform: translateY(-2px) scaleX(1.18);
+  background: var(--accent-hover);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.stats-day.is-empty .stats-day-bar {
+  height: 3px !important;
+  background: var(--input-border);
+  opacity: 0.6;
+}
+
+.stats-day.is-empty:hover .stats-day-bar,
+.stats-day.is-empty:focus-visible .stats-day-bar,
+.stats-day.is-empty.is-selected .stats-day-bar {
+  background: var(--text-muted);
+  opacity: 0.8;
+}
+
+.stats-day-label {
+  color: var(--text-muted);
+  font-size: 0.6rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.15s ease, font-weight 0.15s ease;
+}
+
+.stats-day:hover .stats-day-label,
+.stats-day:focus-visible .stats-day-label,
+.stats-day.is-selected .stats-day-label {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.stats-activity-detail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin-bottom: 0.55rem;
+  padding: 0.65rem;
+  border: 1px solid var(--input-border);
+  border-radius: 0.5rem;
+  background: var(--input-bg);
+  animation: stats-detail-in 0.16s ease-out;
+}
+
+.stats-activity-detail[hidden] {
+  display: none;
+}
+
+.stats-activity-detail-item {
+  min-width: 0;
+  text-align: center;
+}
+
+.stats-activity-detail-value {
+  display: block;
+  overflow: hidden;
+  color: var(--text-main);
+  font-size: 0.8rem;
+  line-height: 1.25;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats-activity-detail-item:last-child .stats-activity-detail-value {
+  color: var(--accent);
+}
+
+.stats-activity-detail-label {
+  display: block;
+  margin-top: 0.18rem;
+  color: var(--text-muted);
+  font-size: 0.62rem;
+  line-height: 1.2;
+}
+
+@keyframes stats-detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stats-empty {
+  padding: 1.6rem 1rem;
+  text-align: center;
+}
+
+.stats-empty-icon {
+  display: flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.75rem;
+  border: 1px solid var(--input-border);
+  border-radius: 50%;
+  color: var(--accent);
+  background: var(--input-bg);
+}
+
+.stats-empty-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+.stats-empty-title {
+  margin: 0;
+  color: var(--text-main);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.stats-empty-text {
+  max-width: 360px;
+  margin: 0.45rem auto 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.stats-updated-at {
+  margin: 0.1rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  line-height: 1.3;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .stats-modal-wrapper {
+    max-width: 100%;
+  }
+
+  .stats-summary-grid,
+  .stats-summary-grid.stats-summary-grid-compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stats-metric {
+    padding: 0.72rem 0.5rem;
+  }
+
+  .stats-activity-chart {
+    gap: 0.2rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .stats-tab-full {
+    display: none;
+  }
+
+  .stats-tab-short {
+    display: inline;
+  }
+
+  .stats-view-control button {
+    padding-right: 0.3rem;
+    padding-left: 0.3rem;
+  }
+
+  .stats-mode-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-detail-head,
+  .stats-detail-foot,
+  .stats-activity-summary {
+    gap: 0.4rem;
+  }
+}
+
+  
+
+
+.profile-stats { max-width: 640px; margin: 0 auto; }
