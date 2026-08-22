@@ -20,7 +20,6 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="stats.css">
   <style>
     .version-hint-button {
       display: none;
@@ -137,15 +136,6 @@
         <span class="header-action-label">Profil</span>
       </button>
 
-      <button class="btn-icon desktop-header-action" id="btnToggleStats" title="Statistiques" aria-label="Ouvrir les statistiques">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <g transform="translate(1 1) scale(0.0785714286)">
-            <path d="M271,262h-49.238V158.694c0-4.971-4.029-9-9-9h-30.664c-4.971,0-9,4.029-9,9V262h-17.901V115.338c0-4.971-4.029-9-9-9h-30.664c-4.971,0-9,4.029-9,9V262H88.633V71.553c0-4.971-4.029-9-9-9H48.969c-4.971,0-9,4.029-9,9V262H18V9c0-4.971-4.029-9-9-9S0,4.029,0,9v262c0,4.971,4.029,9,9,9h262c4.971,0,9-4.029,9-9S275.971,262,271,262z M191.098,167.694h12.664V262h-12.664V167.694z M124.534,124.338h12.664V262h-12.664V124.338z M57.969,80.553h12.664V262H57.969V80.553z"/>
-          </g>
-        </svg>
-        <span class="header-action-label">Statistiques</span>
-      </button>
-
       <button class="btn-icon desktop-header-action" id="btnToggleSettings" title="Paramètres" aria-label="Ouvrir les paramètres">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.592c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.246c.275.476.18 1.08-.235 1.438l-.984.827c-.29.243-.44.617-.433.995v.254c-.007.378.143.752.433.995l.984.827c.416.357.51.962.235 1.438l-1.296 2.246a1.125 1.125 0 0 1-1.37.49l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.127c-.331.184-.581.496-.644.87l-.213 1.281c-.09.542-.56.94-1.11.94h-2.592c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.063-.374-.313-.686-.645-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.075-.124l-1.217.456a1.125 1.125 0 0 1-1.37-.49L3.51 15.284a1.125 1.125 0 0 1 .235-1.438l.984-.827c.29-.243.44-.617.433-.995v-.254a1.595 1.595 0 0 0-.433-.995l-.984-.827a1.125 1.125 0 0 1-.235-1.438L4.806 6.264a1.125 1.125 0 0 1 1.37-.49l1.217.456c.355.133.75.072 1.076-.124.072-.044.145-.086.22-.127.331-.184.581-.496.644-.87l.213-1.281Z"/>
@@ -179,12 +169,6 @@
             </svg>
           </span>
           <span class="mobile-menu-text">Profil</span>
-        </button>
-        <button type="button" data-mobile-action="stats">
-          <span class="mobile-menu-icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M4 20V10h3v10H4Zm6 0V4h3v16h-3Zm6 0v-7h3v7h-3Z"/></svg>
-          </span>
-          <span class="mobile-menu-text">Statistiques</span>
         </button>
         <button type="button" data-mobile-action="settings">
           <span class="mobile-menu-icon" aria-hidden="true">
@@ -584,56 +568,6 @@
 </div>
 
 
-<!-- Modal Statistiques -->
-<div
-  class="modal-overlay"
-  id="modalStats"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="statsModalTitle"
-  aria-hidden="true"
->
-  <div class="settings-modal-wrapper stats-modal-wrapper">
-
-    <div class="settings-modal-title">
-      <span id="statsModalTitle">Statistiques</span>
-
-      <button
-        class="btn-icon settings-close-button stats-close-button"
-        id="btnCloseStats"
-        aria-label="Fermer les statistiques"
-        title="Fermer"
-      >
-        ✕
-      </button>
-    </div>
-
-    <div class="settings-stack stats-stack">
-      <section class="setting-group" aria-label="Vue statistique">
-        <div class="segmented-control stats-view-control" id="statsViewControl">
-          <button type="button" data-view="global" class="active" aria-pressed="true">
-            <span class="stats-tab-full">Global</span><span class="stats-tab-short">Global</span>
-          </button>
-          <button type="button" data-view="declinaison" aria-pressed="false">
-            <span class="stats-tab-full">Déclinaison</span><span class="stats-tab-short">Décl.</span>
-          </button>
-          <button type="button" data-view="conjugaison" aria-pressed="false">
-            <span class="stats-tab-full">Conjugaison</span><span class="stats-tab-short">Conj.</span>
-          </button>
-          <button type="button" data-view="version" aria-pressed="false">
-            <span class="stats-tab-full">Version</span><span class="stats-tab-short">Version</span>
-          </button>
-        </div>
-      </section>
-
-      <div class="stats-panel" id="statsContent" aria-live="polite"></div>
-      <p class="stats-updated-at" id="statsUpdatedAt"></p>
-    </div>
-
-  </div>
-</div>
-
-
 <!-- Authentification (isolée du moteur du jeu) -->
 <script src="auth.js"></script>
 <script src="stats.js"></script>
@@ -928,7 +862,7 @@ function appliquerCategorieJeu(categorie) {
   mettreAJourClavierGrec();
 }
 
-const MODALES_MASQUANT_JEU = new Set(['modalSettings', 'modalStats', 'modalModeDifficulty', 'modalAuth']);
+const MODALES_MASQUANT_JEU = new Set(['modalSettings', 'modalModeDifficulty', 'modalAuth']);
 
 
 function difficulteActuelle(categorie = currentCategorieJeu) {
@@ -1522,7 +1456,6 @@ function ouvrirModal(id) {
   const modal = document.getElementById(id);
   if (!modal) return;
 
-  if (id === 'modalStats') afficherStatistiques();
 
   modal.classList.add('active');
   modal.setAttribute('aria-hidden', 'false');
@@ -1700,8 +1633,6 @@ document.getElementById('btnAuthLogout').addEventListener('click', async () => {
 mettreAJourEtatAuth(authCurrentUser);
 verifierSessionAuthEnArrierePlan();
 
-document.getElementById('btnToggleStats').addEventListener('click', () => ouvrirModal('modalStats'));
-document.getElementById('btnCloseStats').addEventListener('click', () => fermerModal('modalStats'));
 document.getElementById('btnToggleSettings').addEventListener('click', () => ouvrirModal('modalSettings'));
 document.getElementById('btnCloseSettings').addEventListener('click', () => fermerModal('modalSettings'));
 document.getElementById('btnToggleAbout').addEventListener('click', () => ouvrirModal('modalAbout'));
@@ -1723,7 +1654,6 @@ document.querySelectorAll('#mobileMoreMenu [data-mobile-action]').forEach(bouton
     const action = bouton.dataset.mobileAction;
     if (action === 'auth') ouvrirModalAuth();
     else if (action === 'profile') window.location.href = 'profil.html';
-    else if (action === 'stats') ouvrirModal('modalStats');
     else if (action === 'settings') ouvrirModal('modalSettings');
     else if (action === 'about') ouvrirModal('modalAbout');
   });
@@ -1773,13 +1703,6 @@ document.querySelectorAll('#customDeclensionChoices .filter-toggle').forEach(bou
   });
 });
 
-document.querySelectorAll('#statsViewControl button').forEach(bouton => {
-  bouton.addEventListener('click', () => {
-    currentStatsView = bouton.dataset.view || 'global';
-    afficherStatistiques();
-  });
-});
-
 document.querySelectorAll('#themeControl button').forEach(btn => {
   btn.addEventListener('click', () => appliquerTheme(btn.dataset.value));
 });
@@ -1813,7 +1736,7 @@ document.querySelectorAll('.modal-overlay').forEach(modal => {
 document.addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
 
-  for (const id of ['modalTable', 'modalStats', 'modalModeDifficulty', 'modalSettings', 'modalAbout', 'modalAuth']) {
+  for (const id of ['modalTable', 'modalModeDifficulty', 'modalSettings', 'modalAbout', 'modalAuth']) {
     const modal = document.getElementById(id);
 
     if (modal.classList.contains('active')) {
