@@ -1913,3 +1913,81 @@ body[data-game-category="version"] button.version-hint-button:focus-visible {
     padding-right: 2px;
   }
 }
+
+/* ========================================================================== 
+   Authentification — ajout isolé
+   ========================================================================== */
+.auth-modal-wrapper { max-width: 430px; }
+
+.auth-form {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.auth-field {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--text-main);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.auth-field input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  outline: none;
+  background: var(--input-bg);
+  color: var(--text-main);
+  font: inherit;
+  font-weight: 400;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.auth-field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 2px 6px rgba(234, 139, 22, 0.3);
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 0.15rem;
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none !important;
+}
+
+.auth-message {
+  min-height: 1.2em;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.auth-message.is-error { color: #c2410c; }
+.auth-message.is-success { color: var(--accent); }
+
+.auth-account-panel { text-align: center; }
+.auth-account-name {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--text-main);
+  font-size: 1.15rem;
+  font-weight: 650;
+}
+.auth-account-panel .setting-help { margin-bottom: 1rem; }
+
+.auth-header-action .header-action-label {
+  max-width: 8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

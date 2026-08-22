@@ -595,6 +595,13 @@
         </span>
       </button>
 
+      <button class="btn-icon desktop-header-action auth-header-action" id="btnToggleAuth" title="Se connecter" aria-label="Ouvrir la connexion">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.1a7.5 7.5 0 0 1 15 0"/>
+        </svg>
+        <span class="header-action-label" id="authHeaderLabel">Connexion</span>
+      </button>
+
       <button class="btn-icon desktop-header-action" id="btnToggleStats" title="Statistiques" aria-label="Ouvrir les statistiques">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <g transform="translate(1 1) scale(0.0785714286)">
@@ -621,6 +628,14 @@
 
       <button class="btn-icon mobile-more-button" id="btnMobileMore" title="Plus" aria-label="Ouvrir le menu" aria-expanded="false">⋮</button>
       <div class="mobile-more-menu" id="mobileMoreMenu" hidden>
+        <button type="button" data-mobile-action="auth">
+          <span class="mobile-menu-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.1a7.5 7.5 0 0 1 15 0"/>
+            </svg>
+          </span>
+          <span class="mobile-menu-text" id="authMobileLabel">Connexion</span>
+        </button>
         <button type="button" data-mobile-action="stats">
           <span class="mobile-menu-icon" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M4 20V10h3v10H4Zm6 0V4h3v16h-3Zm6 0v-7h3v7h-3Z"/></svg>
@@ -767,6 +782,46 @@
   </main>
 
 <!-- 3. Toutes les Modales (Placées en bas, hors du main, mais DANS le body) -->
+
+<!-- Modal Authentification -->
+<div class="modal-overlay" id="modalAuth" role="dialog" aria-modal="true" aria-labelledby="authModalTitle" aria-hidden="true">
+  <div class="settings-modal-wrapper auth-modal-wrapper">
+    <div class="settings-modal-title">
+      <span id="authModalTitle">Compte</span>
+      <button class="btn-icon settings-close-button" id="btnCloseAuth" type="button" title="Fermer" aria-label="Fermer">×</button>
+    </div>
+
+    <div class="settings-stack">
+      <section class="setting-group" id="authGuestPanel">
+        <div class="segmented-control auth-mode-control" id="authModeControl" aria-label="Connexion ou création de compte">
+          <button type="button" class="active" data-auth-mode="login" aria-pressed="true">Connexion</button>
+          <button type="button" data-auth-mode="register" aria-pressed="false">Créer un compte</button>
+        </div>
+
+        <form class="auth-form" id="authForm" autocomplete="on">
+          <label class="auth-field">
+            <span>Pseudo</span>
+            <input type="text" id="authUsername" name="username" autocomplete="username" required>
+          </label>
+          <label class="auth-field">
+            <span>Mot de passe</span>
+            <input type="password" id="authPassword" name="password" autocomplete="current-password" required>
+          </label>
+          <button type="submit" class="btn-primary auth-submit" id="authSubmitButton">Se connecter</button>
+          <p class="auth-message" id="authMessage" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="setting-group auth-account-panel" id="authAccountPanel" hidden>
+        <span class="setting-label">Connecté en tant que</span>
+        <strong class="auth-account-name" id="authAccountName"></strong>
+        <p class="setting-help" id="authAccountDate"></p>
+        <button type="button" class="btn-primary auth-submit" id="btnAuthLogout">Se déconnecter</button>
+        <p class="auth-message" id="authLogoutMessage" aria-live="polite"></p>
+      </section>
+    </div>
+  </div>
+</div>
 
 <!-- Modal À propos -->
 <div class="modal-overlay" id="modalAbout">
@@ -1034,6 +1089,9 @@
   </div>
 </div>
 
+
+<!-- Authentification (isolée du moteur du jeu) -->
+<script src="auth.js"></script>
 
 <!-- 4. Le Script complet (Bien isolé) -->
 <script>
@@ -2182,7 +2240,7 @@ function appliquerCategorieJeu(categorie) {
   mettreAJourClavierGrec();
 }
 
-const MODALES_MASQUANT_JEU = new Set(['modalSettings', 'modalStats', 'modalModeDifficulty']);
+const MODALES_MASQUANT_JEU = new Set(['modalSettings', 'modalStats', 'modalModeDifficulty', 'modalAuth']);
 
 
 function difficulteActuelle(categorie = currentCategorieJeu) {
@@ -2805,6 +2863,154 @@ function fermerModal(id) {
   }
 }
 
+let authMode = 'login';
+let authCurrentUser = window.ByeBaillyAuth?.getCachedUser?.() || null;
+
+function mettreAJourEtatAuth(user = authCurrentUser) {
+  authCurrentUser = user || null;
+
+  const desktopLabel = document.getElementById('authHeaderLabel');
+  const mobileLabel = document.getElementById('authMobileLabel');
+  const boutonDesktop = document.getElementById('btnToggleAuth');
+  const guestPanel = document.getElementById('authGuestPanel');
+  const accountPanel = document.getElementById('authAccountPanel');
+  const accountName = document.getElementById('authAccountName');
+  const accountDate = document.getElementById('authAccountDate');
+
+  const libelle = user?.username || 'Connexion';
+  if (desktopLabel) desktopLabel.textContent = libelle;
+  if (mobileLabel) mobileLabel.textContent = libelle;
+  if (boutonDesktop) {
+    boutonDesktop.title = user ? `Compte : ${user.username}` : 'Se connecter';
+    boutonDesktop.setAttribute('aria-label', user ? `Ouvrir le compte ${user.username}` : 'Ouvrir la connexion');
+  }
+
+  if (guestPanel) guestPanel.hidden = Boolean(user);
+  if (accountPanel) accountPanel.hidden = !user;
+  if (accountName) accountName.textContent = user?.username || '';
+
+  if (accountDate) {
+    if (user?.created_at) {
+      const date = new Date(user.created_at.replace(' ', 'T') + (user.created_at.includes('Z') ? '' : 'Z'));
+      accountDate.textContent = Number.isNaN(date.getTime())
+        ? ''
+        : `Compte créé le ${date.toLocaleDateString('fr-FR')}`;
+    } else {
+      accountDate.textContent = '';
+    }
+  }
+}
+
+function definirModeAuth(mode) {
+  authMode = mode === 'register' ? 'register' : 'login';
+  document.querySelectorAll('#authModeControl [data-auth-mode]').forEach(bouton => {
+    const actif = bouton.dataset.authMode === authMode;
+    bouton.classList.toggle('active', actif);
+    bouton.setAttribute('aria-pressed', String(actif));
+  });
+
+  const submit = document.getElementById('authSubmitButton');
+  const password = document.getElementById('authPassword');
+  if (submit) submit.textContent = authMode === 'register' ? 'Créer un compte' : 'Se connecter';
+  if (password) password.autocomplete = authMode === 'register' ? 'new-password' : 'current-password';
+  const message = document.getElementById('authMessage');
+  if (message) {
+    message.textContent = '';
+    message.className = 'auth-message';
+  }
+}
+
+function ouvrirModalAuth() {
+  mettreAJourEtatAuth();
+  definirModeAuth(authMode);
+  ouvrirModal('modalAuth');
+  if (!authCurrentUser) {
+    requestAnimationFrame(() => document.getElementById('authUsername')?.focus());
+  }
+}
+
+function afficherMessageAuth(message, type = 'error', cible = 'authMessage') {
+  const element = document.getElementById(cible);
+  if (!element) return;
+  element.textContent = message || '';
+  element.className = `auth-message${message ? ` is-${type}` : ''}`;
+}
+
+async function verifierSessionAuthEnArrierePlan() {
+  if (!window.ByeBaillyAuth?.isLoggedIn?.()) {
+    mettreAJourEtatAuth(null);
+    return;
+  }
+
+  // Le cache est affiché immédiatement : aucune requête réseau ne bloque le jeu.
+  mettreAJourEtatAuth(window.ByeBaillyAuth.getCachedUser());
+  try {
+    const user = await window.ByeBaillyAuth.getCurrentUser();
+    mettreAJourEtatAuth(user);
+  } catch (error) {
+    console.warn('Vérification de session indisponible :', error);
+  }
+}
+
+document.getElementById('btnToggleAuth').addEventListener('click', ouvrirModalAuth);
+document.getElementById('btnCloseAuth').addEventListener('click', () => fermerModal('modalAuth'));
+
+document.querySelectorAll('#authModeControl [data-auth-mode]').forEach(bouton => {
+  bouton.addEventListener('click', () => definirModeAuth(bouton.dataset.authMode));
+});
+
+document.getElementById('authForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!window.ByeBaillyAuth) return;
+
+  const username = document.getElementById('authUsername').value.trim();
+  const password = document.getElementById('authPassword').value;
+  const submit = document.getElementById('authSubmitButton');
+
+  afficherMessageAuth('');
+  submit.disabled = true;
+  const texteInitial = submit.textContent;
+  submit.textContent = authMode === 'register' ? 'Création…' : 'Connexion…';
+
+  try {
+    const user = authMode === 'register'
+      ? await window.ByeBaillyAuth.register(username, password)
+      : await window.ByeBaillyAuth.login(username, password);
+
+    mettreAJourEtatAuth(user);
+    document.getElementById('authPassword').value = '';
+  } catch (error) {
+    const message = error.code === 'NETWORK_ERROR'
+      ? 'Connexion au serveur impossible. Le jeu reste disponible hors ligne.'
+      : error.message || 'Authentification impossible.';
+    afficherMessageAuth(message);
+  } finally {
+    submit.disabled = false;
+    submit.textContent = texteInitial;
+  }
+});
+
+document.getElementById('btnAuthLogout').addEventListener('click', async () => {
+  const bouton = document.getElementById('btnAuthLogout');
+  afficherMessageAuth('', 'error', 'authLogoutMessage');
+  bouton.disabled = true;
+  bouton.textContent = 'Déconnexion…';
+
+  try {
+    await window.ByeBaillyAuth.logout();
+    mettreAJourEtatAuth(null);
+    definirModeAuth('login');
+  } catch (error) {
+    afficherMessageAuth(error.message || 'Déconnexion impossible.', 'error', 'authLogoutMessage');
+  } finally {
+    bouton.disabled = false;
+    bouton.textContent = 'Se déconnecter';
+  }
+});
+
+mettreAJourEtatAuth(authCurrentUser);
+verifierSessionAuthEnArrierePlan();
+
 document.getElementById('btnToggleStats').addEventListener('click', () => ouvrirModal('modalStats'));
 document.getElementById('btnCloseStats').addEventListener('click', () => fermerModal('modalStats'));
 document.getElementById('btnToggleSettings').addEventListener('click', () => ouvrirModal('modalSettings'));
@@ -2826,7 +3032,8 @@ document.querySelectorAll('#mobileMoreMenu [data-mobile-action]').forEach(bouton
   bouton.addEventListener('click', () => {
     fermerMenuMobile();
     const action = bouton.dataset.mobileAction;
-    if (action === 'stats') ouvrirModal('modalStats');
+    if (action === 'auth') ouvrirModalAuth();
+    else if (action === 'stats') ouvrirModal('modalStats');
     else if (action === 'settings') ouvrirModal('modalSettings');
     else if (action === 'about') ouvrirModal('modalAbout');
   });
@@ -2916,7 +3123,7 @@ document.querySelectorAll('.modal-overlay').forEach(modal => {
 document.addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
 
-  for (const id of ['modalTable', 'modalStats', 'modalModeDifficulty', 'modalSettings', 'modalAbout']) {
+  for (const id of ['modalTable', 'modalStats', 'modalModeDifficulty', 'modalSettings', 'modalAbout', 'modalAuth']) {
     const modal = document.getElementById(id);
 
     if (modal.classList.contains('active')) {
