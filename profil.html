@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Profil — ByeBailly</title>
+  <meta name="description" content="Profil et statistiques locales ByeBailly">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="stats.css">
+  <link rel="stylesheet" href="profil.css">
+</head>
+<body class="profile-page" data-theme="system">
+<script>
+  try {
+    document.body.dataset.theme = localStorage.getItem('app_theme') || 'system';
+  } catch {}
+</script>
+
+<header class="top-bar">
+  <div class="top-bar-content profile-topbar-content">
+    <a class="profile-brand" href="index.html">ByeBailly</a>
+    <p class="profile-page-heading">Profil</p>
+    <a class="btn-icon profile-back-link" href="index.html" title="Retour au jeu" aria-label="Retour au jeu">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/>
+      </svg>
+    </a>
+  </div>
+</header>
+
+<main class="container profile-container">
+  <section class="setting-group profile-identity" aria-labelledby="profileName">
+    <div class="profile-identity-copy">
+      <h1 class="profile-name" id="profileName">Profil local</h1>
+      <p class="profile-meta" id="profileMeta"></p>
+      <p class="profile-storage-note">Statistiques de cet appareil</p>
+    </div>
+    <div class="profile-identity-actions">
+      <button type="button" class="btn-primary" id="profileAuthButton">Se connecter / Créer un compte</button>
+      <button type="button" class="btn-primary" id="profileLogoutButton" hidden>Se déconnecter</button>
+    </div>
+  </section>
+
+  <section aria-labelledby="profileStatsTitle">
+    <h2 class="profile-stats-heading" id="profileStatsTitle">Statistiques</h2>
+    <div class="settings-stack stats-stack">
+      <section class="setting-group" aria-label="Vue statistique">
+        <div class="segmented-control stats-view-control" id="statsViewControl">
+          <button type="button" data-view="global" class="active" aria-pressed="true">
+            <span class="stats-tab-full">Global</span><span class="stats-tab-short">Global</span>
+          </button>
+          <button type="button" data-view="declinaison" aria-pressed="false">
+            <span class="stats-tab-full">Déclinaison</span><span class="stats-tab-short">Décl.</span>
+          </button>
+          <button type="button" data-view="conjugaison" aria-pressed="false">
+            <span class="stats-tab-full">Conjugaison</span><span class="stats-tab-short">Conj.</span>
+          </button>
+          <button type="button" data-view="version" aria-pressed="false">
+            <span class="stats-tab-full">Version</span><span class="stats-tab-short">Version</span>
+          </button>
+        </div>
+      </section>
+      <div class="stats-panel" id="statsContent" aria-live="polite"></div>
+      <p class="stats-updated-at" id="statsUpdatedAt"></p>
+    </div>
+  </section>
+</main>
+
+<!-- Même authentification que le jeu ; aucun lien avec les statistiques à cette étape. -->
+<div class="modal-overlay" id="modalAuth" role="dialog" aria-modal="true" aria-labelledby="authModalTitle" aria-hidden="true">
+  <div class="settings-modal-wrapper auth-modal-wrapper">
+    <div class="settings-modal-title">
+      <span id="authModalTitle">Compte</span>
+      <button class="btn-icon settings-close-button" id="btnCloseAuth" type="button" title="Fermer" aria-label="Fermer">×</button>
+    </div>
+    <div class="settings-stack">
+      <section class="setting-group">
+        <div class="segmented-control auth-mode-control" id="authModeControl" aria-label="Connexion ou création de compte">
+          <button type="button" class="active" data-auth-mode="login" aria-pressed="true">Connexion</button>
+          <button type="button" data-auth-mode="register" aria-pressed="false">Créer un compte</button>
+        </div>
+        <form class="auth-form" id="authForm" autocomplete="on">
+          <label class="auth-field">
+            <span>Pseudo</span>
+            <input type="text" id="authUsername" name="username" autocomplete="username" required>
+          </label>
+          <label class="auth-field">
+            <span>Mot de passe</span>
+            <input type="password" id="authPassword" name="password" autocomplete="current-password" required>
+          </label>
+          <button type="submit" class="btn-primary auth-submit" id="authSubmitButton">Se connecter</button>
+          <p class="auth-message" id="authMessage" aria-live="polite"></p>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script src="stats.js"></script>
+<script src="profil.js"></script>
+</body>
+</html>

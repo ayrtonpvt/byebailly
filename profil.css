@@ -1,0 +1,110 @@
+/* Page Profil : uniquement la mise en page autour des composants partagés. */
+body.profile-page {
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.profile-page .profile-container {
+  max-width: 640px;
+  margin-top: 86px;
+}
+
+.profile-page .profile-topbar-content {
+  min-height: 52px;
+}
+
+.profile-brand {
+  color: var(--text-main);
+  font-family: 'Brill', serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.profile-page-heading {
+  position: absolute;
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.profile-back-link {
+  text-decoration: none;
+}
+
+.profile-identity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.profile-identity-copy {
+  min-width: 0;
+}
+
+.profile-name {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--text-main);
+  font-size: 1.2rem;
+  line-height: 1.25;
+  font-weight: 650;
+}
+
+.profile-meta,
+.profile-storage-note {
+  margin: 0.3rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.profile-storage-note {
+  margin-top: 0.15rem;
+}
+
+.profile-identity-actions {
+  flex: 0 0 auto;
+}
+
+.profile-identity-actions .btn-primary {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.profile-stats-heading {
+  margin: 0 0 0.75rem;
+  color: var(--text-main);
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.profile-page .stats-updated-at {
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  body.profile-page {
+    padding: 12px;
+  }
+
+  .profile-page .profile-container {
+    margin-top: 72px;
+    padding: 18px;
+  }
+
+  .profile-identity {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .profile-identity-actions,
+  .profile-identity-actions .btn-primary {
+    width: 100%;
+  }
+}
