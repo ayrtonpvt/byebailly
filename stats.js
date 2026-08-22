@@ -231,6 +231,15 @@ const StatsStore = {
     return this._stats;
   },
 
+  obtenirDeviceId() {
+    if (!this._deviceId) this._deviceId = chargerOuCreerDeviceId();
+    return this._deviceId;
+  },
+
+  normaliser(source) {
+    return migrerStats(source);
+  },
+
   enregistrerReponse(evenement) {
     const stats = this._stats || this.initialiser();
     const date = evenement.date ? new Date(evenement.date) : new Date();
@@ -279,6 +288,9 @@ const StatsStore = {
 
     stats.updatedAt = resultat.date;
     this.sauvegarder(stats);
+    window.dispatchEvent(new CustomEvent('byebailly:stats-changed', {
+      detail: { updatedAt: stats.updatedAt }
+    }));
     return stats;
   }
 };
@@ -820,8 +832,10 @@ function rendreStatsVersion(conteneur, stats) {
   );
 }
 
-function afficherStatistiques() {
-  const stats = StatsStore.obtenir() || creerStatsVides();
+function afficherStatistiques(statsSource = null) {
+  const stats = statsSource
+    ? migrerStats(statsSource)
+    : (StatsStore.obtenir() || creerStatsVides());
   const contenu = document.getElementById('statsContent');
   const dateMiseAJour = document.getElementById('statsUpdatedAt');
   if (!contenu) return;

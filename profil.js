@@ -2,6 +2,8 @@
   'use strict';
 
   let authMode = 'login';
+  let profileUser = null;
+  let profileStats = window.StatsStore?.obtenir?.() || null;
 
   function parseServerDate(value) {
     if (!value) return null;
@@ -10,15 +12,30 @@
     return Number.isNaN(date.getTime()) ? null : date;
   }
 
+  function statsPourProfil(user) {
+    if (user) {
+      const accountStats = window.ByeBaillySync?.getCachedAccountStats?.(user.id);
+      if (accountStats) return accountStats;
+    }
+    return window.StatsStore?.obtenir?.() || null;
+  }
+
+  function afficherStatsProfil() {
+    profileStats = statsPourProfil(profileUser);
+    afficherStatistiques(profileStats);
+  }
+
   function mettreAJourProfil(user) {
+    profileUser = user || null;
+
     const name = document.getElementById('profileName');
     const meta = document.getElementById('profileMeta');
     const authButton = document.getElementById('profileAuthButton');
     const logoutButton = document.getElementById('profileLogoutButton');
 
-    if (user) {
-      name.textContent = user.username;
-      const date = parseServerDate(user.created_at);
+    if (profileUser) {
+      name.textContent = profileUser.username;
+      const date = parseServerDate(profileUser.created_at);
       meta.textContent = date
         ? `Inscrit le ${date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}`
         : '';
@@ -30,6 +47,8 @@
       authButton.hidden = false;
       logoutButton.hidden = true;
     }
+
+    afficherStatsProfil();
   }
 
   function definirModeAuth(mode) {
@@ -67,6 +86,21 @@
     modal.setAttribute('aria-hidden', 'true');
   }
 
+  async function synchroniserProfil({ forceUpload = false } = {}) {
+    if (!profileUser || !window.ByeBaillySync) return;
+
+    try {
+      const stats = await window.ByeBaillySync.syncNow({ forceUpload });
+      if (stats && profileUser) {
+        profileStats = stats;
+        afficherStatistiques(profileStats);
+      }
+    } catch (error) {
+      // Le profil local/cache reste utilisable même si la synchronisation échoue.
+      console.warn('Synchronisation du profil indisponible :', error);
+    }
+  }
+
   async function verifierSession() {
     const cached = window.ByeBaillyAuth?.getCachedUser?.() || null;
     mettreAJourProfil(cached);
@@ -76,6 +110,7 @@
     try {
       const user = await window.ByeBaillyAuth.getCurrentUser();
       mettreAJourProfil(user);
+      if (user) synchroniserProfil();
     } catch (error) {
       console.warn('Vérification de session indisponible :', error);
     }
@@ -84,7 +119,7 @@
   document.querySelectorAll('#statsViewControl button').forEach(button => {
     button.addEventListener('click', () => {
       currentStatsView = button.dataset.view || 'global';
-      afficherStatistiques();
+      afficherStatistiques(profileStats);
     });
   });
 
@@ -114,6 +149,7 @@
       document.getElementById('authPassword').value = '';
       mettreAJourProfil(user);
       fermerAuth();
+      synchroniserProfil({ forceUpload: true });
     } catch (error) {
       afficherMessageAuth(
         error.code === 'NETWORK_ERROR'
@@ -150,7 +186,17 @@
     }
   });
 
+  window.addEventListener('byebailly:account-stats-updated', event => {
+    if (!profileUser) return;
+    if (String(event.detail?.userId) !== String(profileUser.id)) return;
+    profileStats = event.detail.stats;
+    afficherStatistiques(profileStats);
+  });
+
+  window.addEventListener('byebailly:auth-changed', event => {
+    mettreAJourProfil(event.detail?.user || null);
+  });
+
   mettreAJourProfil(window.ByeBaillyAuth?.getCachedUser?.() || null);
-  afficherStatistiques();
   verifierSession();
 })();

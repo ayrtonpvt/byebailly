@@ -29,6 +29,12 @@
     localStorage.removeItem(USER_KEY);
   }
 
+  function emettreChangementAuth(user) {
+    window.dispatchEvent(new CustomEvent('byebailly:auth-changed', {
+      detail: { user: user || null }
+    }));
+  }
+
   async function requete(path, options = {}) {
     const headers = new Headers(options.headers || {});
     if (options.body && !headers.has('Content-Type')) {
@@ -77,6 +83,7 @@
     });
 
     sauvegarderSession(data.token, data.user);
+    emettreChangementAuth(data.user);
     return data.user;
   }
 
@@ -88,6 +95,7 @@
     });
 
     sauvegarderSession(data.token, data.user);
+    emettreChangementAuth(data.user);
     return data.user;
   }
 
@@ -105,10 +113,12 @@
         return data.user;
       }
       effacerSession();
+      emettreChangementAuth(null);
       return null;
     } catch (error) {
       if (error.status === 401) {
         effacerSession();
+        emettreChangementAuth(null);
         return null;
       }
       // Hors connexion : on conserve la session locale et l'utilisateur mis en cache.
@@ -121,6 +131,7 @@
     const token = lireToken();
     if (!token) {
       effacerSession();
+      emettreChangementAuth(null);
       return;
     }
 
@@ -131,6 +142,7 @@
       console.warn('Déconnexion serveur non confirmée :', error);
     } finally {
       effacerSession();
+      emettreChangementAuth(null);
     }
   }
 
@@ -141,5 +153,6 @@
     getCurrentUser,
     getCachedUser: lireUtilisateurCache,
     isLoggedIn: () => Boolean(lireToken()),
+    request: requete,
   });
 })();
