@@ -1429,6 +1429,10 @@ function fermerModal(id) {
 }
 
 
+document.getElementById('btnOpenProfile').addEventListener('click', () => {
+  window.location.href = 'profil.html';
+});
+
 document.getElementById('btnToggleSettings').addEventListener('click', () => ouvrirModal('modalSettings'));
 document.getElementById('btnCloseSettings').addEventListener('click', () => fermerModal('modalSettings'));
 document.getElementById('btnToggleAbout').addEventListener('click', () => ouvrirModal('modalAbout'));
