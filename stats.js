@@ -196,6 +196,55 @@ function elaguerHistoriqueJournalier(parJour) {
   jours.slice(0, excedent).forEach(jour => delete parJour[jour]);
 }
 
+function appliquerEvenementAuxStats(stats, evenement, deviceId = null) {
+  const date = evenement.date ? new Date(evenement.date) : new Date();
+  const dateValide = Number.isNaN(date.getTime()) ? new Date() : date;
+  const resultat = {
+    ...evenement,
+    deviceId: evenement.deviceId || deviceId || null,
+    date: dateValide.toISOString()
+  };
+
+  ajouterEvenementAuCompteur(stats.global, resultat);
+
+  if (resultatContinueStreak(resultat)) {
+    stats.global.streak.actuel += 1;
+    stats.global.streak.meilleur = Math.max(
+      stats.global.streak.meilleur,
+      stats.global.streak.actuel
+    );
+  } else {
+    stats.global.streak.actuel = 0;
+  }
+
+  const emplacement = categorieEtModeStats(resultat.kind);
+  if (emplacement) {
+    const [categorie, mode] = emplacement;
+    ajouterEvenementAuCompteur(stats.parCategorie[categorie][mode], resultat);
+  }
+
+  for (const dimension of Object.keys(stats.parDimension)) {
+    const valeur = resultat.dimensions?.[dimension];
+    const valeurs = Array.isArray(valeur) ? valeur : [valeur];
+
+    for (const cle of new Set(valeurs.filter(Boolean).map(String))) {
+      stats.parDimension[dimension][cle] ||= creerCompteurStats();
+      ajouterEvenementAuCompteur(
+        stats.parDimension[dimension][cle],
+        resultat
+      );
+    }
+  }
+
+  const jour = cleJourLocal(dateValide);
+  stats.parJour[jour] ||= creerCompteurStats();
+  ajouterEvenementAuCompteur(stats.parJour[jour], resultat);
+  elaguerHistoriqueJournalier(stats.parJour);
+
+  stats.updatedAt = resultat.date;
+  return resultat;
+}
+
 const StatsStore = {
   _stats: creerStatsVides(),
   _deviceId: null,
@@ -240,56 +289,34 @@ const StatsStore = {
     return migrerStats(source);
   },
 
+  creerVides() {
+    return creerStatsVides();
+  },
+
+  appliquerEvenement(statsSource, evenement) {
+    const stats = normaliserStatsV1(statsSource);
+    const resultat = appliquerEvenementAuxStats(
+      stats,
+      evenement,
+      evenement?.deviceId || this.obtenirDeviceId()
+    );
+    return { stats, evenement: resultat };
+  },
+
   enregistrerReponse(evenement) {
     const stats = this._stats || this.initialiser();
-    const date = evenement.date ? new Date(evenement.date) : new Date();
-    const dateValide = Number.isNaN(date.getTime()) ? new Date() : date;
-    const resultat = {
-      ...evenement,
-      deviceId: this._deviceId,
-      date: dateValide.toISOString()
-    };
+    const resultat = appliquerEvenementAuxStats(
+      stats,
+      evenement,
+      this.obtenirDeviceId()
+    );
 
-    ajouterEvenementAuCompteur(stats.global, resultat);
-
-    if (resultatContinueStreak(resultat)) {
-      stats.global.streak.actuel += 1;
-      stats.global.streak.meilleur = Math.max(
-        stats.global.streak.meilleur,
-        stats.global.streak.actuel
-      );
-    } else {
-      stats.global.streak.actuel = 0;
-    }
-
-    const emplacement = categorieEtModeStats(resultat.kind);
-    if (emplacement) {
-      const [categorie, mode] = emplacement;
-      ajouterEvenementAuCompteur(stats.parCategorie[categorie][mode], resultat);
-    }
-
-    for (const dimension of Object.keys(stats.parDimension)) {
-      const valeur = resultat.dimensions?.[dimension];
-      const valeurs = Array.isArray(valeur) ? valeur : [valeur];
-
-      for (const cle of new Set(valeurs.filter(Boolean).map(String))) {
-        stats.parDimension[dimension][cle] ||= creerCompteurStats();
-        ajouterEvenementAuCompteur(
-          stats.parDimension[dimension][cle],
-          resultat
-        );
-      }
-    }
-
-    const jour = cleJourLocal(dateValide);
-    stats.parJour[jour] ||= creerCompteurStats();
-    ajouterEvenementAuCompteur(stats.parJour[jour], resultat);
-    elaguerHistoriqueJournalier(stats.parJour);
-
-    stats.updatedAt = resultat.date;
     this.sauvegarder(stats);
     window.dispatchEvent(new CustomEvent('byebailly:stats-changed', {
-      detail: { updatedAt: stats.updatedAt }
+      detail: {
+        updatedAt: stats.updatedAt,
+        evenement: resultat
+      }
     }));
     return stats;
   }

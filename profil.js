@@ -16,6 +16,12 @@
     if (user) {
       const accountStats = window.ByeBaillySync?.getCachedAccountStats?.(user.id);
       if (accountStats) return accountStats;
+
+      // Tant qu'aucune vue agrégée n'a été reçue, afficher uniquement la
+      // contribution locale de CE compte. Ne jamais réutiliser le total local
+      // de l'appareil, qui peut contenir l'activité d'un autre compte.
+      const localUserStats = window.ByeBaillySync?.getLocalUserStats?.(user.id);
+      if (localUserStats) return localUserStats;
     }
     return window.StatsStore?.obtenir?.() || null;
   }
