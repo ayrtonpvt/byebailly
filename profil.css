@@ -84,6 +84,22 @@ body.profile-page {
   font-weight: 650;
 }
 
+
+/* Les statistiques font partie du flux normal de la page : aucun panneau
+   scrollable imbriqué. Le seul défilement vertical est celui de la page. */
+.profile-page .profile-stats-stack {
+  display: grid;
+  gap: 0.75rem;
+  max-height: none;
+  overflow: visible;
+  padding: 0;
+}
+
+.profile-page .stats-panel {
+  max-height: none;
+  overflow: visible;
+}
+
 .profile-page .stats-updated-at {
   margin-top: 0.75rem;
 }
